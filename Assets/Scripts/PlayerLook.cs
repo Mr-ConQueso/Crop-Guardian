@@ -2,18 +2,22 @@ using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
-    [SerializeField] private float rotationSpeed = 5.0f;
+    // ---- / Serialized Variables / ---- //
+    [SerializeField] private float horizontalRotationSpeed = 5.0f;
+    [SerializeField] private float verticalRotationSpeed = 5.0f;
 
     void Update()
     {
-        // Get input for rotation
-        float horizontalRotation = Input.GetAxis("Mouse X") * rotationSpeed;
-        float verticalRotation = Input.GetAxis("Mouse Y") * rotationSpeed;
+        float verticalRotation = Input.GetAxis("Mouse Y") * verticalRotationSpeed * -1;
+        float horizontalRotation = Input.GetAxis("Horizontal") * horizontalRotationSpeed;
 
-        // Rotate the camera horizontally
-        transform.Rotate(Vector3.up, horizontalRotation, Space.World);
+        horizontalRotation *= Time.deltaTime;
+        
+        transform.Rotate(0, horizontalRotation, 0, Space.World);
 
-        // Rotate the camera vertically
-        transform.Rotate(Vector3.left, verticalRotation, Space.Self);
+        if (transform.rotation.x > -35.0f && transform.rotation.x < 35.0f)
+        {
+            transform.Rotate(verticalRotation, 0, 0, Space.Self);   
+        }
     }
 }
