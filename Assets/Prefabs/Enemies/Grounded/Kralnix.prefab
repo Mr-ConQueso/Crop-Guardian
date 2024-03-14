@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4270732299845865647}
   - component: {fileID: 7751701355840635433}
   - component: {fileID: 3670146734417628497}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Kralnix
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 7443496644767629384}
   - component: {fileID: 1165420598269631548}
   - component: {fileID: 495953184551094239}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

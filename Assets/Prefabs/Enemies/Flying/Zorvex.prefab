@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4650743889803880850}
   - component: {fileID: 3326326970160422727}
   - component: {fileID: 7006940102392896490}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 5815056966203959093}
   - component: {fileID: 8374657997815010015}
   - component: {fileID: 150497494768885480}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Zorvex
   m_TagString: Enemy
   m_Icon: {fileID: 0}

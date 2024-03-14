@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
@@ -9,15 +8,15 @@ public class PlayerLook : MonoBehaviour
     [Header("Vertical")]
     [SerializeField] private float verticalRotationSpeed = 5.0f;
     [SerializeField] private bool invertVerticalAxis = true;
-    [SerializeField] private float maxHeightAngle = 80;
-    [SerializeField] private float minHeightAngle = 20;
+    [SerializeField] private float maxHeightAngle = 120;
+    [SerializeField] private float minHeightAngle;
     
     // ---- / Private Variables / ---- //
-    private float _currentAngle;
+    private float _currentAngleX;
 
     private void Start()
     {
-        _currentAngle = (maxHeightAngle + minHeightAngle) / 2;
+        _currentAngleX = (maxHeightAngle + minHeightAngle) / 2;
     }
 
     void Update()
@@ -25,18 +24,37 @@ public class PlayerLook : MonoBehaviour
         float verticalRotation = Input.GetAxis("Mouse Y") * verticalRotationSpeed * GetControlsInverted();
         float horizontalRotation = Input.GetAxis("Horizontal") * horizontalRotationSpeed;
 
+        SetRotation(horizontalRotation, verticalRotation);
+    }
+    
+    /// <summary>
+    /// Calculate and set the horizontal and vertical rotation of the player's camera
+    /// </summary>
+    /// <param name="horizontalRotation"></param>
+    /// <param name="verticalRotation"></param>
+    private void SetRotation(float horizontalRotation, float verticalRotation)
+    {
         horizontalRotation *= Time.deltaTime;
         transform.Rotate(0, horizontalRotation, 0, Space.World);
-
-
-        float playerPitch = ClampAngle(transform.localEulerAngles.x, 30, 300);
-        Debug.Log(playerPitch);
         
-        
-        transform.Rotate(verticalRotation, 0, 0, Space.Self);
+        _currentAngleX -= verticalRotation;
+
+        if (_currentAngleX > minHeightAngle && _currentAngleX < maxHeightAngle)
+        {
+            transform.Rotate(verticalRotation, 0, 0, Space.Self);
+        }
+        else if (_currentAngleX < minHeightAngle)
+        {
+            _currentAngleX = minHeightAngle;
+        }
+        else if (_currentAngleX > maxHeightAngle)
+        {
+            _currentAngleX = maxHeightAngle;
+        }
     }
+        
     /// <summary>
-    /// Returns 1 or -1 based on the controller inversion
+    /// Returns 1 or -1 based on the vertical axis inversion
     /// </summary>
     /// <returns></returns>
     private int GetControlsInverted()
@@ -46,13 +64,5 @@ public class PlayerLook : MonoBehaviour
             return -1;
         }
         return 1;
-    }
-    
-    float ClampAngle(float angle, float from, float to)
-    {
-        // accepts e.g. -80, 80
-        if (angle < 0f) angle = 360 + angle;
-        if (angle > 180f) return Mathf.Max(angle, 360+from);
-        return Mathf.Min(angle, to);
     }
 }

@@ -1,16 +1,19 @@
-using System;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     // ---- / Serialized Variables / ---- //
+    [Header("Other")]
+    [SerializeField] private float deathRadius;
+    
     [Header("Shooting")]
+    [SerializeField] private float aimOffset = 10f;
     [SerializeField] private float nextAllowedShotTime = 0.01f;
     [SerializeField] private float bulletRecoveryTime = 2.0f;
     [SerializeField] private float shootDistance = 10.0f;
     
-    [Header("Bulltes")]
+    [Header("Bullets")]
     [SerializeField] private TMP_Text bulletsLeftAmount;
     [SerializeField] private int initialBulletAmount = 30;
     
@@ -20,20 +23,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float zoomedFOV = 30.0f;
     
     // ---- / Private Variables / ---- //
-    private float _timeSinceLastShot = 0.0f;
-    private MeshRenderer _colliderRenderer;
+    private float _timeSinceLastShot;
     private Camera _mainCamera;
     private int _bulletAmount;
-    private bool isAiming = false;
-    private float aimTransitionStartTime;
+    private bool _isAiming;
+    private float _aimTransitionStartTime;
+    private GameController _gameController;
     
-    private Vector2 _screenPoint = new Vector2(960.0f, 378.0f);
-
     private void Start()
     {
         _mainCamera = Camera.main;
-        _colliderRenderer = GetComponentInChildren<MeshRenderer>();
-        _colliderRenderer.enabled = false;
+        _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
         _bulletAmount = initialBulletAmount;
         InvokeRepeating(nameof(AddBullet), bulletRecoveryTime, bulletRecoveryTime);
@@ -51,41 +51,53 @@ public class PlayerController : MonoBehaviour
             Shoot();    
             _timeSinceLastShot = 0.0f; // Reset the timer
         }
-    }
 
+        DetectDeath();
+    }
+    
+    /// <summary>
+    /// Modify the FOV when the user holds RMB
+    /// </summary>
     private void Aim()
     {
         if (Input.GetButtonDown("Fire2"))
         {
-            isAiming = true;
-            aimTransitionStartTime = Time.time;
+            _isAiming = true;
+            _aimTransitionStartTime = Time.time;
         }
         else if (Input.GetButtonUp("Fire2"))
         {
-            isAiming = false;
-            aimTransitionStartTime = Time.time;
+            _isAiming = false;
+            _aimTransitionStartTime = Time.time;
         }
 
-        if (isAiming)
+        if (_isAiming)
         {
-            float t = (Time.time - aimTransitionStartTime) / aimTransitionDuration;
+            float t = (Time.time - _aimTransitionStartTime) / aimTransitionDuration;
             _mainCamera.fieldOfView = Mathf.Lerp(defaultFOV, zoomedFOV, t);
         }
         else
         {
-            float t = (Time.time - aimTransitionStartTime) / aimTransitionDuration;
+            float t = (Time.time - _aimTransitionStartTime) / aimTransitionDuration;
             _mainCamera.fieldOfView = Mathf.Lerp(zoomedFOV, defaultFOV, t);
         }
     }
+    
+    /// <summary>
+    /// Shoots a raycast from the viewfinder and destroys any enemies it comes into contact with
+    /// </summary>
     private void Shoot()
     {
         if (_bulletAmount >= 1)
         {
-            // Cast a ray from the specific point on the screen
-            Ray ray = _mainCamera.ViewportPointToRay(_screenPoint);
+            // Calculate the ray origin based on the center of the camera with y-axis offset
+            Vector3 rayOrigin = _mainCamera.transform.position + _mainCamera.transform.up * aimOffset;
+
+            // Cast a ray from the calculated ray origin in the direction of the camera's forward vector
+            Ray ray = new Ray(rayOrigin, _mainCamera.transform.forward);
 
             // Draw the bullet trajectory using Debug.DrawLine
-            Debug.DrawLine(ray.origin, ray.origin + ray.direction * shootDistance, Color.red, 0.1f);
+            //Debug.DrawLine(ray.origin, ray.origin + ray.direction * shootDistance, Color.red, 0.1f);
 
             // Check if the ray hits any objects
             RaycastHit hit;
@@ -98,46 +110,45 @@ public class PlayerController : MonoBehaviour
                     Destroy(hit.collider.gameObject);
                 }
             }
-            
+
             SetBulletAmountText(1);
         }
     }
 
+    
+    /// <summary>
+    /// Modifies the amount of bullets and displays it on the GUI
+    /// </summary>
+    /// <param name="reduceBulletAmount"></param>
     private void SetBulletAmountText(int reduceBulletAmount)
     {
         _bulletAmount -= reduceBulletAmount;
         bulletsLeftAmount.text = _bulletAmount.ToString();
     }
-
+    
+    /// <summary>
+    /// Adds bullets periodically
+    /// </summary>
     private void AddBullet()
     {
         _bulletAmount++;
         SetBulletAmountText(0);
     }
-    
-    /*
-    void Shoot()
+
+    private void DetectDeath()
     {
-        // Define a point in the center of the screen
-        Vector3 centerScreenPoint = new Vector3(0.5f, 0.5f, 0f);
+        // Get all colliders within the detection radius with the tag "Enemy"
+        Collider[] colliders = Physics.OverlapSphere(transform.position, deathRadius, LayerMask.GetMask("Enemy"));
 
-        // Cast a ray from the camera through the center of the screen
-        Ray ray = _mainCamera.ViewportPointToRay(centerScreenPoint);
-
-        // Draw the bullet trajectory using Debug.DrawLine
-        Debug.DrawLine(ray.origin, ray.origin + ray.direction * shootDistance, Color.red, 0.1f);
-
-        // Check if the ray hits any objects
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, shootDistance))
+        // Check if any colliders are found
+        if (colliders != null && colliders.Length > 0)
         {
-            // Check if the hit object has the "Enemy" tag
-            if (hit.collider.CompareTag("Enemy"))
+            _gameController.EndGame();
+            
+            foreach (Collider collider in colliders)
             {
-                // Destroy the hit object
-                Destroy(hit.collider.gameObject);
+                Destroy(collider.gameObject);
             }
         }
     }
-    */
 }
