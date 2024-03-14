@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyBilboard : MonoBehaviour
 {
-    Camera mainCamera;
+    private Camera mainCamera;
 
     void Start()
     {
