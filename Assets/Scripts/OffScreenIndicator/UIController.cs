@@ -11,11 +11,11 @@ public class UIController : MonoBehaviour
     // ---- / Private Variables / ---- //
     private Camera _mainCamera;
 
-    private void Start()
-    {
-        _mainCamera = Camera.main;
-    }
-
+    /// <summary>
+    /// Create an off-screen target indicator to the canvas
+    /// and add it to the list 
+    /// </summary>
+    /// <param name="target"></param>
     public void AddTargetIndicator(GameObject target)
     {
         TargetIndicator indicator = Instantiate(targetIndicatorPrefab, canvas.transform).GetComponent<TargetIndicator>();
@@ -23,14 +23,17 @@ public class UIController : MonoBehaviour
         targetIndicators.Add(indicator);
     }
     
+    private void Start()
+    {
+        _mainCamera = Camera.main;
+    }
+    
     private void Update()
     {
-        if(targetIndicators.Count > 0)
+        if (targetIndicators.Count <= 0) return;
+        foreach (var t in targetIndicators)
         {
-            for(int i = 0; i < targetIndicators.Count; i++)
-            {
-                targetIndicators[i].UpdateTargetIndicator();
-            }
+            t.UpdateTargetIndicator();
         }
     }
 }
