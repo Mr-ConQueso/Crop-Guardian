@@ -19,12 +19,15 @@ public class PlayerLook : MonoBehaviour
         _currentAngleX = (maxHeightAngle + minHeightAngle) / 2;
     }
 
-    void Update()
+    private void Update()
     {
-        float verticalRotation = Input.GetAxis("Mouse Y") * verticalRotationSpeed * GetControlsInverted();
-        float horizontalRotation = Input.GetAxis("Horizontal") * horizontalRotationSpeed;
+        if (GameController.IsGameEnded() == false)
+        {
+            float verticalRotation = Input.GetAxis("Mouse Y") * verticalRotationSpeed * GetControlsInverted();
+            float horizontalRotation = Input.GetAxis("Horizontal") * horizontalRotationSpeed;
 
-        SetRotation(horizontalRotation, verticalRotation);
+            SetRotation(horizontalRotation, verticalRotation);
+        }
     }
     
     /// <summary>

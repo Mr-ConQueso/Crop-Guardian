@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float moveSpeed = 1.0f;
     
     // ---- / Serialized Variables / ---- //
-    private Transform playerTransform;
+    private Transform _playerTransform;
     
     /*
     private void Awake()
@@ -18,13 +18,13 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        _playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     private void Update()
     {
         float step = moveSpeed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, step);
+        transform.position = Vector3.MoveTowards(transform.position, _playerTransform.position, step);
     }
 
     private void OnTriggerEnter(Collider other)

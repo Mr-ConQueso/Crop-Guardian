@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // ---- / Static Variables / ---- //
+    private static bool _isDead;
+    
+    // ---- / Public Variables / ---- //
+    public delegate void DeathEventHandler();
+    public static event DeathEventHandler OnPlayerDeath;
+    
     // ---- / Serialized Variables / ---- //
     [Header("Other")]
     [SerializeField] private float deathRadius;
@@ -28,12 +35,10 @@ public class PlayerController : MonoBehaviour
     private int _bulletAmount;
     private bool _isAiming;
     private float _aimTransitionStartTime;
-    private GameController _gameController;
     
     private void Start()
     {
         _mainCamera = Camera.main;
-        _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
         _bulletAmount = initialBulletAmount;
         InvokeRepeating(nameof(AddBullet), bulletRecoveryTime, bulletRecoveryTime);
@@ -43,16 +48,19 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Aim();
-        
-        _timeSinceLastShot += Time.deltaTime;
-        if (Input.GetButton("Fire1") && _timeSinceLastShot >= nextAllowedShotTime)
+        if (_isDead == false)
         {
-            Shoot();    
-            _timeSinceLastShot = 0.0f; // Reset the timer
-        }
+            Aim();
+        
+            _timeSinceLastShot += Time.deltaTime;
+            if (Input.GetButton("Fire1") && _timeSinceLastShot >= nextAllowedShotTime)
+            {
+                Shoot();    
+                _timeSinceLastShot = 0.0f; // Reset the timer
+            }
 
-        DetectDeath();
+            DetectDeath();   
+        }
     }
     
     /// <summary>
@@ -90,15 +98,15 @@ public class PlayerController : MonoBehaviour
     {
         if (_bulletAmount >= 1)
         {
-            Vector3 rayOrigin = _mainCamera.transform.position + _mainCamera.transform.up * aimOffset;
+            var mainCameraTransform = _mainCamera.transform;
+            Vector3 rayOrigin = mainCameraTransform.position + mainCameraTransform.up * aimOffset;
 
-            Ray ray = new Ray(rayOrigin, _mainCamera.transform.forward);
+            Ray ray = new Ray(rayOrigin, mainCameraTransform.forward);
 
             // Draw the bullet trajectory using Debug.DrawLine
             //Debug.DrawLine(ray.origin, ray.origin + ray.direction * shootDistance, Color.red, 0.1f);
 
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, shootDistance))
+            if (Physics.Raycast(ray, out RaycastHit hit, shootDistance))
             {
                 if (hit.collider.CompareTag("Enemy"))
                 {
@@ -134,9 +142,10 @@ public class PlayerController : MonoBehaviour
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, deathRadius, LayerMask.GetMask("Enemy"));
 
-        if (colliders != null && colliders.Length > 0)
+        if (colliders is { Length: > 0 })
         {
-            _gameController.EndGame();
+            OnPlayerDeath?.Invoke();
+            _isDead = true;
             
             foreach (Collider collider in colliders)
             {

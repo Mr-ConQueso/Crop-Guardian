@@ -4,14 +4,14 @@ public class TargetObject : MonoBehaviour
 {
     private void Awake()
     {
-        UIController ui = GetComponentInParent<UIController>();
-        if(ui == null)
+        UIController uiController = GetComponentInParent<UIController>();
+        if(uiController == null)
         {
-            ui = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIController>();
+            uiController = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIController>();
         }
 
-        if (ui == null) Debug.LogError("No UIController component found");
+        if (uiController == null) Debug.LogError("No UIController component found");
 
-        ui.AddTargetIndicator(this.gameObject);
+        uiController.AddTargetIndicator(this.gameObject);
     }
 }

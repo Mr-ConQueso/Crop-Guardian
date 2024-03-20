@@ -374,7 +374,6 @@ GameObject:
   - component: {fileID: 231744837}
   - component: {fileID: 231744836}
   - component: {fileID: 231744838}
-  - component: {fileID: 231744839}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -465,21 +464,6 @@ MonoBehaviour:
   aimTransitionDuration: 0.2
   defaultFOV: 60
   zoomedFOV: 30
---- !u!114 &231744839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 231744834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10dd216160854324809cb0b303486387, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  indicatorPrefab: {fileID: 0}
-  _target: {fileID: 0}
-  _playerCamera: {fileID: 0}
 --- !u!1 &271167969
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,6 +1046,7 @@ MonoBehaviour:
   targetIndicators: []
   targetIndicatorPrefab: {fileID: 3802244916114985858, guid: 7277a2cbb4f07612183d017345946cd5,
     type: 3}
+  parentFolder: {fileID: 2088509513}
 --- !u!1 &496695446
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,13 +1341,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e583d40eb1d55ffed99a038dd34159e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundEnemyPrefab: {fileID: 5292393993258775047, guid: 6015fe802a059df74930332dd4193a08,
-    type: 3}
-  flyingEnemyPrefab: {fileID: 5292393993258775047, guid: 1055226af503bbd89b6569d8f1eeb23d,
-    type: 3}
-  spawnDelay: 4
-  sphereRadius: 10
-  groundDistance: 1.8
+  groundEnemyPrefabs:
+  - {fileID: 5292393993258775047, guid: 6015fe802a059df74930332dd4193a08, type: 3}
+  - {fileID: 5292393993258775047, guid: b4cf0420411cba8709580e74caf65607, type: 3}
+  flyingEnemyPrefabs:
+  - {fileID: 5292393993258775047, guid: 1055226af503bbd89b6569d8f1eeb23d, type: 3}
+  spawnInterval: 2
+  sphereRadius: 20
+  circleRadius: 20
 --- !u!4 &921601524
 Transform:
   m_ObjectHideFlags: 0
@@ -1444,6 +1430,7 @@ RectTransform:
   m_Children:
   - {fileID: 764833567}
   - {fileID: 2095138348}
+  - {fileID: 2088509513}
   m_Father: {fileID: 1621253101}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1614,6 +1601,41 @@ Transform:
   - {fileID: 1510183876}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2088509512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2088509513}
+  m_Layer: 0
+  m_Name: TargetIndicators
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2088509513
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088509512}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1510183876}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2095138347
 GameObject:
   m_ObjectHideFlags: 0

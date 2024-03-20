@@ -14,8 +14,13 @@ public class TargetIndicator : MonoBehaviour
     private Camera _mainCamera;
     private RectTransform _canvasRectTransform;
     private RectTransform _rectTransform;
-    
     private Rect _canvasRect;
+    
+    private void Awake()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+        _mainCamera = Camera.main;
+    }
     
     /// <summary>
     /// When creating a new target indicator, initialize it's values
@@ -90,12 +95,6 @@ public class TargetIndicator : MonoBehaviour
 
     }
     
-    private void Awake()
-    {
-        _rectTransform = GetComponent<RectTransform>();
-        _mainCamera = Camera.main;
-    }
-    
     /// <summary>
     /// Calculate the position of the indicator based
     /// on the target position and trigonometry through the viewport
@@ -140,8 +139,6 @@ public class TargetIndicator : MonoBehaviour
         return indicatorPosition;
     }
 
-
-
     private void TargetOutOfSight(bool oos, Vector3 indicatorPosition)
     {
         //In Case the indicator is OutOfSight
@@ -169,7 +166,6 @@ public class TargetIndicator : MonoBehaviour
             if (targetIndicatorImage.isActiveAndEnabled == false) targetIndicatorImage.enabled = true;
         }
     }
-
 
     private Vector3 RotationOutOfSightTargetIndicator(Vector3 indicatorPosition)
     {
