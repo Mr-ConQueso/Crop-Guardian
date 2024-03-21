@@ -2,16 +2,24 @@ using UnityEngine;
 
 public class TargetObject : MonoBehaviour
 {
+    // ---- / Private Variables / ---- //
+    private UIController _uiController;
+    
     private void Awake()
     {
-        UIController uiController = GetComponentInParent<UIController>();
-        if(uiController == null)
+        _uiController = GetComponentInParent<UIController>();
+        if(_uiController == null)
         {
-            uiController = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIController>();
+            _uiController = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIController>();
         }
 
-        if (uiController == null) Debug.LogError("No UIController component found");
+        if (_uiController == null) Debug.LogError("No UIController component found");
 
-        uiController.AddTargetIndicator(this.gameObject);
+        _uiController.AddTargetIndicator(this.gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        _uiController.RemoveTargetIndicator(this.gameObject);
     }
 }

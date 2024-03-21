@@ -29,6 +29,19 @@ public class UIController : MonoBehaviour
         indicator.transform.SetParent(parentFolder);
         targetIndicators.Add(indicator);
     }
+
+    public void RemoveTargetIndicator(GameObject target)
+    {
+        for (int i = 0; i < targetIndicators.Count; i++)
+        {
+            if (targetIndicators[i].GetTarget() == target)
+            {
+                Destroy(targetIndicators[i].gameObject);
+                targetIndicators.RemoveAt(i);
+                break;
+            }
+        }
+    }
     
     private void Start()
     {
@@ -47,6 +60,12 @@ public class UIController : MonoBehaviour
     
     private void OnPlayerDeathHandler()
     {
-        Destroy(parentFolder);
+        foreach (var indicator in targetIndicators)
+        {
+            Destroy(indicator.gameObject);
+        }
+
+        targetIndicators.Clear();
+        //Destroy(parentFolder.gameObject);
     }
 }

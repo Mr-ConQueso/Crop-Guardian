@@ -35,6 +35,11 @@ public class TargetIndicator : MonoBehaviour
         _canvasRectTransform = canvas.GetComponent<RectTransform>();
         _canvasRect = _canvasRectTransform.rect;
     }
+
+    public GameObject GetTarget()
+    {
+        return _target;
+    }
     
     /// <summary>
     /// Update the target position, adjust
