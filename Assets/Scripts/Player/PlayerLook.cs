@@ -31,7 +31,7 @@ public class PlayerLook : MonoBehaviour
     }
     
     /// <summary>
-    /// Calculate and set the horizontal and vertical rotation of the player's camera
+    /// Calculate and set the horizontal and vertical rotation of the player's camera.
     /// </summary>
     /// <param name="horizontalRotation"></param>
     /// <param name="verticalRotation"></param>
@@ -57,7 +57,7 @@ public class PlayerLook : MonoBehaviour
     }
         
     /// <summary>
-    /// Returns 1 or -1 based on the vertical axis inversion
+    /// Returns 1 or -1 based on the vertical axis inversion.
     /// </summary>
     /// <returns></returns>
     private int GetControlsInverted()

@@ -18,14 +18,18 @@ public class EnemySpawn : MonoBehaviour
         _spawnTimer += Time.deltaTime;
         if (_spawnTimer >= spawnInterval)
         {
-            _spawnTimer = 0; // Reset the timer
+            _spawnTimer = 0;
 
-            // Call the spawning function
             SpawnFlyingEnemies(1);
             SpawnGroundEnemies(1);
         }
     }
     
+    /// <summary>
+    /// Instantiate prefabs in batches, on the
+    /// surface of a sphere around the center.
+    /// </summary>
+    /// <param name="numberOfPrefabs"></param>
     private void SpawnFlyingEnemies(int numberOfPrefabs)
     {
         for (int i = 0; i < numberOfPrefabs; i++)
@@ -45,7 +49,12 @@ public class EnemySpawn : MonoBehaviour
             Instantiate(prefabToSpawn, position, Quaternion.identity, transform);
         }
     }
-
+    
+    /// <summary>
+    /// Instantiate prefabs in batches, on the
+    /// perimeter of a circle around the center.
+    /// </summary>
+    /// <param name="numberOfPrefabs"></param>
     private void SpawnGroundEnemies(int numberOfPrefabs)
     {
         for (int i = 0; i < numberOfPrefabs; i++)

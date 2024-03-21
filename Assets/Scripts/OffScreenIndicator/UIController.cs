@@ -18,8 +18,8 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
-    /// Create an off-screen target indicator to the canvas
-    /// and add it to the list 
+    /// Create an off-screen target indicator to the
+    /// canvas and add it to the list.
     /// </summary>
     /// <param name="target"></param>
     public void AddTargetIndicator(GameObject target)

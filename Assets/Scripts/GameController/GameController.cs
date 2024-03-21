@@ -24,6 +24,10 @@ public class GameController : MonoBehaviour
         return _isGameEnded;
     }
     
+    /// <summary>
+    /// Pause the time, remove player control
+    /// and show the cursor.
+    /// </summary>
     public static void PauseGame()
     {
         _isGamePaused = true;
@@ -52,7 +56,11 @@ public class GameController : MonoBehaviour
         PlayerController.OnPlayerDeath += OnPlayerDeathHandler;
     }
     
-    public void EndGame()
+    /// <summary>
+    /// Pause the time, remove player control
+    /// and show the cursor. End the game.
+    /// </summary>
+    private void EndGame()
     {
         _isGameEnded = true;
         

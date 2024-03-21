@@ -23,7 +23,7 @@ public class TargetIndicator : MonoBehaviour
     }
     
     /// <summary>
-    /// When creating a new target indicator, initialize it's values
+    /// When creating a new target indicator, initialize it's values.
     /// </summary>
     /// <param name="target"></param>
     /// <param name="mainCamera"></param>
@@ -39,7 +39,7 @@ public class TargetIndicator : MonoBehaviour
     /// <summary>
     /// Update the target position, adjust
     /// distance display and turn on or off when
-    /// in range/out of range
+    /// in range/out of range.
     /// </summary>
     public void UpdateTargetIndicator()
     {
@@ -51,7 +51,7 @@ public class TargetIndicator : MonoBehaviour
     }
 
     /// <summary>
-    /// Set the indicator position
+    /// Set the indicator position.
     /// </summary>
     private void SetIndicatorPosition()
     {
@@ -75,7 +75,7 @@ public class TargetIndicator : MonoBehaviour
         //In case the target is in front of the ship, but out of sight
         else if (indicatorPosition.z >= 0f)
         {
-            //Set indicator position and set targetIndicator to outOfSight form.
+            //Set indicator position and set targetIndicator to isOutOfSight form.
             indicatorPosition = OutOfRangeIndicatorPositionB(indicatorPosition);
             TargetOutOfSight(true, indicatorPosition);
         }
@@ -84,7 +84,7 @@ public class TargetIndicator : MonoBehaviour
             //Invert indicatorPosition! Otherwise the indicator's positioning will invert if the target is on the backside of the camera!
             indicatorPosition *= -1f;
 
-            //Set indicator position and set targetIndicator to outOfSight form.
+            //Set indicator position and set targetIndicator to isOutOfSight form.
             indicatorPosition = OutOfRangeIndicatorPositionB(indicatorPosition);
             TargetOutOfSight(true, indicatorPosition);
 
@@ -97,7 +97,7 @@ public class TargetIndicator : MonoBehaviour
     
     /// <summary>
     /// Calculate the position of the indicator based
-    /// on the target position and trigonometry through the viewport
+    /// on the target position and trigonometry through the viewport.
     /// </summary>
     /// <param name="indicatorPosition"></param>
     /// <returns></returns>
@@ -138,11 +138,16 @@ public class TargetIndicator : MonoBehaviour
         indicatorPosition += canvasCenter;
         return indicatorPosition;
     }
-
-    private void TargetOutOfSight(bool oos, Vector3 indicatorPosition)
+    
+    /// <summary>
+    /// deactivate the indicators if they get out of sight.
+    /// </summary>
+    /// <param name="isOutOfSight"></param>
+    /// <param name="indicatorPosition"></param>
+    private void TargetOutOfSight(bool isOutOfSight, Vector3 indicatorPosition)
     {
         //In Case the indicator is OutOfSight
-        if (oos)
+        if (isOutOfSight)
         {
             //Activate and Deactivate some stuff
             if (offScreenTargetIndicator.gameObject.activeSelf == false) offScreenTargetIndicator.gameObject.SetActive(true);
@@ -166,7 +171,13 @@ public class TargetIndicator : MonoBehaviour
             if (targetIndicatorImage.isActiveAndEnabled == false) targetIndicatorImage.enabled = true;
         }
     }
-
+    
+    /// <summary>
+    /// Rotate the indicator to face the
+    /// off-screen object it is tracking.
+    /// </summary>
+    /// <param name="indicatorPosition"></param>
+    /// <returns></returns>
     private Vector3 RotationOutOfSightTargetIndicator(Vector3 indicatorPosition)
     {
         //Calculate the canvasCenter

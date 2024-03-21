@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
     }
     
     /// <summary>
-    /// Modify the FOV when the user holds RMB
+    /// Modify the FOV when the user holds RMB.
     /// </summary>
     private void Aim()
     {
@@ -92,7 +92,8 @@ public class PlayerController : MonoBehaviour
     }
     
     /// <summary>
-    /// Shoots a raycast from the viewfinder and destroys any enemies it comes into contact with
+    /// Shoots a raycast from the viewfinder and destroys
+    /// any enemies it comes into contact with.
     /// </summary>
     private void Shoot()
     {
@@ -120,7 +121,7 @@ public class PlayerController : MonoBehaviour
 
     
     /// <summary>
-    /// Modifies the amount of bullets and displays it on the GUI
+    /// Modifies the amount of bullets and displays it on the GUI.
     /// </summary>
     /// <param name="reduceBulletAmount"></param>
     private void SetBulletAmountText(int reduceBulletAmount)
@@ -130,14 +131,19 @@ public class PlayerController : MonoBehaviour
     }
     
     /// <summary>
-    /// Adds bullets periodically
+    /// Adds bullets periodically.
     /// </summary>
     private void AddBullet()
     {
         _bulletAmount++;
         SetBulletAmountText(0);
     }
-
+    
+    /// <summary>
+    /// Check if any enemies are present in a
+    /// sphere around the player, if so trigger the
+    /// OnPlayerDeath? event.
+    /// </summary>
     private void DetectDeath()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, deathRadius, LayerMask.GetMask("Enemy"));
