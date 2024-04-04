@@ -3,23 +3,22 @@ using UnityEngine;
 public class TargetObject : MonoBehaviour
 {
     // ---- / Private Variables / ---- //
-    private IndicatorController _indicatorController;
+    private IndicatorController _uiController;
     
-    private void Awake()
-    {
-        _indicatorController = GetComponentInParent<IndicatorController>();
-        if(_indicatorController == null)
+    private void Awake() {
+        _uiController = GetComponentInParent<IndicatorController>();
+        if(_uiController == null)
         {
-            _indicatorController = GameObject.FindGameObjectWithTag("GameController").GetComponent<IndicatorController>();
+            _uiController = GameObject.FindGameObjectWithTag("GameController").GetComponent<IndicatorController>();
         }
 
-        if (_indicatorController == null) Debug.LogError("No IndicatorController component found");
+        if (_uiController == null) Debug.LogError("No UIController component found");
 
-        _indicatorController.AddTargetIndicator(this.gameObject);
+        _uiController.AddTargetIndicator(this.gameObject);
     }
 
     private void OnDestroy()
     {
-        _indicatorController.RemoveTargetIndicator(this.gameObject);
+        _uiController.RemoveTargetIndicator(this.gameObject);
     }
 }

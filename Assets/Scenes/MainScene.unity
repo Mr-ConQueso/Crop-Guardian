@@ -1476,7 +1476,8 @@ GameObject:
   m_Component:
   - component: {fileID: 464007095}
   - component: {fileID: 464007096}
-  - component: {fileID: 464007097}
+  - component: {fileID: 464007098}
+  - component: {fileID: 464007099}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -1516,7 +1517,7 @@ MonoBehaviour:
   endGameScreen: {fileID: 2095138347}
   survivedTimeScoreText: {fileID: 1919000310}
   maxScoreText: {fileID: 359177875}
---- !u!114 &464007097
+--- !u!114 &464007098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1525,7 +1526,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 464007094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eef14cfb540343d4a6b88c448caade12, type: 3}
+  m_Script: {fileID: 11500000, guid: c586ce7ddbde4ab6ab9f041baab10904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseScreen: {fileID: 172193981}
+--- !u!114 &464007099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464007094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 420fc7b2e5cd4f9180174f0c2694a5a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1510183879}

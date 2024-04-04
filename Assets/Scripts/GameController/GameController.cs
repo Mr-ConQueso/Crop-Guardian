@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
 
     public static void AddScore(int amount)
     {
-        _currentScore = amount;
+        _currentScore += amount;
     }
 
     private void StartTimer()
