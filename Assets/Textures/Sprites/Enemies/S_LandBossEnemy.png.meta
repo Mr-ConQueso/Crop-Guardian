@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 64
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LandBossEnemy_An_0
+      name: S_LandBossEnemy_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d70518e5b4489b2678a24eb4e36385a9
-      internalID: -655981897
+      spriteID: c1c09b5c84132d623958c12be9a7f7c8
+      internalID: -94657403
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LandBossEnemy_An_1
+      name: S_LandBossEnemy_1
       rect:
         serializedVersion: 2
         x: 60
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0bf9e0ec6e1cb3064bb65ea005547515
-      internalID: -1146628110
+      spriteID: 4b338b5e3d5a7438d94def2716236690
+      internalID: -1182086913
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LandBossEnemy_An_2
+      name: S_LandBossEnemy_2
       rect:
         serializedVersion: 2
         x: 120
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d3ae1be1ab74955ca00f047836b99f9
-      internalID: 904362452
+      spriteID: a65876d2824d0b39fb4aa6719c967af2
+      internalID: 1652422928
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LandBossEnemy_An_3
+      name: S_LandBossEnemy_3
       rect:
         serializedVersion: 2
         x: 180
@@ -174,14 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51ea78187f488377c94ea3b7575b0492
-      internalID: 1348044159
+      spriteID: 285fafe31e77efb2db765f96b62a80d7
+      internalID: -2086641295
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LandBossEnemy_An_4
+      name: S_LandBossEnemy_4
       rect:
         serializedVersion: 2
         x: 240
@@ -195,14 +195,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e414b05942077a628a8631a828f84d6a
-      internalID: 212272792
+      spriteID: dae17b495a23e2c429c742e874c8706b
+      internalID: 314371025
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LandBossEnemy_An_5
+      name: S_LandBossEnemy_5
       rect:
         serializedVersion: 2
         x: 300
@@ -216,14 +216,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72baa196070d12474b0a66565cb9cc76
-      internalID: 1213237818
+      spriteID: c5ea96a9eac1fe7ada0268a0e00f9608
+      internalID: -1920636219
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LandBossEnemy_An_6
+      name: S_LandBossEnemy_6
       rect:
         serializedVersion: 2
         x: 360
@@ -237,14 +237,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 887433bdeceabe1a78fded1fac06fc2f
-      internalID: -1377441761
+      spriteID: 115b5a75729d0788c8308c3bb3c7eec7
+      internalID: 803866269
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LandBossEnemy_An_7
+      name: S_LandBossEnemy_7
       rect:
         serializedVersion: 2
         x: 420
@@ -258,14 +258,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c167183bc7320ef40afe5c8420f1581c
-      internalID: 2132869554
+      spriteID: a8349960f9b1e2805bfab0bfbcb1b04f
+      internalID: -1712215657
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LandBossEnemy_An_8
+      name: S_LandBossEnemy_8
       rect:
         serializedVersion: 2
         x: 480
@@ -279,14 +279,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b0ac09762799b73e94c4605fdcb0f9b
-      internalID: 325816647
+      spriteID: 3d3924837a588c04c88fc16e7c2756a4
+      internalID: 391918059
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LandBossEnemy_An_9
+      name: S_LandBossEnemy_9
       rect:
         serializedVersion: 2
         x: 540
@@ -300,8 +300,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 932c5e5a4017e1e5dac0a2823bb50041
-      internalID: -1025884813
+      spriteID: 35ca5966b98f4726184bda369310f320
+      internalID: 1846820896
       vertices: []
       indices: 
       edges: []
@@ -317,16 +317,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      LandBossEnemy_An_0: -655981897
-      LandBossEnemy_An_1: -1146628110
-      LandBossEnemy_An_2: 904362452
-      LandBossEnemy_An_3: 1348044159
-      LandBossEnemy_An_4: 212272792
-      LandBossEnemy_An_5: 1213237818
-      LandBossEnemy_An_6: -1377441761
-      LandBossEnemy_An_7: 2132869554
-      LandBossEnemy_An_8: 325816647
-      LandBossEnemy_An_9: -1025884813
+      S_LandBossEnemy_0: -94657403
+      S_LandBossEnemy_1: -1182086913
+      S_LandBossEnemy_2: 1652422928
+      S_LandBossEnemy_3: -2086641295
+      S_LandBossEnemy_4: 314371025
+      S_LandBossEnemy_5: -1920636219
+      S_LandBossEnemy_6: 803866269
+      S_LandBossEnemy_7: -1712215657
+      S_LandBossEnemy_8: 391918059
+      S_LandBossEnemy_9: 1846820896
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

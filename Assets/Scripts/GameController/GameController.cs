@@ -4,86 +4,70 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     // ---- / Serialized Variables / ---- //
-    [SerializeField] private GameObject endGameScreen;
+    [Header("In-Game Info")]
     [SerializeField] private TMP_Text survivedTimeText;
+    [SerializeField] private TMP_Text scoreText;
+    
+    [Header("End-Game Screen")]
+    [SerializeField] private GameObject endGameScreen;
+    [SerializeField] private TMP_Text survivedTimeScoreText;
+    [SerializeField] private TMP_Text maxScoreText;
     
     // ---- / Static Variables / ---- //
-    private static bool _isGamePaused;
     private static bool _isGameEnded;
     private float _elapsedTime;
-    private bool _isRunning;
-    private const string HighScoreKey = "HighestSurviveTime";
+    private bool _isTimerRunning;
+    private const string HighestSurviveTimeKey = "HighestSurviveTimeKey";
+    private const string HighScoreKey = "HighScore";
     private static float _highestSurviveTime;
+    private static int _currentScore;
+    private int _highScore;
     
     private void OnDestroy()
     {
         PlayerController.OnPlayerDeath -= OnPlayerDeathHandler;
     }
     
-    public void StartTimer()
-    {
-        _isRunning = true;
-    }
-
-    public void StopTimer()
-    {
-        _isRunning = false;
-    }
-
-    public void ResetTimer()
-    {
-        _elapsedTime = 0f;
-        UpdateTimerDisplay();
-    }
-
-    public static bool IsGamePaused()
-    {
-        return _isGamePaused;
-    }
-    
     public static bool IsGameEnded()
     {
         return _isGameEnded;
     }
-    
-    /// <summary>
-    /// Pause the time, remove player control
-    /// and show the cursor.
-    /// </summary>
-    public static void PauseGame()
+
+    public static void AddScore(int amount)
     {
-        _isGamePaused = true;
-        
-        Time.timeScale = 0.0f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        _currentScore = amount;
     }
-    
-    public static void UnPauseGame()
+
+    private void StartTimer()
     {
-        _isGamePaused = false;
-        
-        Time.timeScale = 1.0f;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        _isTimerRunning = true;
+    }
+
+    private void StopTimer()
+    {
+        _isTimerRunning = false;
     }
     
     private void UpdateSurvivedTime(float newScore)
     {
         if (newScore > _highestSurviveTime)
         {
-            // Update the highest survive time score
             _highestSurviveTime = newScore;
             
-            // Save the new high score to PlayerPrefs
-            PlayerPrefs.SetFloat(HighScoreKey, _highestSurviveTime);
-            PlayerPrefs.Save(); // Save changes to disk immediately
+            PlayerPrefs.SetFloat(HighestSurviveTimeKey, _highestSurviveTime);
+            PlayerPrefs.Save();
         }
     }
     
-    public float GetHighestSurviveTime()
+    private void UpdateHighScore(int newScore)
     {
-        return _highestSurviveTime;
+        if (newScore > _highScore)
+        {
+            _highScore = newScore;
+            
+            PlayerPrefs.SetFloat(HighestSurviveTimeKey, _highScore);
+            PlayerPrefs.Save();
+        }
     }
     
     private void Start()
@@ -94,17 +78,20 @@ public class GameController : MonoBehaviour
         endGameScreen.SetActive(false);
         StartTimer();
         
-        PlayerController.OnPlayerDeath += OnPlayerDeathHandler;
+        _highestSurviveTime = PlayerPrefs.GetFloat(HighestSurviveTimeKey, 0f);
+        _highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
         
-        _highestSurviveTime = PlayerPrefs.GetFloat(HighScoreKey, 0f);
+        PlayerController.OnPlayerDeath += OnPlayerDeathHandler;
     }
     
     private void Update()
     {
-        if (_isRunning)
+        scoreText.text = _currentScore.ToString();
+        
+        if (_isTimerRunning)
         {
             _elapsedTime += Time.deltaTime;
-            UpdateTimerDisplay();
+            survivedTimeText.text = FormatTimer(_elapsedTime);
         }
     }
     
@@ -115,13 +102,19 @@ public class GameController : MonoBehaviour
     private void EndGame()
     {
         _isGameEnded = true;
-        
+
+        StopTimer();
+            
         endGameScreen.SetActive(true);
         Time.timeScale = 0.0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         UpdateSurvivedTime(_elapsedTime);
+        UpdateHighScore(_currentScore);
+        
+        survivedTimeScoreText.text = FormatTimer(_highestSurviveTime);
+        maxScoreText.text = _highScore.ToString();
     }
     
     private void OnPlayerDeathHandler()
@@ -129,14 +122,13 @@ public class GameController : MonoBehaviour
         EndGame();
     }
 
-    private void UpdateTimerDisplay()
+    private string FormatTimer(float time)
     {
         // Format the elapsed time as minutes:seconds:milliseconds
-        string minutes = Mathf.Floor(_elapsedTime / 60).ToString("00");
-        string seconds = Mathf.Floor(_elapsedTime % 60).ToString("00");
+        string minutes = Mathf.Floor(time / 60).ToString("00");
+        string seconds = Mathf.Floor(time % 60).ToString("00");
         //string milliseconds = Mathf.Floor((elapsedTime * 1000) % 1000).ToString("000");
 
-        // Update the timer text display
-        survivedTimeText.text = minutes + ":" + seconds;
+        return minutes + ":" + seconds;
     }
 }

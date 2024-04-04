@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (_isDead == false)
+        if (_isDead == false && !UIController.IsGamePaused())
         {
             Aim();
         
@@ -112,6 +112,8 @@ public class PlayerController : MonoBehaviour
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     Destroy(hit.collider.gameObject);
+
+                    GameController.AddScore(1);
                 }
             }
 
