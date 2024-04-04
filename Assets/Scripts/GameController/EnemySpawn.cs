@@ -4,10 +4,18 @@ using Random = UnityEngine.Random;
 public class EnemySpawn : MonoBehaviour
 {
     // ---- / Serialized Variables / ---- //
-    [SerializeField] private GameObject[] groundEnemyPrefabs;
+    [Header("Flying Enemies")]
     [SerializeField] private GameObject[] flyingEnemyPrefabs;
-    [SerializeField] private float spawnInterval = 2f;
+    [SerializeField] private float flySpawnInterval = 2f;
+    [Range(0, 1)]
+    [SerializeField] private float flySpawnProbability = 1f;
     [SerializeField] private float sphereRadius = 10f;
+    
+    [Header("Ground Enemies")]
+    [SerializeField] private GameObject[] groundEnemyPrefabs;
+    [SerializeField] private float groundSpawnInterval = 2f;
+    [Range(0, 1)]
+    [SerializeField] private float groundSpawnProbability = 1f;
     [SerializeField] private float circleRadius = 10f;
     
     // ---- / Private Variables / ---- //
@@ -16,11 +24,15 @@ public class EnemySpawn : MonoBehaviour
     private void Update()
     {
         _spawnTimer += Time.deltaTime;
-        if (_spawnTimer >= spawnInterval)
+        if (_spawnTimer >= flySpawnInterval && Random.value <= flySpawnProbability)
         {
             _spawnTimer = 0;
 
             SpawnFlyingEnemies(1);
+        } else if (_spawnTimer >= groundSpawnInterval && Random.value <= groundSpawnProbability)
+        {
+            _spawnTimer = 0;
+
             SpawnGroundEnemies(1);
         }
     }
@@ -34,42 +46,50 @@ public class EnemySpawn : MonoBehaviour
     {
         for (int i = 0; i < numberOfPrefabs; i++)
         {
-            // Calculate spherical coordinates
-            float inclination = Random.Range(0f, Mathf.PI / 2f); // angle from the top
-            float azimuth = Random.Range(0f, Mathf.PI * 2f); // angle around the circle
+            // Get a random point on the unit sphere
+            Vector3 randomPoint;
+            do
+            {
+                randomPoint = Random.onUnitSphere;
+            } while (randomPoint.y < 0); // Ensure the random point is above y = 0
 
-            // Convert spherical coordinates to Cartesian coordinates
-            float x = sphereRadius * Mathf.Sin(inclination) * Mathf.Cos(azimuth);
-            float y = sphereRadius * Mathf.Cos(inclination);
-            float z = sphereRadius * Mathf.Sin(inclination) * Mathf.Sin(azimuth);
+            // Scale the random point by the sphere radius
+            Vector3 position = transform.position + randomPoint * sphereRadius;
 
-            // Instantiate prefab at the calculated position
-            Vector3 position = transform.position + new Vector3(x, y, z);
+            // Instantiate the prefab at the calculated position
             GameObject prefabToSpawn = flyingEnemyPrefabs[Random.Range(0, flyingEnemyPrefabs.Length)];
-            Instantiate(prefabToSpawn, position, Quaternion.identity, transform);
+            Instantiate(prefabToSpawn, position, Quaternion.identity);
         }
     }
     
     /// <summary>
     /// Instantiate prefabs in batches, on the
-    /// perimeter of a circle around the center.
+    /// perimeter of a circle around the player.
     /// </summary>
     /// <param name="numberOfPrefabs"></param>
     private void SpawnGroundEnemies(int numberOfPrefabs)
     {
         for (int i = 0; i < numberOfPrefabs; i++)
         {
-            // Calculate the angle for this prefab around the circle
-            float angle = i * Mathf.PI * 2f / numberOfPrefabs;
+            // Get a random point inside or on the unit circle
+            // Vector2 randomPoint = RandomOnUnitCircle(circleRadius);
+            Vector2 randomPoint = Random.insideUnitCircle.normalized;
 
-            // Calculate the position using trigonometry
-            float x = Mathf.Cos(angle) * circleRadius;
-            float z = Mathf.Sin(angle) * circleRadius;
-            Vector3 position = transform.position + new Vector3(x, 0f, z);
+            // Scale the random point by the circle radius
+            Vector3 position = transform.position + new Vector3(randomPoint.x, 0f, randomPoint.y) * sphereRadius;
 
             // Instantiate the prefab at the calculated position
             GameObject prefabToSpawn = groundEnemyPrefabs[Random.Range(0, groundEnemyPrefabs.Length)];
-            Instantiate(prefabToSpawn, position, Quaternion.identity, transform);
+            Instantiate(prefabToSpawn, position, Quaternion.identity);
         }
     }
+
+    private Vector3 RandomOnUnitCircle(float radius)
+    {
+        var angle = Random.value * (2f * Mathf.PI);
+        var direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+        
+        return direction * radius;
+    }
+
 }
