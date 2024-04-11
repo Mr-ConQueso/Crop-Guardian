@@ -76,7 +76,7 @@ public class EnemySpawn : MonoBehaviour
             Vector2 randomPoint = Random.insideUnitCircle.normalized;
 
             // Scale the random point by the circle radius
-            Vector3 position = transform.position + new Vector3(randomPoint.x, 0f, randomPoint.y) * sphereRadius;
+            Vector3 position = transform.position + new Vector3(randomPoint.x, 0f, randomPoint.y) * circleRadius;
 
             // Instantiate the prefab at the calculated position
             GameObject prefabToSpawn = groundEnemyPrefabs[Random.Range(0, groundEnemyPrefabs.Length)];
