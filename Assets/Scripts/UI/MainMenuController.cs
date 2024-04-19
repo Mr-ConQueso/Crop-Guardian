@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     // ---- / Serialized Variables / ---- //
+    [SerializeField] private GameObject settingsMenu;
 
     public void StartGame()
     {
@@ -18,7 +19,7 @@ public class MainMenuController : MonoBehaviour
 
     public void SettingsScreen()
     {
-        
+        settingsMenu.SetActive(true);
     }
     
     private void Start()
