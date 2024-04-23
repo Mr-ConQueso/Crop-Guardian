@@ -1,11 +1,25 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
 {
     // ---- / Serialized Variables / ---- //
     [SerializeField] private AudioMixer mainMixer;
+    [SerializeField] private TMP_Text audioModeButtonText;
+    [SerializeField] private TMP_Text qualityButtonText;
+    [SerializeField] private TMP_Text fullScreenButtonText;
+    [SerializeField] private TMP_Dropdown resolutionDropdown;
+    
+    // ---- / Private Variables / ---- //
+    private int _currentAudioModeIndex;
+    private int _currentQualityIndex;
+    private int _currentFullScreenModeIndex;
+    private AudioConfiguration _audioConfiguration;
+    private Resolution[] _resolutions;
     
     public void SetMasterVolume(float sliderValue)
     {
@@ -27,4 +41,131 @@ public class SettingsController : MonoBehaviour
         MenuManager.OpenMenu(MenuManager.MainMenu != null ? Menu.MainMenu : Menu.PauseMenu, gameObject);
     }
 
+    public void OnClick_ChangeAudioMode()
+    {
+        _currentAudioModeIndex = CycleNumber(_currentAudioModeIndex, 3);
+
+        switch (_currentAudioModeIndex)
+        {
+            case 0:
+                SetAudioMode(AudioSpeakerMode.Stereo, "Stereo");
+                break;
+            case 1:
+                SetAudioMode(AudioSpeakerMode.Mono, "Mono");
+                break;
+            case 2:
+                SetAudioMode(AudioSpeakerMode.Mode5point1, "5.1 Surround");
+                break;
+            case 3:
+                SetAudioMode(AudioSpeakerMode.Mode7point1, "7.1 Surround");
+                break;
+            default:
+                SetAudioMode(AudioSpeakerMode.Stereo, "Stereo");
+                break;
+        }
+    }
+
+    public void OnClick_SetQuality()
+    {
+        _currentQualityIndex = CycleNumber(_currentQualityIndex, 2);
+        QualitySettings.SetQualityLevel(_currentQualityIndex);
+
+        qualityButtonText.text = _currentQualityIndex switch
+        {
+            0 => "High",
+            1 => "Low",
+            2 => "Medium",
+            _ => "High"
+        };
+    }
+    
+    public void OnClick_SetFullScreen()
+    {
+        _currentFullScreenModeIndex = CycleNumber(_currentFullScreenModeIndex, 2);
+
+        switch (_currentFullScreenModeIndex)
+        {
+            case 0:
+                Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+                fullScreenButtonText.text = "Fullscreen";
+                break;
+            case 1:
+                Screen.fullScreenMode = FullScreenMode.Windowed;
+                fullScreenButtonText.text = "Windowed";
+                break;
+            case 2:
+                Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
+                fullScreenButtonText.text = "Maximized";
+                break;
+            default:
+                Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+                fullScreenButtonText.text = "Fullscreen";
+                break;
+        }
+    }
+
+    public void OnClick_SetResolution(int resolutionIndex)
+    {
+        Resolution resolution = _resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreenMode);
+    }
+
+    private void SetAudioMode(AudioSpeakerMode speakerMode, String speakerModeText)
+    {
+        _audioConfiguration.speakerMode = speakerMode;
+        AudioSettings.Reset(_audioConfiguration);
+        audioModeButtonText.text = speakerModeText;
+    }
+    
+    private void Start()
+    {
+        _audioConfiguration = AudioSettings.GetConfiguration();
+        InitResolution();
+    }
+    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnClick_GoBack();
+        }
+    }
+
+    private void InitResolution()
+    {
+        _resolutions = Screen.resolutions;
+        resolutionDropdown.ClearOptions();
+        
+        _resolutions = Screen.resolutions;
+        resolutionDropdown.ClearOptions();
+        
+        List<string> options = new List<string>();
+
+        int currentResolutionIndex = 0;
+        for (int i = 0; i < _resolutions.Length; i++)
+        {
+            string option = _resolutions[i].width + " x " + _resolutions[i].height;
+            options.Add(option);
+
+            if (_resolutions[i].width == Screen.currentResolution.width && 
+                _resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
+        }
+        
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
+    }
+
+    private int CycleNumber(int numberToCycle, int maxValue)
+    {
+        if (numberToCycle < maxValue)
+        {
+            return numberToCycle + 1;
+        }
+    
+        return 0;
+    }
 }

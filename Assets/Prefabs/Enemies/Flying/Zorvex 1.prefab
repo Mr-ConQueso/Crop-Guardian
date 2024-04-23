@@ -115,11 +115,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8978163028025290496}
-  - component: {fileID: 1133565121628540529}
   - component: {fileID: 5815056966203959093}
   - component: {fileID: 8374657997815010015}
   - component: {fileID: 150497494768885480}
   - component: {fileID: 1967342428476044752}
+  - component: {fileID: 5149373575172225591}
   m_Layer: 7
   m_Name: Zorvex 1
   m_TagString: Enemy
@@ -143,19 +143,6 @@ Transform:
   - {fileID: 5242078071118931180}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1133565121628540529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5292393993258775047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e40da3c67452a18f8b2108449a5f4c39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 1
 --- !u!114 &5815056966203959093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,5 +213,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82d50797891c4a09a06de97acbbbb3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5149373575172225591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5292393993258775047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bcf4328c035471da344aa582298da61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

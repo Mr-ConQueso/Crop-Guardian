@@ -1,3 +1,4 @@
+using Enemy;
 using TMPro;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ public class GameController : MonoBehaviour
     private void OnDestroy()
     {
         PlayerController.OnPlayerDeath -= OnPlayerDeathHandler;
+        BossEnemy.OnWinGame -= OnWinGameHandler;
     }
 
     public void WinLevel()
@@ -93,6 +95,7 @@ public class GameController : MonoBehaviour
         _highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
         
         PlayerController.OnPlayerDeath += OnPlayerDeathHandler;
+        BossEnemy.OnWinGame += OnWinGameHandler;
     }
     
     private void Update()
@@ -118,6 +121,11 @@ public class GameController : MonoBehaviour
     private void OnPlayerDeathHandler()
     {
         EndGame();
+    }
+    
+    private void OnWinGameHandler()
+    {
+        WinLevel();
     }
 
     private string FormatTimer(float time)

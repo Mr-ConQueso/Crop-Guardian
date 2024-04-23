@@ -113,16 +113,14 @@ public class PlayerController : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Enemy"))
                 {
-                    Destroy(hit.collider.gameObject);
+                    hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(1);
 
                     GameController.AddScore(1);
                 }
                 
                 if (hit.collider.CompareTag("Boss"))
                 {
-                    Destroy(hit.collider.gameObject);
-
-                    _gameController.WinLevel();
+                    hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(1);
                 }
             }
 

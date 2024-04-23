@@ -6,100 +6,73 @@ public class MenuSelector : MonoBehaviour
 {
     // ---- / Private Variables / ---- //
     private RectTransform _selector;
-    private readonly Vector3 _selectorOffset = new (-60, 15, 0);
-    private Button[] _selectableButtons;
-
+    private readonly Vector3 _selectorOffset = new Vector3(-60, 15, 0);
+    private Selectable[] _selectableItems;
     private int _currentSelectionIndex;
-    private float[] _selectableButtonsWidth;
 
     private void Awake()
     {
-        // ---- / Get All The Buttons / ---- //
-        _selectableButtons = gameObject.GetComponentsInChildren<Button>();
-        
+        // ---- / Get All The Selectable Items / ---- //
+        _selectableItems = gameObject.GetComponentsInChildren<Selectable>();
+
         // ---- / Get The Selector / ---- //
         _selector = FindChildWithTag(gameObject.transform, "ButtonSelector").GetComponent<RectTransform>();
-        
-        SetPosition(_currentSelectionIndex);
-        /*
-        for (int i = 0; i < selectableButtons.Length; i++)
-        {
-            if (selectableButtons[i].TryGetComponent<RectTransform>(out RectTransform buttonRect))
-            {
-                _selectableButtonsWidth[i] = buttonRect.rect.width;
-            }
-            else
-            {
-                Debug.LogWarning("Selectable button at index " + i + " is not assigned.");
-            }
-        }
-        */
-    }
-    /*
-    private void OnEnable()
-    {
-        _currentSelectionIndex = 0;
+
         SetPosition(_currentSelectionIndex);
     }
-    */
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        if (Input.GetButtonDown("SelectDown"))
         {
-            SelectNextButton();
+            SelectNextItem();
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetButtonDown("SelectUp"))
         {
-            SelectPreviousButton();
+            SelectPreviousItem();
         }
+        ChangeSliderValue(_currentSelectionIndex, Input.GetAxis("Horizontal"));
         
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetButtonDown("Submit"))
         {
-            ClickButton(_currentSelectionIndex);
+            ClickItem(_currentSelectionIndex);
         }
     }
 
-    private void SelectNextButton()
+    private void SelectNextItem()
     {
-        if (_currentSelectionIndex < _selectableButtons.Length -1)
-        {
-            _currentSelectionIndex++;
-            SetPosition(_currentSelectionIndex);
-        }
-        else
-        {
-            _currentSelectionIndex = 0;
-            SetPosition(_currentSelectionIndex);
-        }
+        _currentSelectionIndex = (_currentSelectionIndex + 1) % _selectableItems.Length;
+        SetPosition(_currentSelectionIndex);
     }
     
-    private void SelectPreviousButton()
+    private void SelectPreviousItem()
     {
-        if (_currentSelectionIndex > 0)
+        _currentSelectionIndex = (_currentSelectionIndex - 1 + _selectableItems.Length) % _selectableItems.Length;
+        SetPosition(_currentSelectionIndex);
+    }
+
+    private void ChangeSliderValue(int index, float amount)
+    {
+        if (_selectableItems[index] is Slider slider)
         {
-            _currentSelectionIndex--;
-            SetPosition(_currentSelectionIndex);
-        }
-        else
-        {
-            _currentSelectionIndex = _selectableButtons.Length -1;
-            SetPosition(_currentSelectionIndex);
+            slider.value += amount / 100;
         }
     }
 
     private void SetPosition(int index)
     {
-        var finalOffset = _selectorOffset - new Vector3(_selectableButtons[index].GetComponent<RectTransform>().rect.width / 2, 0, 0);
-        _selector.position = _selectableButtons[index].transform.position + finalOffset;
+        var finalOffset = _selectorOffset - new Vector3(_selectableItems[index].GetComponent<RectTransform>().rect.width / 2, 0, 0);
+        _selector.position = _selectableItems[index].transform.position + finalOffset;
         
-        _selectableButtons[index].Select();
-        //EventSystem.current.SetSelectedGameObject(selectableButtons[index].gameObject, new BaseEventData(EventSystem.current));
+        _selectableItems[index].Select();
     }
 
-    private void ClickButton(int index)
+    private void ClickItem(int index)
     {
-        _selectableButtons[index].onClick.Invoke();
+        if (_selectableItems[index] is Button button)
+        {
+            button.onClick.Invoke();
+        }
     }
     
     private Transform FindChildWithTag(Transform root, string tag)

@@ -3,5 +3,7 @@ public enum Menu
     MainMenu,
     SettingsMenu,
     ExitMenu,
-    PauseMenu
+    PauseMenu,
+    StoreMenu,
+    PreloadMenu
 }

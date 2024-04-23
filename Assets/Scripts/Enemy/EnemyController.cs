@@ -2,33 +2,38 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    // ---- / Serialized Variables / ---- //
-    [SerializeField] private float moveSpeed = 1.0f;
+    // ---- / Children Variables / ---- //
+    protected virtual float MoveSpeed { get; set; } = 1.0f;
+    protected virtual int Health { get; set; } = 1;
     
-    // ---- / Serialized Variables / ---- //
-    private Transform _playerTransform;
+    // ---- / Private Variables / ---- //
+    private Transform _enemyTransform;
     
-    /*
-    private void Awake()
+    public void RemoveHealth(int amountToRemove)
     {
-        Material mat = GetComponent<Material>();
-        mat.SetInt("unity_GUIZTestMode", (int)UnityEngine.Rendering.CompareFunction.Always);
+        if (Health > 1)
+        {
+            Health -= amountToRemove;
+        }
+        else
+        {
+            KillSelf();
+        }
     }
-    */
-
+    
+    protected virtual void KillSelf()
+    {
+        Destroy(gameObject);
+    }
+    
     private void Start()
     {
-        _playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        _enemyTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     private void Update()
     {
-        float step = moveSpeed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, _playerTransform.position, step);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Destroy(this);
+        float step = MoveSpeed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, _enemyTransform.position, step);
     }
 }
