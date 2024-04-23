@@ -35,10 +35,12 @@ public class PlayerController : MonoBehaviour
     private int _bulletAmount;
     private bool _isAiming;
     private float _aimTransitionStartTime;
+    private GameController _gameController;
     
     private void Start()
     {
         _mainCamera = Camera.main;
+        _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
         _bulletAmount = initialBulletAmount;
         InvokeRepeating(nameof(AddBullet), bulletRecoveryTime, bulletRecoveryTime);
@@ -114,6 +116,13 @@ public class PlayerController : MonoBehaviour
                     Destroy(hit.collider.gameObject);
 
                     GameController.AddScore(1);
+                }
+                
+                if (hit.collider.CompareTag("Boss"))
+                {
+                    Destroy(hit.collider.gameObject);
+
+                    _gameController.WinLevel();
                 }
             }
 

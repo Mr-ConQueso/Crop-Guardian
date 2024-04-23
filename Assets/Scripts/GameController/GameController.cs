@@ -8,10 +8,11 @@ public class GameController : MonoBehaviour
     [SerializeField] private TMP_Text survivedTimeText;
     [SerializeField] private TMP_Text scoreText;
     
+    [Header("Win Level Screen")]
+    [SerializeField] private GameObject winLevelScreen;
+    
     [Header("End-Game Screen")]
     [SerializeField] private GameObject endGameScreen;
-    [SerializeField] private TMP_Text survivedTimeScoreText;
-    [SerializeField] private TMP_Text maxScoreText;
     
     // ---- / Static Variables / ---- //
     private static bool _isGameEnded;
@@ -27,6 +28,11 @@ public class GameController : MonoBehaviour
     {
         PlayerController.OnPlayerDeath -= OnPlayerDeathHandler;
     }
+
+    public void WinLevel()
+    {
+        StopGame(winLevelScreen);
+    }
     
     public static bool IsGameEnded()
     {
@@ -36,6 +42,11 @@ public class GameController : MonoBehaviour
     public static void AddScore(int amount)
     {
         _currentScore += amount;
+    }
+    
+    public int GetCurrentScore()
+    {
+        return _currentScore;
     }
 
     private void StartTimer()
@@ -101,20 +112,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     private void EndGame()
     {
-        _isGameEnded = true;
-
-        StopTimer();
-            
-        endGameScreen.SetActive(true);
-        Time.timeScale = 0.0f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
-        UpdateSurvivedTime(_elapsedTime);
-        UpdateHighScore(_currentScore);
-        
-        survivedTimeScoreText.text = FormatTimer(_highestSurviveTime);
-        maxScoreText.text = _highScore.ToString();
+        StopGame(endGameScreen);
     }
     
     private void OnPlayerDeathHandler()
@@ -130,5 +128,25 @@ public class GameController : MonoBehaviour
         //string milliseconds = Mathf.Floor((elapsedTime * 1000) % 1000).ToString("000");
 
         return minutes + ":" + seconds;
+    }
+
+    private void StopGame(GameObject screenToActivate)
+    {
+        _isGameEnded = true;
+
+        StopTimer();
+            
+        screenToActivate.SetActive(true);
+        Time.timeScale = 0.0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        UpdateSurvivedTime(_elapsedTime);
+        UpdateHighScore(_currentScore);
+
+        SetMaxScoreAndTime textComponents = screenToActivate.GetComponent<SetMaxScoreAndTime>();
+        
+        textComponents.scoreText.text = FormatTimer(_highestSurviveTime);
+        textComponents.timeText.text = _highScore.ToString();
     }
 }

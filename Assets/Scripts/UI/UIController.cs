@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    // ---- / Serialized Variables / ---- //
-    [SerializeField] private GameObject pauseScreen;
-    
     // ---- / Static Variables / ---- //
     private static bool _isGamePaused;
     
@@ -25,11 +22,6 @@ public class UIController : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        pauseScreen.SetActive(false);
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -42,22 +34,22 @@ public class UIController : MonoBehaviour
     /// Pause the time, remove player control
     /// and show the cursor.
     /// </summary>
-    private void PauseGame()
+    public static void PauseGame()
     {
         _isGamePaused = true;
         
-        pauseScreen.SetActive(true);
+        MenuManager.PauseMenu.SetActive(true);
         
         Time.timeScale = 0.0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
     
-    private void UnPauseGame()
+    public static void UnPauseGame()
     {
         _isGamePaused = false;
         
-        pauseScreen.SetActive(false);
+        MenuManager.PauseMenu.SetActive(false);
         
         Time.timeScale = 1.0f;
         Cursor.lockState = CursorLockMode.Locked;

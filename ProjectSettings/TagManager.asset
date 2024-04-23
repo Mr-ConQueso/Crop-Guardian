@@ -6,6 +6,9 @@ TagManager:
   tags:
   - SimpleBullet
   - Enemy
+  - Boss
+  - Button
+  - ButtonSelector
   layers:
   - Default
   - TransparentFX

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,36 +8,82 @@ public class EnemySpawn : MonoBehaviour
     [Header("Flying Enemies")]
     [SerializeField] private GameObject[] flyingEnemyPrefabs;
     [SerializeField] private float flySpawnInterval = 2f;
+    [SerializeField] private int flySpawnNumber = 1;
     [Range(0, 1)]
     [SerializeField] private float flySpawnProbability = 1f;
     [SerializeField] private float sphereRadius = 10f;
     
+    [Header("Flying Boss")]
+    [SerializeField] private GameObject flyBoss;
+    [SerializeField] private bool spawnFlyBoss;
+    [SerializeField] private int spawnFlyBossPoints;
+    
     [Header("Ground Enemies")]
     [SerializeField] private GameObject[] groundEnemyPrefabs;
     [SerializeField] private float groundSpawnInterval = 2f;
+    [SerializeField] private int groundSpawnNumber = 1;
     [Range(0, 1)]
     [SerializeField] private float groundSpawnProbability = 1f;
     [SerializeField] private float circleRadius = 10f;
     
+    [Header("Grounded Boss")]
+    [SerializeField] private GameObject groundBoss;
+    [SerializeField] private bool spawnGroundBoss;
+    [SerializeField] private int spawnGroundBossPoints;
+    
     // ---- / Private Variables / ---- //
     private float _spawnTimer;
-    
+    private bool _hasBossSpawned;
+    private GameController _gameController;
+
+    private void Start()
+    {
+        _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+    }
+
     private void Update()
     {
-        _spawnTimer += Time.deltaTime;
-        if (_spawnTimer >= flySpawnInterval && Random.value <= flySpawnProbability)
+        if (_gameController.GetCurrentScore() >= spawnFlyBossPoints && !_hasBossSpawned)
         {
-            _spawnTimer = 0;
-
-            SpawnFlyingEnemies(1);
-        } else if (_spawnTimer >= groundSpawnInterval && Random.value <= groundSpawnProbability)
+            if (Random.value >= 0.5)
+            {
+                SpawnFlyBoss();
+            }
+            else
+            {
+                SpawnGroundBoss();
+            }
+        }
+        
+        if (!_hasBossSpawned)
         {
-            _spawnTimer = 0;
+            _spawnTimer += Time.deltaTime;
+            if (_spawnTimer >= flySpawnInterval && Random.value <= flySpawnProbability)
+            {
+                _spawnTimer = 0;
 
-            SpawnGroundEnemies(1);
+                SpawnFlyingEnemies(flySpawnNumber);
+            } else if (_spawnTimer >= groundSpawnInterval && Random.value <= groundSpawnProbability)
+            {
+                _spawnTimer = 0;
+
+                SpawnGroundEnemies(groundSpawnNumber);
+            }
         }
     }
+
+    private void SpawnFlyBoss()
+    {
+        _hasBossSpawned = true;
+        Instantiate(flyBoss, GetPointOnSemiSphere(sphereRadius), Quaternion.identity);
+    }
     
+    private void SpawnGroundBoss()
+    {
+        _hasBossSpawned = true;
+        Instantiate(groundBoss, GetPointOnCircle(sphereRadius), Quaternion.identity);
+    }
+
     /// <summary>
     /// Instantiate prefabs in batches, on the
     /// surface of a sphere around the center.
@@ -46,19 +93,8 @@ public class EnemySpawn : MonoBehaviour
     {
         for (int i = 0; i < numberOfPrefabs; i++)
         {
-            // Get a random point on the unit sphere
-            Vector3 randomPoint;
-            do
-            {
-                randomPoint = Random.onUnitSphere;
-            } while (randomPoint.y < 0); // Ensure the random point is above y = 0
-
-            // Scale the random point by the sphere radius
-            Vector3 position = transform.position + randomPoint * sphereRadius;
-
-            // Instantiate the prefab at the calculated position
             GameObject prefabToSpawn = flyingEnemyPrefabs[Random.Range(0, flyingEnemyPrefabs.Length)];
-            Instantiate(prefabToSpawn, position, Quaternion.identity);
+            Instantiate(prefabToSpawn, GetPointOnSemiSphere(sphereRadius), Quaternion.identity);
         }
     }
     
@@ -71,25 +107,26 @@ public class EnemySpawn : MonoBehaviour
     {
         for (int i = 0; i < numberOfPrefabs; i++)
         {
-            // Get a random point inside or on the unit circle
-            // Vector2 randomPoint = RandomOnUnitCircle(circleRadius);
-            Vector2 randomPoint = Random.insideUnitCircle.normalized;
-
-            // Scale the random point by the circle radius
-            Vector3 position = transform.position + new Vector3(randomPoint.x, 0f, randomPoint.y) * circleRadius;
-
-            // Instantiate the prefab at the calculated position
             GameObject prefabToSpawn = groundEnemyPrefabs[Random.Range(0, groundEnemyPrefabs.Length)];
-            Instantiate(prefabToSpawn, position, Quaternion.identity);
+            Instantiate(prefabToSpawn, GetPointOnCircle(circleRadius), Quaternion.identity);
         }
     }
 
-    private Vector3 RandomOnUnitCircle(float radius)
+    private Vector3 GetPointOnCircle(float radius)
     {
-        var angle = Random.value * (2f * Mathf.PI);
-        var direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
-        
-        return direction * radius;
+        Vector2 randomPoint = Random.insideUnitCircle.normalized;
+        return transform.position + new Vector3(randomPoint.x, 0f, randomPoint.y) * radius;
+    }
+
+    private Vector3 GetPointOnSemiSphere(float radius)
+    {
+        Vector3 randomPoint;
+        do
+        {
+            randomPoint = Random.onUnitSphere;
+        } while (randomPoint.y < 0);
+
+        return transform.position + randomPoint * radius;
     }
 
 }
