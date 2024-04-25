@@ -170,6 +170,7 @@ public class GameController : MonoBehaviour
 
     private void RestartLevel()
     {
+        PlayerController._isDead = false;
         _currentScore = 0;
 
         IsGameEnded = false;

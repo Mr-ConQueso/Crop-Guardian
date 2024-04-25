@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // ---- / Static Variables / ---- //
-    private static bool _isDead;
+    public static bool _isDead;
     
     // ---- / Serialized Variables / ---- //
     [Header("Other")]
