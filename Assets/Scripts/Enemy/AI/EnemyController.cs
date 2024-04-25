@@ -3,8 +3,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     // ---- / Children Variables / ---- //
-    protected virtual float MoveSpeed { get; set; } = 1.0f;
-    protected virtual int Health { get; set; } = 1;
+    protected float MoveSpeed = 1.0f;
+    protected int Health = 1;
     
     // ---- / Private Variables / ---- //
     private Transform _enemyTransform;

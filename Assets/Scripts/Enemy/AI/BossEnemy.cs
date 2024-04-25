@@ -1,10 +1,13 @@
+using System;
+using UnityEngine;
+
 namespace Enemy
 {
     public class BossEnemy : EnemyController
     {
         // ---- / Parent Variables / ---- //
-        protected override float MoveSpeed => 1.5f;
-        protected override int Health => 3;
+        [SerializeField] float moveSpeed = 1.5f;
+        [SerializeField] int health = 3;
         
         // ---- / Events / ---- //
         public delegate void WinGameEventHandler();

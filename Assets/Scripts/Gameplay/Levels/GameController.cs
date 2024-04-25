@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    // ---- / Static Variables / ---- //
+    public static bool IsGameEnded;
+    private const string HighestSurviveTimeKey = "HighestSurviveTimeKey";
+    private const string HighScoreKey = "HighScore";
+    
+    public static float HighestSurviveTime;
+    public static int CurrentScore;
+    
     // ---- / Serialized Variables / ---- //
     [Header("In-Game Info")]
     [SerializeField] private TMP_Text survivedTimeText;
@@ -15,12 +23,9 @@ public class GameController : MonoBehaviour
     [Header("End-Game Screen")]
     [SerializeField] private GameObject endGameScreen;
     
-    // ---- / Static Variables / ---- //
-    private static bool _isGameEnded;
+    // ---- / Private Variables / ---- //
     private float _elapsedTime;
     private bool _isTimerRunning;
-    private const string HighestSurviveTimeKey = "HighestSurviveTimeKey";
-    private const string HighScoreKey = "HighScore";
     private static float _highestSurviveTime;
     private static int _currentScore;
     private int _highScore;
@@ -29,26 +34,6 @@ public class GameController : MonoBehaviour
     {
         PlayerController.OnPlayerDeath -= OnPlayerDeathHandler;
         BossEnemy.OnWinGame -= OnWinGameHandler;
-    }
-
-    public void WinLevel()
-    {
-        StopGame(winLevelScreen);
-    }
-    
-    public static bool IsGameEnded()
-    {
-        return _isGameEnded;
-    }
-
-    public static void AddScore(int amount)
-    {
-        _currentScore += amount;
-    }
-    
-    public int GetCurrentScore()
-    {
-        return _currentScore;
     }
 
     private void StartTimer()
@@ -129,6 +114,21 @@ public class GameController : MonoBehaviour
     {
         WinLevel();
     }
+    
+    public void WinLevel()
+    {
+        StopGame(winLevelScreen);
+    }
+    
+    public static void AddScore(int amount)
+    {
+        CurrentScore += amount;
+    }
+    
+    public int GetCurrentScore()
+    {
+        return CurrentScore;
+    }
 
     private string FormatTimer(float time)
     {
@@ -142,7 +142,7 @@ public class GameController : MonoBehaviour
 
     private void StopGame(GameObject screenToActivate)
     {
-        _isGameEnded = true;
+        IsGameEnded = true;
 
         StopTimer();
             
@@ -164,7 +164,7 @@ public class GameController : MonoBehaviour
     {
         _currentScore = 0;
 
-        _isGameEnded = false;
+        IsGameEnded = false;
         UIController.UnPauseGame();
         
         endGameScreen.SetActive(false);

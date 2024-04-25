@@ -1,7 +1,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class WavesEnemySpawn : BaseEnemySpawn
+public class EnemySpawn : BaseEnemySpawn
 {
     // ---- / Serialized Variables / ---- //
     [Header("Flying Enemies")]
@@ -10,10 +10,12 @@ public class WavesEnemySpawn : BaseEnemySpawn
     [SerializeField] int flySpawnNumber = 1;
     [Range(0, 1)]
     [SerializeField] float flySpawnProbability = 1f;
+    [SerializeField] float sphereRadius = 10f;
     
     [Header("Ground Enemies")]
     [SerializeField] GameObject[] groundEnemyPrefabs;
     [SerializeField] float groundSpawnInterval = 2f;
+    [SerializeField] int groundSpawnNumber = 1;
     [Range(0, 1)]
     [SerializeField] float groundSpawnProbability = 1f;
     [SerializeField] float circleRadius = 10f;
@@ -25,8 +27,9 @@ public class WavesEnemySpawn : BaseEnemySpawn
     [SerializeField] int spawnBossPoints;
     
     // ---- / Private Variables / ---- //
+    [SerializeField] private bool spawnBoss;
     private GameController _gameController;
-    
+
     private void Start()
     {
         _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -34,7 +37,7 @@ public class WavesEnemySpawn : BaseEnemySpawn
 
     private void Update()
     {
-        if (_gameController.GetCurrentScore() >= spawnBossPoints && !HasBossSpawned)
+        if (_gameController.GetCurrentScore() >= spawnBossPoints && !HasBossSpawned && spawnBoss)
         {
             if (Random.value >= 0.5)
             {
@@ -44,6 +47,10 @@ public class WavesEnemySpawn : BaseEnemySpawn
             {
                 SpawnGroundBoss();
             }
+        }
+        if (_gameController.GetCurrentScore() > spawnBossPoints && !spawnBoss)
+        {
+            _gameController.WinLevel();
         }
         
         if (!HasBossSpawned)
@@ -58,7 +65,7 @@ public class WavesEnemySpawn : BaseEnemySpawn
             {
                 SpawnTimer = 0;
 
-                SpawnGroundEnemies(GroundSpawnNumber, groundEnemyPrefabs);
+                SpawnGroundEnemies(groundSpawnNumber, groundEnemyPrefabs);
             }
         }
     }

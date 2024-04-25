@@ -5,7 +5,7 @@ namespace Enemy
     public class FlyEnemy : EnemyController
     {
         // ---- / Parent Variables / ---- //
-        [SerializeField] protected override float MoveSpeed => 1.2f;
-        [SerializeField] protected override int Health => 1;
+        [SerializeField] float moveSpeed = 1.2f;
+        [SerializeField] int health = 1;
     }
 }
