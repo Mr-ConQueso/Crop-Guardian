@@ -1,8 +1,12 @@
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class EnemySpawn : BaseEnemySpawn
 {
+    // ---- / Public Variables / ---- //
+    public bool allowEndlessWaves;
+
     // ---- / Serialized Variables / ---- //
     [Header("Flying Enemies")]
     [SerializeField] GameObject[] flyingEnemyPrefabs;
@@ -21,14 +25,20 @@ public class EnemySpawn : BaseEnemySpawn
     [SerializeField] float circleRadius = 10f;
     
     [Header("Bosses")]
+    [SerializeField] private bool spawnBoss;
+
     [SerializeField] GameObject groundBoss;
     [SerializeField] GameObject flyBoss;
 
     [SerializeField] int spawnBossPoints;
     
+    [Header("Endless Waves")]
+    [SerializeField] private GameObject currentWaveScreen;
+    [SerializeField] private TMP_Text currentWaveText;
+    
     // ---- / Private Variables / ---- //
-    [SerializeField] private bool spawnBoss;
     private GameController _gameController;
+    private int _currentWave;
 
     private void Start()
     {
@@ -37,15 +47,27 @@ public class EnemySpawn : BaseEnemySpawn
 
     private void Update()
     {
+        if (allowEndlessWaves)
+        {
+            EndlessWaves();
+        }
+        else
+        {
+            SingleLevel();
+        }
+    }
+
+    private void SingleLevel()
+    {
         if (_gameController.GetCurrentScore() >= spawnBossPoints && !HasBossSpawned && spawnBoss)
         {
             if (Random.value >= 0.5)
             {
-                SpawnFlyBoss();
+                SpawnFlyBoss(flyBoss);
             }
             else
             {
-                SpawnGroundBoss();
+                SpawnGroundBoss(groundBoss);
             }
         }
         if (_gameController.GetCurrentScore() > spawnBossPoints && !spawnBoss)
@@ -68,5 +90,48 @@ public class EnemySpawn : BaseEnemySpawn
                 SpawnGroundEnemies(groundSpawnNumber, groundEnemyPrefabs);
             }
         }
+    }
+
+    private void EndlessWaves()
+    {
+        if ((_gameController.GetCurrentScore() % spawnBossPoints == 0 && _gameController.GetCurrentScore() >= spawnBossPoints
+                ) && !HasBossSpawned && spawnBoss)
+        {
+            if (Random.value >= 0.5)
+            {
+                SpawnFlyBoss(flyBoss);
+            }
+            else
+            {
+                SpawnGroundBoss(groundBoss);
+            }
+        }
+        
+        SpawnTimer += Time.deltaTime;
+        if (SpawnTimer >= flySpawnInterval && Random.value <= flySpawnProbability)
+        {
+            SpawnTimer = 0;
+
+            SpawnFlyingEnemies(flySpawnNumber, flyingEnemyPrefabs);
+        } else if (SpawnTimer >= groundSpawnInterval && Random.value <= groundSpawnProbability)
+        {
+            SpawnTimer = 0;
+
+            SpawnGroundEnemies(groundSpawnNumber, groundEnemyPrefabs);
+        }
+    }
+
+    public void StartNextLevel()
+    {
+        currentWaveScreen.SetActive(false);
+        currentWaveScreen.SetActive(true);
+        _currentWave++;
+        currentWaveText.text = _currentWave.ToString();
+        HasBossSpawned = false;
+    }
+
+    private void NextLevel()
+    {
+        
     }
 }

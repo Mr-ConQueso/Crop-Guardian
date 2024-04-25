@@ -38,11 +38,11 @@ public class WavesEnemySpawn : BaseEnemySpawn
         {
             if (Random.value >= 0.5)
             {
-                SpawnFlyBoss();
+                SpawnFlyBoss(flyBoss);
             }
             else
             {
-                SpawnGroundBoss();
+                SpawnGroundBoss(groundBoss);
             }
         }
         

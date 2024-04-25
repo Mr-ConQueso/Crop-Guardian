@@ -999,6 +999,7 @@ GameObject:
   - component: {fileID: 464007100}
   - component: {fileID: 464007098}
   - component: {fileID: 464007099}
+  - component: {fileID: 464007101}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -1066,6 +1067,43 @@ MonoBehaviour:
   scoreText: {fileID: 2048831357}
   winLevelScreen: {fileID: 479892440}
   endGameScreen: {fileID: 2095138347}
+--- !u!114 &464007101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464007094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e583d40eb1d55ffed99a038dd34159e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowEndlessWaves: 1
+  flyingEnemyPrefabs:
+  - {fileID: 5292393993258775047, guid: 26576b9c8df1e571181b3732e2cf3e97, type: 3}
+  - {fileID: 5292393993258775047, guid: 370809f2184445a04974e96fa966d6c4, type: 3}
+  - {fileID: 5292393993258775047, guid: 6e967051126847aab9f12b4e43b2befd, type: 3}
+  flySpawnInterval: 2
+  flySpawnNumber: 1
+  flySpawnProbability: 1
+  sphereRadius: 10
+  groundEnemyPrefabs:
+  - {fileID: 5292393993258775047, guid: a76f2a295fcece20e8e25c4ce8dad075, type: 3}
+  - {fileID: 5292393993258775047, guid: 01504c73debfe363b809cafbce3f0d8e, type: 3}
+  - {fileID: 5292393993258775047, guid: 2cdcb189c20b0fe258f1128f405e7388, type: 3}
+  - {fileID: 5292393993258775047, guid: e78ce5c476babe404b0b4be6d683da82, type: 3}
+  groundSpawnInterval: 2
+  groundSpawnNumber: 1
+  groundSpawnProbability: 1
+  circleRadius: 10
+  spawnBoss: 1
+  groundBoss: {fileID: 5292393993258775047, guid: 0a0e00b190e773ab3bb551c5ae8a64e0,
+    type: 3}
+  flyBoss: {fileID: 5292393993258775047, guid: 3474266b2ae56979abe35b17e71eb10b, type: 3}
+  spawnBossPoints: 5
+  currentWaveScreen: {fileID: 1528218943}
+  currentWaveText: {fileID: 2000197675}
 --- !u!1 &479892440 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2111030259949379270, guid: 79033d9db80dab5518805fd93f0ec8dd,
@@ -1179,69 +1217,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f98b3ebfaeb3eb14a975fdee1cfe1c2, type: 3}
---- !u!1 &921601522
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 921601524}
-  - component: {fileID: 921601525}
-  m_Layer: 0
-  m_Name: EnemySpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &921601524
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 921601522}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 921708292}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &921601525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 921601522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84a08dd7041d4ca38ce7276e8ab713ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flyingEnemyPrefabs:
-  - {fileID: 5292393993258775047, guid: 26576b9c8df1e571181b3732e2cf3e97, type: 3}
-  - {fileID: 5292393993258775047, guid: 370809f2184445a04974e96fa966d6c4, type: 3}
-  - {fileID: 5292393993258775047, guid: 6e967051126847aab9f12b4e43b2befd, type: 3}
-  flySpawnInterval: 2
-  flySpawnNumber: 1
-  flySpawnProbability: 0.648
-  groundEnemyPrefabs:
-  - {fileID: 5292393993258775047, guid: a76f2a295fcece20e8e25c4ce8dad075, type: 3}
-  - {fileID: 5292393993258775047, guid: 01504c73debfe363b809cafbce3f0d8e, type: 3}
-  - {fileID: 5292393993258775047, guid: 2cdcb189c20b0fe258f1128f405e7388, type: 3}
-  - {fileID: 5292393993258775047, guid: e78ce5c476babe404b0b4be6d683da82, type: 3}
-  groundSpawnInterval: 2
-  groundSpawnProbability: 0.407
-  circleRadius: 10
-  groundBoss: {fileID: 5292393993258775047, guid: 0a0e00b190e773ab3bb551c5ae8a64e0,
-    type: 3}
-  flyBoss: {fileID: 5292393993258775047, guid: 3474266b2ae56979abe35b17e71eb10b, type: 3}
-  spawnBossPoints: 20
 --- !u!1 &921708291
 GameObject:
   m_ObjectHideFlags: 0
@@ -1271,7 +1246,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 921601524}
   - {fileID: 464007095}
   - {fileID: 1602822489}
   m_Father: {fileID: 0}

@@ -9,22 +9,20 @@ public class BaseEnemySpawn : MonoBehaviour
     protected float SphereRadius = 10f;
     protected int GroundSpawnNumber = 1;
     protected float CircleRadius = 10f;
-    protected GameObject GroundBoss;
-    protected GameObject FlyBoss;
     
     // ---- / Private Variables / ---- //
     private bool _spawnBoss;
 
-    protected virtual void SpawnFlyBoss()
+    protected virtual void SpawnFlyBoss(GameObject boss)
     {
         HasBossSpawned = true;
-        Instantiate(FlyBoss, GetPointOnSemiSphere(SphereRadius), Quaternion.identity);
+        Instantiate(boss, GetPointOnSemiSphere(SphereRadius), Quaternion.identity);
     }
     
-    protected virtual void SpawnGroundBoss()
+    protected virtual void SpawnGroundBoss(GameObject boss)
     {
         HasBossSpawned = true;
-        Instantiate(GroundBoss, GetPointOnCircle(SphereRadius), Quaternion.identity);
+        Instantiate(boss, GetPointOnCircle(SphereRadius), Quaternion.identity);
     }
 
     /// <summary>

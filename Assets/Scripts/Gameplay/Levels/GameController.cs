@@ -9,9 +9,6 @@ public class GameController : MonoBehaviour
     private const string HighestSurviveTimeKey = "HighestSurviveTimeKey";
     private const string HighScoreKey = "HighScore";
     
-    public static float HighestSurviveTime;
-    public static int CurrentScore;
-    
     // ---- / Serialized Variables / ---- //
     [Header("In-Game Info")]
     [SerializeField] private TMP_Text survivedTimeText;
@@ -24,6 +21,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject endGameScreen;
     
     // ---- / Private Variables / ---- //
+    private EnemySpawn _enemySpawn;
     private float _elapsedTime;
     private bool _isTimerRunning;
     private static float _highestSurviveTime;
@@ -80,6 +78,8 @@ public class GameController : MonoBehaviour
         
         _highestSurviveTime = PlayerPrefs.GetFloat(HighestSurviveTimeKey, 0f);
         _highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
+
+        _enemySpawn = GetComponent<EnemySpawn>();
         
         PlayerController.OnPlayerDeath += OnPlayerDeathHandler;
         BossEnemy.OnWinGame += OnWinGameHandler;
@@ -88,6 +88,7 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         scoreText.text = _currentScore.ToString();
+        
         
         if (_isTimerRunning)
         {
@@ -112,7 +113,14 @@ public class GameController : MonoBehaviour
     
     private void OnWinGameHandler()
     {
-        WinLevel();
+        if (!_enemySpawn.allowEndlessWaves)
+        {
+            WinLevel();
+        }
+        else
+        {
+            _enemySpawn.StartNextLevel();
+        }
     }
     
     public void WinLevel()
@@ -122,12 +130,12 @@ public class GameController : MonoBehaviour
     
     public static void AddScore(int amount)
     {
-        CurrentScore += amount;
+        _currentScore += amount;
     }
     
     public int GetCurrentScore()
     {
-        return CurrentScore;
+        return _currentScore;
     }
 
     private string FormatTimer(float time)
