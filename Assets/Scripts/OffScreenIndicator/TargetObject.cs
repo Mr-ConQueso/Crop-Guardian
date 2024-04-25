@@ -14,11 +14,14 @@ public class TargetObject : MonoBehaviour
 
         if (_uiController == null) Debug.LogError("No UIController component found");
 
-        _uiController.AddTargetIndicator(this.gameObject);
+        _uiController.AddTargetIndicator(gameObject);
     }
 
     private void OnDestroy()
     {
-        _uiController.RemoveTargetIndicator(this.gameObject);
+        if (gameObject != null)
+        {
+             _uiController.RemoveTargetIndicator(gameObject);
+        }
     }
 }

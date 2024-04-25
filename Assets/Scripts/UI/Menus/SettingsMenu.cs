@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Rendering;
 
 public class SettingsController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private TMP_Text qualityButtonText;
     [SerializeField] private TMP_Text fullScreenButtonText;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
+    [SerializeField] private Volume cRTVolume;
     
     // ---- / Private Variables / ---- //
     private int _currentAudioModeIndex;
@@ -39,6 +41,10 @@ public class SettingsController : MonoBehaviour
     public void OnClick_GoBack()
     {   
         MenuManager.OpenMenu(MenuManager.MainMenu != null ? Menu.MainMenu : Menu.PauseMenu, gameObject);
+        if (cRTVolume != null)
+        {
+            cRTVolume.enabled = false;
+        }
     }
 
     public void OnClick_ChangeAudioMode()
@@ -131,6 +137,9 @@ public class SettingsController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initialize the resolution dropdown and current resolution
+    /// </summary>
     private void InitResolution()
     {
         _resolutions = Screen.resolutions;
@@ -159,6 +168,12 @@ public class SettingsController : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
+    /// <summary>
+    /// Cycle between a given number and a maximum one
+    /// </summary>
+    /// <param name="numberToCycle"></param>
+    /// <param name="maxValue"></param>
+    /// <returns></returns>
     private int CycleNumber(int numberToCycle, int maxValue)
     {
         if (numberToCycle < maxValue)

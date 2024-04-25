@@ -1,13 +1,11 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 
 public class MainMenu : MonoBehaviour
 {
     public void OnClick_StartGame()
     {
-        SceneManager.LoadScene("Level0", LoadSceneMode.Single);
+        SceneManager.LoadScene("Level0");
     }
 
     public void OnClick_Exit()
@@ -18,6 +16,11 @@ public class MainMenu : MonoBehaviour
     public void OnClick_Settings()
     {
         MenuManager.OpenMenu(Menu.SettingsMenu, gameObject);
+    }
+    
+    public void OnClick_Credits()
+    {
+        SceneManager.LoadScene("CreditsMenu");
     }
     
     private void Start()

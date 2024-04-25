@@ -10,7 +10,7 @@ public class UIController : MonoBehaviour
         return _isGamePaused;
     }
 
-    public void SetGamePaused()
+    private static void TogglePauseState()
     {
         if (_isGamePaused)
         {
@@ -24,9 +24,10 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && 
+            (MenuManager.SettingsMenu.activeSelf == false && MenuManager.ExitMenu.activeSelf == false))
         {
-            SetGamePaused();
+            TogglePauseState();
         }
     }
 

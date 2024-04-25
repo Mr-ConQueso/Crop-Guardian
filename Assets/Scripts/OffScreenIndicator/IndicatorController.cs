@@ -36,7 +36,6 @@ public class IndicatorController : MonoBehaviour
         {
             if (targetIndicators[i].GetTarget() == target)
             {
-                Destroy(targetIndicators[i].gameObject);
                 targetIndicators.RemoveAt(i);
                 break;
             }
@@ -62,10 +61,12 @@ public class IndicatorController : MonoBehaviour
     {
         foreach (var indicator in targetIndicators)
         {
-            Destroy(indicator.gameObject);
+            if (indicator != null)
+            {
+                Destroy(indicator.gameObject);
+            }
         }
 
         targetIndicators.Clear();
-        //Destroy(parentFolder.gameObject);
     }
 }

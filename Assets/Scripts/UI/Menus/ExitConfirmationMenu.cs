@@ -15,7 +15,7 @@ public class ExitConfirmationMenu : MonoBehaviour
     
     public void OnClick_BackToMainMenu()
     {
-        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
+        SceneManager.LoadScene("StartMenu");
     }
 
     public void OnClick_StayInPauseMenu()

@@ -12,7 +12,7 @@ public class TargetIndicator : MonoBehaviour
     [SerializeField] private Color farFromPlayerColor = Color.red;
     
     // ---- / Private Variables / ---- //
-    private float OutOfSightOffest { get { return outOfSightOffset /* canvasRect.localScale.x*/; } }
+    private float OutOfSightOffset => outOfSightOffset;
     private GameObject _target;
     private Camera _mainCamera;
     private RectTransform _canvasRectTransform;
@@ -26,7 +26,7 @@ public class TargetIndicator : MonoBehaviour
     }
 
     /// <summary>
-    /// When creating a new target indicator, initialize it's values.
+    /// When creating a new target indicator, initialize its values.
     /// </summary>
     /// <param name="target"></param>
     /// <param name="mainCamera"></param>
@@ -66,7 +66,7 @@ public class TargetIndicator : MonoBehaviour
 
         //Get the position of the target in relation to the screenSpace 
         Vector3 indicatorPosition = _mainCamera.WorldToScreenPoint(_target.transform.position);
-        //Debug.Log("GO: "+ gameObject.name + "; slPos: " + indicatorPosition + "; cvWidth: " + canvasRect.rect.width + "; cvHeight: " + canvasRect.rect.height);
+        //Debug.Log("GO: "+ gameObject.name + "; sl Pos: " + indicatorPosition + "; cvWidth: " + canvasRect.rect.width + "; cvHeight: " + canvasRect.rect.height);
 
         //In case the target is both in front of the camera and within the bounds of its frustum
         if (indicatorPosition.z >= 0f & indicatorPosition.x <= _canvasRect.width * _canvasRectTransform.localScale.x
@@ -89,7 +89,7 @@ public class TargetIndicator : MonoBehaviour
         }
         else
         {
-            //Invert indicatorPosition! Otherwise the indicator's positioning will invert if the target is on the backside of the camera!
+            //Invert indicatorPosition! Otherwise, the indicator's positioning will invert if the target is on the backside of the camera!
             indicatorPosition *= -1f;
 
             //Set indicator position and set targetIndicator to outOfSight form.
@@ -111,7 +111,7 @@ public class TargetIndicator : MonoBehaviour
     /// <returns></returns>
     private Vector3 OutOfRangeIndicatorPosition(Vector3 indicatorPosition)
     {
-        //Set indicatorPosition.z to 0f; We don't need that and it'll actually cause issues if it's outside the camera range (which easily happens in my case)
+        //Set indicatorPosition.z to 0f; We don't need that, and it'll actually cause issues if it's outside the camera range (which easily happens in my case)
         indicatorPosition.z = 0f;
 
         //Calculate Center of Canvas and subtract from the indicator position to have indicatorCoordinates from the Canvas Center instead the bottom left!
@@ -120,14 +120,14 @@ public class TargetIndicator : MonoBehaviour
 
         //Calculate if Vector to target intersects (first) with y border of canvas rect or if Vector intersects (first) with x border:
         //This is required to see which border needs to be set to the max value and at which border the indicator needs to be moved (up & down or left & right)
-        float divX = (_canvasRect.width / 2f - OutOfSightOffest) / Mathf.Abs(indicatorPosition.x);
-        float divY = (_canvasRect.height / 2f - OutOfSightOffest) / Mathf.Abs(indicatorPosition.y);
+        float divX = (_canvasRect.width / 2f - OutOfSightOffset) / Mathf.Abs(indicatorPosition.x);
+        float divY = (_canvasRect.height / 2f - OutOfSightOffset) / Mathf.Abs(indicatorPosition.y);
 
         //In case it intersects with x border first, put the x-one to the border and adjust the y-one accordingly (Trigonometry)
         if (divX < divY)
         {
             float angle = Vector3.SignedAngle(Vector3.right, indicatorPosition, Vector3.forward);
-            indicatorPosition.x = Mathf.Sign(indicatorPosition.x) * (_canvasRect.width * 0.5f - OutOfSightOffest) * _canvasRectTransform.localScale.x;
+            indicatorPosition.x = Mathf.Sign(indicatorPosition.x) * (_canvasRect.width * 0.5f - OutOfSightOffset) * _canvasRectTransform.localScale.x;
             indicatorPosition.y = Mathf.Tan(Mathf.Deg2Rad * angle) * indicatorPosition.x;
         }
 
@@ -136,7 +136,7 @@ public class TargetIndicator : MonoBehaviour
         {
             float angle = Vector3.SignedAngle(Vector3.up, indicatorPosition, Vector3.forward);
 
-            indicatorPosition.y = Mathf.Sign(indicatorPosition.y) * (_canvasRect.height / 2f - OutOfSightOffest) * _canvasRectTransform.localScale.y;
+            indicatorPosition.y = Mathf.Sign(indicatorPosition.y) * (_canvasRect.height / 2f - OutOfSightOffset) * _canvasRectTransform.localScale.y;
             indicatorPosition.x = -Mathf.Tan(Mathf.Deg2Rad * angle) * indicatorPosition.y;
         }
 

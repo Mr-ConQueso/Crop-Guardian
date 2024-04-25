@@ -6,10 +6,6 @@ public class PlayerController : MonoBehaviour
     // ---- / Static Variables / ---- //
     private static bool _isDead;
     
-    // ---- / Public Variables / ---- //
-    public delegate void DeathEventHandler();
-    public static event DeathEventHandler OnPlayerDeath;
-    
     // ---- / Serialized Variables / ---- //
     [Header("Other")]
     [SerializeField] private float deathRadius;
@@ -35,12 +31,14 @@ public class PlayerController : MonoBehaviour
     private int _bulletAmount;
     private bool _isAiming;
     private float _aimTransitionStartTime;
-    private GameController _gameController;
+    
+    // ---- / Events / ---- //
+    public delegate void DeathEventHandler();
+    public static event DeathEventHandler OnPlayerDeath;
     
     private void Start()
     {
         _mainCamera = Camera.main;
-        _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
         _bulletAmount = initialBulletAmount;
         InvokeRepeating(nameof(AddBullet), bulletRecoveryTime, bulletRecoveryTime);
@@ -162,9 +160,9 @@ public class PlayerController : MonoBehaviour
             OnPlayerDeath?.Invoke();
             _isDead = true;
             
-            foreach (Collider collider in colliders)
+            foreach (Collider enemyCollider in colliders)
             {
-                Destroy(collider.gameObject);
+                Destroy(enemyCollider.gameObject);
             }
         }
     }
