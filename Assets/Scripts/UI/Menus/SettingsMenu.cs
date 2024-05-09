@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -126,7 +125,6 @@ public class SettingsController : MonoBehaviour
     private void Start()
     {
         _audioConfiguration = AudioSettings.GetConfiguration();
-        InitResolution();
     }
     
     private void Update()
@@ -136,7 +134,8 @@ public class SettingsController : MonoBehaviour
             OnClick_GoBack();
         }
     }
-
+    
+    /*
     /// <summary>
     /// Initialize the resolution dropdown and current resolution
     /// </summary>
@@ -167,6 +166,7 @@ public class SettingsController : MonoBehaviour
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
     }
+    */
 
     /// <summary>
     /// Cycle between a given number and a maximum one
