@@ -3,8 +3,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     // ---- / Children Variables / ---- //
-    protected float MoveSpeed = 1.0f;
-    protected int Health = 1;
+    [SerializeField] protected float MoveSpeed = 1.0f;
+    [SerializeField] protected int Health = 1;
     
     // ---- / Private Variables / ---- //
     private Transform _enemyTransform;

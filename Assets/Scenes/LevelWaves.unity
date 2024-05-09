@@ -936,7 +936,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 464007094}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e583d40eb1d55ffed99a038dd34159e3, type: 3}
   m_Name: 
@@ -949,7 +949,7 @@ MonoBehaviour:
   flySpawnInterval: 2
   flySpawnNumber: 1
   flySpawnProbability: 1
-  sphereRadius: 10
+  sphereRadius: 40
   groundEnemyPrefabs:
   - {fileID: 5292393993258775047, guid: a76f2a295fcece20e8e25c4ce8dad075, type: 3}
   - {fileID: 5292393993258775047, guid: 01504c73debfe363b809cafbce3f0d8e, type: 3}
@@ -958,7 +958,7 @@ MonoBehaviour:
   groundSpawnInterval: 2
   groundSpawnNumber: 1
   groundSpawnProbability: 1
-  circleRadius: 10
+  circleRadius: 50
   spawnBoss: 1
   groundBoss: {fileID: 5292393993258775047, guid: 0a0e00b190e773ab3bb551c5ae8a64e0,
     type: 3}

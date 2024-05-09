@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject endGameScreen;
     
     // ---- / Private Variables / ---- //
-    private EnemySpawn _enemySpawn;
+    private BaseEnemySpawn _enemySpawner;
     private float _elapsedTime;
     private bool _isTimerRunning;
     private static float _highestSurviveTime;
@@ -79,7 +79,7 @@ public class GameController : MonoBehaviour
         _highestSurviveTime = PlayerPrefs.GetFloat(HighestSurviveTimeKey, 0f);
         _highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
 
-        _enemySpawn = GetComponent<EnemySpawn>();
+        _enemySpawner = GetComponent<LevelsEnemySpawn>();
         
         PlayerController.OnPlayerDeath += OnPlayerDeathHandler;
         BossEnemy.OnWinGame += OnWinGameHandler;
@@ -113,14 +113,13 @@ public class GameController : MonoBehaviour
     
     private void OnWinGameHandler()
     {
-        if (!_enemySpawn.allowEndlessWaves)
+        /*
+        if (!_enemySpawner.)
         {
             WinLevel();
         }
-        else
-        {
-            _enemySpawn.StartNextLevel();
-        }
+        */
+        _enemySpawner.NextLevel();
     }
     
     public void WinLevel()

@@ -6,24 +6,21 @@ public class SetResolution : MonoBehaviour
     private float _lastWidth;
     private float _lastHeight;
     
-    private void Awake()
+    private void Start()
     {
-        Screen.SetResolution(1440, 1080, Screen.fullScreenMode);
+        SetRatio(4, 3);
         DontDestroyOnLoad(this.gameObject);
     }
-
-    private void Update()
+    
+    private void SetRatio(float width, float height)
     {
-        if(Mathf.Approximately(_lastWidth, Screen.width))
+        if ((((float)Screen.width) / ((float)Screen.height)) > width / height)
         {
-            Screen.SetResolution(Screen.width, (int)(Screen.width * (16f / 9f)), Screen.fullScreenMode);
+            Screen.SetResolution((int)(((float)Screen.height) * (width / height)), Screen.height, false);
         }
-        else if(Mathf.Approximately(_lastHeight, Screen.height))
+        else
         {
-            Screen.SetResolution((int)(Screen.height * (9f / 16f)), Screen.height, Screen.fullScreenMode);
+            Screen.SetResolution(Screen.width, (int)(((float)Screen.width) * (height / width)), false);
         }
-
-        _lastWidth = Screen.width;
-        _lastHeight = Screen.height;
     }
 }

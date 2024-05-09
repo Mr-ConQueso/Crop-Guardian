@@ -1,8 +1,11 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class WavesEnemySpawn : BaseEnemySpawn
+public class LevelsEnemySpawn : BaseEnemySpawn
 {
+    // ---- / Private Variables / ---- //
+    private bool _spawnBoss;
+
     private void Start()
     {
         GameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -10,7 +13,12 @@ public class WavesEnemySpawn : BaseEnemySpawn
 
     private void Update()
     {
-        if (GameController.GetCurrentScore() >= spawnBossPoints && !HasBossSpawned)
+        SingleLevel();
+    }
+
+    private void SingleLevel()
+    {
+        if (GameController.GetCurrentScore() >= spawnBossPoints && !HasBossSpawned && _spawnBoss)
         {
             if (Random.value >= 0.5)
             {
@@ -20,6 +28,10 @@ public class WavesEnemySpawn : BaseEnemySpawn
             {
                 SpawnGroundBoss(groundBoss, circleRadius);
             }
+        }
+        if (GameController.GetCurrentScore() > spawnBossPoints && !_spawnBoss)
+        {
+            GameController.WinLevel();
         }
         
         if (!HasBossSpawned)

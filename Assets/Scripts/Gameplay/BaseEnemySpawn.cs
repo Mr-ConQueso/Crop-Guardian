@@ -6,23 +6,41 @@ public class BaseEnemySpawn : MonoBehaviour
     // ---- / Parent Variables / ---- //
     protected float SpawnTimer;
     protected bool HasBossSpawned;
-    protected float SphereRadius = 10f;
-    protected int GroundSpawnNumber = 1;
-    protected float CircleRadius = 10f;
+    protected GameController GameController;
     
-    // ---- / Private Variables / ---- //
-    private bool _spawnBoss;
+    // ---- / Serialized Variables / ---- //
+    [Header("Flying Enemies")]
+    [SerializeField] protected GameObject[] flyingEnemyPrefabs;
+    [SerializeField] protected float flySpawnInterval = 2f;
+    [SerializeField] protected int flySpawnNumber = 1;
+    [Range(0, 1)]
+    [SerializeField] protected float flySpawnProbability = 1f;
+    [SerializeField] protected float circleRadius = 10f;
+    
+    [Header("Ground Enemies")]
+    [SerializeField] protected GameObject[] groundEnemyPrefabs;
+    [SerializeField] protected float groundSpawnInterval = 2f;
+    [SerializeField] protected int groundSpawnNumber = 1;
+    [Range(0, 1)]
+    [SerializeField] protected float groundSpawnProbability = 1f;
+    [SerializeField] protected float sphereRadius = 10f;
+    
+    [Header("Bosses")]
+    [SerializeField] protected GameObject groundBoss;
+    [SerializeField] protected GameObject flyBoss;
 
-    protected virtual void SpawnFlyBoss(GameObject boss)
+    [SerializeField] protected int spawnBossPoints;
+
+    protected virtual void SpawnFlyBoss(GameObject boss, float sphereRadius)
     {
         HasBossSpawned = true;
-        Instantiate(boss, GetPointOnSemiSphere(SphereRadius), Quaternion.identity);
+        Instantiate(boss, GetPointOnSemiSphere(sphereRadius), Quaternion.identity);
     }
     
-    protected virtual void SpawnGroundBoss(GameObject boss)
+    protected virtual void SpawnGroundBoss(GameObject boss, float circleRadius)
     {
         HasBossSpawned = true;
-        Instantiate(boss, GetPointOnCircle(SphereRadius), Quaternion.identity);
+        Instantiate(boss, GetPointOnCircle(circleRadius), Quaternion.identity);
     }
 
     /// <summary>
@@ -31,12 +49,12 @@ public class BaseEnemySpawn : MonoBehaviour
     /// </summary>
     /// <param name="numberOfPrefabs"></param>
     /// <param name="flyingEnemyPrefabs"></param>
-    protected virtual void SpawnFlyingEnemies(int numberOfPrefabs, GameObject[] flyingEnemyPrefabs)
+    protected virtual void SpawnFlyingEnemies(int numberOfPrefabs, GameObject[] flyingEnemyPrefabs, float sphereRadius)
     {
         for (int i = 0; i < numberOfPrefabs; i++)
         {
             GameObject prefabToSpawn = flyingEnemyPrefabs[Random.Range(0, flyingEnemyPrefabs.Length)];
-            Instantiate(prefabToSpawn, GetPointOnSemiSphere(SphereRadius), Quaternion.identity);
+            Instantiate(prefabToSpawn, GetPointOnSemiSphere(sphereRadius), Quaternion.identity);
         }
     }
 
@@ -46,12 +64,12 @@ public class BaseEnemySpawn : MonoBehaviour
     /// </summary>
     /// <param name="numberOfPrefabs"></param>
     /// <param name="groundEnemyPrefabs"></param>
-    protected virtual void SpawnGroundEnemies(int numberOfPrefabs, GameObject[] groundEnemyPrefabs)
+    protected virtual void SpawnGroundEnemies(int numberOfPrefabs, GameObject[] groundEnemyPrefabs, float circleRadius)
     {
         for (int i = 0; i < numberOfPrefabs; i++)
         {
             GameObject prefabToSpawn = groundEnemyPrefabs[Random.Range(0, groundEnemyPrefabs.Length)];
-            Instantiate(prefabToSpawn, GetPointOnCircle(CircleRadius), Quaternion.identity);
+            Instantiate(prefabToSpawn, GetPointOnCircle(circleRadius), Quaternion.identity);
         }
     }
 
@@ -80,6 +98,10 @@ public class BaseEnemySpawn : MonoBehaviour
         } while (randomPoint.y < 0);
 
         return transform.position + randomPoint * radius;
+    }
+    
+    public virtual void NextLevel()
+    {
     }
 
 }
