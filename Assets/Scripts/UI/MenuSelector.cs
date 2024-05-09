@@ -6,7 +6,6 @@ public class MenuSelector : MonoBehaviour
 {
     // ---- / Serialized Variables / ---- //
     [SerializeField] private Vector3 selectorOffset;
-    [SerializeField] private bool isCameraOverlay = true;
     
     // ---- / Private Variables / ---- //
     private RectTransform _selector;
@@ -64,7 +63,7 @@ public class MenuSelector : MonoBehaviour
 
     private void SetPosition(int index)
     {
-        var finalOffset = selectorOffset - new Vector3(_selectableItems[index].GetComponent<RectTransform>().rect.width / GetCameraOffset(), 0, 0);
+        var finalOffset = selectorOffset - new Vector3(_selectableItems[index].GetComponent<RectTransform>().rect.width / 16, 0, 0);
         _selector.position = _selectableItems[index].transform.position + finalOffset;
         
         _selectableItems[index].Select();
@@ -81,14 +80,5 @@ public class MenuSelector : MonoBehaviour
     private static Transform FindChildWithTag(Component root, string tag)
     {
         return root.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.CompareTag(tag));
-    }
-
-    private int GetCameraOffset()
-    {
-        return isCameraOverlay switch
-        {
-            true => 2,
-            false => 16
-        };
     }
 }

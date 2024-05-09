@@ -5,7 +5,7 @@ public class MainMenu : MonoBehaviour
 {
     public void OnClick_StartGame()
     {
-        SceneManager.LoadScene("Level0");
+        SceneManager.LoadScene("LevelWaves");
     }
 
     public void OnClick_Exit()

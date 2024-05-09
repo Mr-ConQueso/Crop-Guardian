@@ -494,8 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d86dd13f8e9a29fca0d7e943c771fae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectorOffset: {x: 0, y: 0, z: 0}
-  isCameraOverlay: 1
+  selectorOffset: {x: 30.8, y: 0, z: 0}
 --- !u!114 &7239517810455130672
 MonoBehaviour:
   m_ObjectHideFlags: 0
