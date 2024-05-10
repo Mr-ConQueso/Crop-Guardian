@@ -18,7 +18,7 @@ public class LevelsEnemySpawn : BaseEnemySpawn
 
     private void SingleLevel()
     {
-        if (GameController.GetCurrentScore() >= spawnBossPoints && !HasBossSpawned && _spawnBoss)
+        if (GameController.Instance.CurrentScore >= spawnBossPoints && !HasBossSpawned && _spawnBoss)
         {
             if (Random.value >= 0.5)
             {
@@ -29,7 +29,7 @@ public class LevelsEnemySpawn : BaseEnemySpawn
                 SpawnGroundBoss(groundBoss, circleRadius);
             }
         }
-        if (GameController.GetCurrentScore() > spawnBossPoints && !_spawnBoss)
+        if (GameController.Instance.CurrentScore > spawnBossPoints && !_spawnBoss)
         {
             GameController.WinLevel();
         }

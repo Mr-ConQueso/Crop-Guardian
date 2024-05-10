@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    // ---- / Events / ---- //
+    public delegate void DefeatEnemyEventHandler();
+    public static event DefeatEnemyEventHandler OnDefeatEnemy;
+    
     // ---- / Children Variables / ---- //
     [SerializeField] protected float MoveSpeed = 1.0f;
     [SerializeField] protected int Health = 1;
@@ -30,6 +34,7 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     protected virtual void KillSelf()
     {
+        OnDefeatEnemy?.Invoke();
         Destroy(gameObject);
     }
     

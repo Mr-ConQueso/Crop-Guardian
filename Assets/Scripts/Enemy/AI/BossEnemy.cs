@@ -3,12 +3,12 @@ namespace Enemy
     public class BossEnemy : EnemyController
     {
         // ---- / Events / ---- //
-        public delegate void WinGameEventHandler();
-        public static event WinGameEventHandler OnWinGame;
+        public delegate void DefeatBossEventHandler();
+        public static event DefeatBossEventHandler OnDefeatBoss;
         
         protected override void KillSelf()
         {
-            OnWinGame?.Invoke();
+            OnDefeatBoss?.Invoke();
             Destroy(gameObject);
         }
     }

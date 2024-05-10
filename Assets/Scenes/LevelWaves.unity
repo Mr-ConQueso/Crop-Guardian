@@ -702,6 +702,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EndGame
       objectReference: {fileID: 0}
+    - target: {fileID: 7597008466373160239, guid: 0faeaceea2d5f1429a505afd6bc6a879,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -942,8 +947,8 @@ GameObject:
   - component: {fileID: 464007100}
   - component: {fileID: 464007098}
   - component: {fileID: 464007099}
-  - component: {fileID: 464007101}
   - component: {fileID: 464007102}
+  - component: {fileID: 464007103}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -1007,43 +1012,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d33914a52107731aa0eed03285125d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highestSurviveTime: 0
+  highScore: 0
   survivedTimeText: {fileID: 1367863866}
   scoreText: {fileID: 2048831357}
   winLevelScreen: {fileID: 1723276187}
   endGameScreen: {fileID: 362416665}
---- !u!114 &464007101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 464007094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e583d40eb1d55ffed99a038dd34159e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flyingEnemyPrefabs:
-  - {fileID: 5292393993258775047, guid: 26576b9c8df1e571181b3732e2cf3e97, type: 3}
-  - {fileID: 5292393993258775047, guid: 370809f2184445a04974e96fa966d6c4, type: 3}
-  - {fileID: 5292393993258775047, guid: 6e967051126847aab9f12b4e43b2befd, type: 3}
-  flySpawnInterval: 2
-  flySpawnNumber: 1
-  flySpawnProbability: 1
-  circleRadius: 50
-  groundEnemyPrefabs:
-  - {fileID: 5292393993258775047, guid: a76f2a295fcece20e8e25c4ce8dad075, type: 3}
-  - {fileID: 5292393993258775047, guid: 01504c73debfe363b809cafbce3f0d8e, type: 3}
-  - {fileID: 5292393993258775047, guid: 2cdcb189c20b0fe258f1128f405e7388, type: 3}
-  - {fileID: 5292393993258775047, guid: e78ce5c476babe404b0b4be6d683da82, type: 3}
-  groundSpawnInterval: 2
-  groundSpawnNumber: 1
-  groundSpawnProbability: 1
-  sphereRadius: 40
-  groundBoss: {fileID: 5292393993258775047, guid: 0a0e00b190e773ab3bb551c5ae8a64e0,
-    type: 3}
-  flyBoss: {fileID: 5292393993258775047, guid: 3474266b2ae56979abe35b17e71eb10b, type: 3}
-  spawnBossPoints: 5
 --- !u!82 &464007102
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1141,6 +1115,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &464007103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464007094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a08dd7041d4ca38ce7276e8ab713ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flyingEnemyPrefabs:
+  - {fileID: 5292393993258775047, guid: 26576b9c8df1e571181b3732e2cf3e97, type: 3}
+  - {fileID: 5292393993258775047, guid: 370809f2184445a04974e96fa966d6c4, type: 3}
+  - {fileID: 5292393993258775047, guid: 6e967051126847aab9f12b4e43b2befd, type: 3}
+  flySpawnInterval: 2
+  flySpawnNumber: 1
+  flySpawnProbability: 1
+  circleRadius: 20
+  groundEnemyPrefabs:
+  - {fileID: 5292393993258775047, guid: a76f2a295fcece20e8e25c4ce8dad075, type: 3}
+  - {fileID: 5292393993258775047, guid: 01504c73debfe363b809cafbce3f0d8e, type: 3}
+  - {fileID: 5292393993258775047, guid: 2cdcb189c20b0fe258f1128f405e7388, type: 3}
+  - {fileID: 5292393993258775047, guid: e78ce5c476babe404b0b4be6d683da82, type: 3}
+  groundSpawnInterval: 2
+  groundSpawnNumber: 1
+  groundSpawnProbability: 1
+  sphereRadius: 20
+  sphereMinHeight: 25
+  groundBoss: {fileID: 5292393993258775047, guid: 0a0e00b190e773ab3bb551c5ae8a64e0,
+    type: 3}
+  flyBoss: {fileID: 5292393993258775047, guid: 3474266b2ae56979abe35b17e71eb10b, type: 3}
+  spawnBossPoints: 10
+  wavesScreen: {fileID: 296401163}
+  wavesScreenText: {fileID: 1870194038}
 --- !u!1001 &478902090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1153,6 +1163,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WinLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111030259949379270, guid: 79033d9db80dab5518805fd93f0ec8dd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3574300069058583150, guid: 79033d9db80dab5518805fd93f0ec8dd,
         type: 3}

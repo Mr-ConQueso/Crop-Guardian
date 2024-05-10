@@ -1,16 +1,38 @@
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class WavesEnemySpawn : BaseEnemySpawn
 {
+    // ---- / Public Variables / ---- //
+    public int CurrentWaveScore { get; private set; }
+    
+    // ---- / Serialized Variables / ---- //
+    [SerializeField] private GameObject wavesScreen;
+    [SerializeField] private TMP_Text wavesScreenText;
+
+    // ---- / Private Variables / ---- //   
+    private int _currentWave = 1;
+
     private void Start()
     {
         GameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        EnemyController.OnDefeatEnemy += OnDefeatEnemyHandler;
+    }
+
+    private void OnDestroy()
+    {
+        EnemyController.OnDefeatEnemy -= OnDefeatEnemyHandler;
     }
 
     private void Update()
     {
-        if (GameController.GetCurrentScore() >= spawnBossPoints && !HasBossSpawned)
+        Waves();
+    }
+
+    private void Waves()
+    {
+        if (CurrentWaveScore >= spawnBossPoints && !HasBossSpawned)
         {
             if (Random.value >= 0.5)
             {
@@ -37,5 +59,39 @@ public class WavesEnemySpawn : BaseEnemySpawn
                 SpawnGroundEnemies(groundSpawnNumber, groundEnemyPrefabs, circleRadius);
             }
         }
+    }
+
+    public override void NextLevel()
+    {
+        HasBossSpawned = false;
+        CurrentWaveScore = 0;
+        _currentWave++;
+        wavesScreen.SetActive(true);
+        wavesScreenText.text = "Wave : " + _currentWave;
+        Invoke(nameof(HideWaveMenu), 1.35f);
+        AddWaveDifficulty();
+    }
+
+    private void AddWaveDifficulty()
+    {
+        flySpawnInterval -= 0.1f;
+        flySpawnNumber += 1;
+        flySpawnProbability += 0.1f;
+        
+        groundSpawnInterval -= 0.1f;
+        groundSpawnNumber += 1;
+        groundSpawnProbability += 0.1f;
+
+        spawnBossPoints += 1;
+    }
+
+    private void HideWaveMenu()
+    {
+        wavesScreen.SetActive(false);
+    }
+    
+    private void OnDefeatEnemyHandler()
+    {
+        CurrentWaveScore++;
     }
 }

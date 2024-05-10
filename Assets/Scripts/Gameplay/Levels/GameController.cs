@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    // ---- / Singleton / ---- //
+    public static GameController Instance;
+    
     // ---- / Static Variables / ---- //
     public static bool IsGameEnded;
     private const string HighestSurviveTimeKey = "HighestSurviveTimeKey";
     private const string HighScoreKey = "HighScore";
+    
+    public float highestSurviveTime;
+    public int CurrentScore { get; private set; }
+    public int highScore;
     
     // ---- / Serialized Variables / ---- //
     [Header("In-Game Info")]
@@ -21,17 +28,23 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject endGameScreen;
     
     // ---- / Private Variables / ---- //
-    private BaseEnemySpawn _enemySpawner;
+    private WavesEnemySpawn _enemySpawner;
     private float _elapsedTime;
     private bool _isTimerRunning;
-    private static float _highestSurviveTime;
-    private static int _currentScore;
-    private int _highScore;
-    
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
     private void OnDestroy()
     {
         PlayerController.OnPlayerDeath -= OnPlayerDeathHandler;
-        BossEnemy.OnWinGame -= OnWinGameHandler;
+        BossEnemy.OnDefeatBoss -= OnDefeatBossHandler;
+        EnemyController.OnDefeatEnemy -= OnDefeatEnemyHandler;
     }
 
     private void StartTimer()
@@ -46,22 +59,22 @@ public class GameController : MonoBehaviour
     
     private void UpdateSurvivedTime(float newScore)
     {
-        if (newScore > _highestSurviveTime)
+        if (newScore > highestSurviveTime)
         {
-            _highestSurviveTime = newScore;
+            highestSurviveTime = newScore;
             
-            PlayerPrefs.SetFloat(HighestSurviveTimeKey, _highestSurviveTime);
+            PlayerPrefs.SetFloat(HighestSurviveTimeKey, highestSurviveTime);
             PlayerPrefs.Save();
         }
     }
     
     private void UpdateHighScore(int newScore)
     {
-        if (newScore > _highScore)
+        if (newScore > highScore)
         {
-            _highScore = newScore;
+            highScore = newScore;
             
-            PlayerPrefs.SetFloat(HighestSurviveTimeKey, _highScore);
+            PlayerPrefs.SetFloat(HighestSurviveTimeKey, highScore);
             PlayerPrefs.Save();
         }
     }
@@ -76,20 +89,18 @@ public class GameController : MonoBehaviour
         endGameScreen.SetActive(false);
         StartTimer();
         
-        _highestSurviveTime = PlayerPrefs.GetFloat(HighestSurviveTimeKey, 0f);
-        _highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
+        highestSurviveTime = PlayerPrefs.GetFloat(HighestSurviveTimeKey, 0f);
+        highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
 
-        _enemySpawner = GetComponent<LevelsEnemySpawn>();
+        _enemySpawner = GetComponent<WavesEnemySpawn>();
         
         PlayerController.OnPlayerDeath += OnPlayerDeathHandler;
-        BossEnemy.OnWinGame += OnWinGameHandler;
+        BossEnemy.OnDefeatBoss += OnDefeatBossHandler;
+        EnemyController.OnDefeatEnemy += OnDefeatEnemyHandler;
     }
     
     private void Update()
     {
-        scoreText.text = _currentScore.ToString();
-        
-        
         if (_isTimerRunning)
         {
             _elapsedTime += Time.deltaTime;
@@ -111,15 +122,17 @@ public class GameController : MonoBehaviour
         EndGame();
     }
     
-    private void OnWinGameHandler()
+    private void OnDefeatBossHandler()
     {
-        /*
-        if (!_enemySpawner.)
+        if (_enemySpawner is LevelsEnemySpawn)
         {
             WinLevel();
         }
-        */
-        _enemySpawner.NextLevel();
+        else if (_enemySpawner is WavesEnemySpawn)
+        {
+            _enemySpawner.NextLevel();
+        }
+        OnDefeatEnemyHandler();
     }
     
     public void WinLevel()
@@ -127,14 +140,9 @@ public class GameController : MonoBehaviour
         StopGame(winLevelScreen);
     }
     
-    public static void AddScore(int amount)
+    public void AddScore(int amount)
     {
-        _currentScore += amount;
-    }
-    
-    public int GetCurrentScore()
-    {
-        return _currentScore;
+        CurrentScore += amount;
     }
 
     private string FormatTimer(float time)
@@ -159,23 +167,29 @@ public class GameController : MonoBehaviour
         Cursor.visible = true;
 
         UpdateSurvivedTime(_elapsedTime);
-        UpdateHighScore(_currentScore);
+        UpdateHighScore(CurrentScore);
 
         SetMaxScoreAndTime textComponents = screenToActivate.GetComponent<SetMaxScoreAndTime>();
         
-        textComponents.scoreText.text = FormatTimer(_highestSurviveTime);
-        textComponents.timeText.text = _highScore.ToString();
+        textComponents.scoreText.text = FormatTimer(highestSurviveTime);
+        textComponents.timeText.text = highScore.ToString();
     }
 
     private void RestartLevel()
     {
         PlayerController._isDead = false;
-        _currentScore = 0;
+        CurrentScore = 0;
 
         IsGameEnded = false;
         UIController.UnPauseGame();
         
         endGameScreen.SetActive(false);
         winLevelScreen.SetActive(false);
+    }
+    
+    private void OnDefeatEnemyHandler()
+    {
+        CurrentScore++;
+        scoreText.text = CurrentScore.ToString();
     }
 }

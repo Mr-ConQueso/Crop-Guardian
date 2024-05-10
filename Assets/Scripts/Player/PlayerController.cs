@@ -113,8 +113,6 @@ public class PlayerController : MonoBehaviour
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(1);
-
-                    GameController.AddScore(1);
                 }
                 
                 if (hit.collider.CompareTag("Boss"))

@@ -24,6 +24,7 @@ public class BaseEnemySpawn : MonoBehaviour
     [Range(0, 1)]
     [SerializeField] protected float groundSpawnProbability = 1f;
     [SerializeField] protected float sphereRadius = 10f;
+    [SerializeField] protected float sphereMinHeight = 35f;
     
     [Header("Bosses")]
     [SerializeField] protected GameObject groundBoss;
@@ -95,13 +96,21 @@ public class BaseEnemySpawn : MonoBehaviour
         do
         {
             randomPoint = Random.onUnitSphere;
-        } while (randomPoint.y < 0);
+        } while (randomPoint.y < sphereMinHeight || randomPoint.y > GetMaxSpawnHeight());
 
         return transform.position + randomPoint * radius;
     }
     
-    public virtual void NextLevel()
-    {
-    }
+    public virtual void NextLevel() { }
 
+    protected float GetMaxSpawnHeight()
+    {
+        float playerHeight = 2.2f;
+        float sphereImpactWidth = playerHeight * Mathf.Tan(30);
+
+        float halfHeight = sphereImpactWidth * Mathf.Tan(30);
+        
+        Debug.Log(playerHeight + halfHeight);
+        return playerHeight + halfHeight;
+    }
 }
