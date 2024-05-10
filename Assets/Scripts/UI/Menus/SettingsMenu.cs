@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -12,7 +11,6 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private TMP_Text audioModeButtonText;
     [SerializeField] private TMP_Text qualityButtonText;
     [SerializeField] private TMP_Text fullScreenButtonText;
-    [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private Volume cRTVolume;
     
     // ---- / Private Variables / ---- //

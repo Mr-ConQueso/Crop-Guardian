@@ -90,12 +90,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: -1
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 8542985665337185119}
+    m_SelectOnDown: {fileID: 8542985665337185119}
+    m_SelectOnLeft: {fileID: 8542985665337185119}
+    m_SelectOnRight: {fileID: 8542985665337185119}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -223,12 +223,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: -1
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 1013293374867459091}
+    m_SelectOnDown: {fileID: 1013293374867459091}
+    m_SelectOnLeft: {fileID: 1013293374867459091}
+    m_SelectOnRight: {fileID: 1013293374867459091}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -763,6 +763,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d86dd13f8e9a29fca0d7e943c771fae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelectableItems:
+  - {fileID: 328600626425466831}
+  - {fileID: 1014231463397517481}
 --- !u!114 &2518250639594945882
 MonoBehaviour:
   m_ObjectHideFlags: 0

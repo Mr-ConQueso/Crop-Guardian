@@ -1,59 +1,56 @@
+using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MenuSelector : MonoBehaviour
 {
-    // ---- / Private Variables / ---- //
-    private Selectable[] _selectableItems;
-    private int _currentSelectionIndex;
+    // ---- / Singleton / ---- //
+    public static MenuSelector Instance;
+    
+    // ---- / Public Variables / ---- //
+    public GameObject LastSelected { get; set; }
+    public int LastSelectedIndex { get; set; }
+    public GameObject[] SelectableItems;
 
     private void Awake()
     {
-        // ---- / Get All The Selectable Items / ---- //
-        _selectableItems = gameObject.GetComponentsInChildren<Selectable>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetButtonDown("SelectDown"))
+        if (Instance == null)
         {
-            SelectNextItem();
+            Instance = this;
         }
-        else if (Input.GetButtonDown("SelectUp"))
-        {
-            SelectPreviousItem();
-        }
-        ChangeSliderValue(_currentSelectionIndex, Input.GetAxis("Horizontal"));
-        
-        if (Input.GetButtonDown("Submit"))
-        {
-            ClickItem(_currentSelectionIndex);
-        }
-    }
-
-    private void SelectNextItem()
-    {
-        _currentSelectionIndex = (_currentSelectionIndex + 1) % _selectableItems.Length;
     }
     
-    private void SelectPreviousItem()
+    private void OnEnable()
     {
-        _currentSelectionIndex = (_currentSelectionIndex - 1 + _selectableItems.Length) % _selectableItems.Length;
+        StartCoroutine(SelectAfterOneFrame());
     }
-
-    private void ChangeSliderValue(int index, float amount)
+    
+    private void Update()
     {
-        if (_selectableItems[index] is Slider slider)
+        if (InputManager.Instance.NavigationInput.x > 0)
         {
-            slider.value += amount / 100;
+            HandleNextButtonSelection(1);
+        }
+        if (InputManager.Instance.NavigationInput.x < 0)
+        {
+            HandleNextButtonSelection(-1);
         }
     }
 
-    private void ClickItem(int index)
+    private void HandleNextButtonSelection(int addition)
     {
-        if (_selectableItems[index] is Button button)
+        if (EventSystem.current.currentSelectedGameObject == null && LastSelected != null)
         {
-            button.onClick.Invoke();
+            int newIndex = LastSelectedIndex + addition;
+            newIndex = Mathf.Clamp(newIndex, 0, SelectableItems.Length - 1);
+            EventSystem.current.SetSelectedGameObject(SelectableItems[newIndex]);
         }
+    }
+
+    private IEnumerator SelectAfterOneFrame()
+    {
+        EventSystem.current.SetSelectedGameObject(SelectableItems[0]);
+        yield return null;
     }
 }

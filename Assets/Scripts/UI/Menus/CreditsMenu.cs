@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CreditsMenu : MonoBehaviour
 {
     public void OnClick_GoBack()
     {   
-        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
+        MenuManager.OpenMenu(Menu.MainMenu, gameObject);
     }
     
     private void Update()

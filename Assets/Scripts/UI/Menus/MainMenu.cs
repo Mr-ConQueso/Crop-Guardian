@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
     
     public void OnClick_Credits()
     {
-        SceneManager.LoadScene("CreditsMenu");
+        MenuManager.OpenMenu(Menu.CreditsMenu, gameObject);
     }
     
     private void Start()

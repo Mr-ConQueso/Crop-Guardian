@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Frontend/StartMenu.unity
     guid: 8aace9b62c549d0698fe3b8726154427
   - enabled: 1
-    path: Assets/Scenes/Frontend/CreditsMenu.unity
-    guid: 7adc1952a1010172680ee7b48381be7c
-  - enabled: 1
     path: Assets/Scenes/LevelWaves.unity
     guid: 6dcfb10ce34bfb613990172505a0a380
   - enabled: 1
