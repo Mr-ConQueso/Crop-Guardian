@@ -1,0 +1,34 @@
+{
+    "name": "IA_Controls",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "402cd268-98d4-4ff0-bed0-4a8be3e89dad",
+            "actions": [
+                {
+                    "name": "Shoot",
+                    "type": "Button",
+                    "id": "4fe5fcfb-301b-4869-ba07-339afd21323b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f6a4db7f-b637-4ce6-b9c8-da43f421c2f9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

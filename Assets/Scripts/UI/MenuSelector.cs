@@ -1,14 +1,9 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuSelector : MonoBehaviour
 {
-    // ---- / Serialized Variables / ---- //
-    [SerializeField] private Vector3 selectorOffset;
-    
     // ---- / Private Variables / ---- //
-    private RectTransform _selector;
     private Selectable[] _selectableItems;
     private int _currentSelectionIndex;
 
@@ -16,11 +11,6 @@ public class MenuSelector : MonoBehaviour
     {
         // ---- / Get All The Selectable Items / ---- //
         _selectableItems = gameObject.GetComponentsInChildren<Selectable>();
-
-        // ---- / Get The Selector / ---- //
-        _selector = FindChildWithTag(gameObject.transform, "ButtonSelector").GetComponent<RectTransform>();
-
-        SetPosition(_currentSelectionIndex);
     }
 
     private void Update()
@@ -44,13 +34,11 @@ public class MenuSelector : MonoBehaviour
     private void SelectNextItem()
     {
         _currentSelectionIndex = (_currentSelectionIndex + 1) % _selectableItems.Length;
-        SetPosition(_currentSelectionIndex);
     }
     
     private void SelectPreviousItem()
     {
         _currentSelectionIndex = (_currentSelectionIndex - 1 + _selectableItems.Length) % _selectableItems.Length;
-        SetPosition(_currentSelectionIndex);
     }
 
     private void ChangeSliderValue(int index, float amount)
@@ -61,24 +49,11 @@ public class MenuSelector : MonoBehaviour
         }
     }
 
-    private void SetPosition(int index)
-    {
-        var finalOffset = selectorOffset - new Vector3(_selectableItems[index].GetComponent<RectTransform>().rect.width / 16, 0, 0);
-        _selector.position = _selectableItems[index].transform.position + finalOffset;
-        
-        _selectableItems[index].Select();
-    }
-
     private void ClickItem(int index)
     {
         if (_selectableItems[index] is Button button)
         {
             button.onClick.Invoke();
         }
-    }
-    
-    private static Transform FindChildWithTag(Component root, string tag)
-    {
-        return root.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.CompareTag(tag));
     }
 }
