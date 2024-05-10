@@ -25,6 +25,8 @@
 
 # Visual Studio cache directory
 .vs/
+.idea/
+.vscode/
 
 # Gradle cache directory
 .gradle/
@@ -63,6 +65,7 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+*.blob
 
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
