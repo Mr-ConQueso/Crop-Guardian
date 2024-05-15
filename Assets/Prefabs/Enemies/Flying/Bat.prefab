@@ -74,12 +74,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7bffa7403ad77843b87694a2f5624787, type: 3}
+  m_Sprite: {fileID: 9927401, guid: 5ca1b4015e527e3a09198379e0b08b97, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.30476192, y: 0.3}
+  m_Size: {x: 0.30476192, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -119,9 +119,9 @@ GameObject:
   - component: {fileID: 8374657997815010015}
   - component: {fileID: 150497494768885480}
   - component: {fileID: 1967342428476044752}
-  - component: {fileID: 5662136038925346468}
+  - component: {fileID: 5149373575172225591}
   m_Layer: 7
-  m_Name: Zorvex
+  m_Name: Bat
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d50797891c4a09a06de97acbbbb3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5662136038925346468
+--- !u!114 &5149373575172225591
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

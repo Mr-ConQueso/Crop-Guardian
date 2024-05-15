@@ -7,11 +7,11 @@ namespace SaveLoad
 {
     public class SaveLoadManager : MonoBehaviour
     {
-        //private string SavePath => $"{Application.persistentDataPath}/save.cg";
-        private string SavePath => "/home/nacho/Music/save.cg";
+        private static string SavePath => $"{Application.persistentDataPath}/save.cg";
+        //private static string SavePath => "/home/nacho/Music/save.cg";
 
         [ContextMenu("Save")]
-        private void Save()
+        public static void Save()
         {
             var state = LoadFile();
             CaptureState(state);
@@ -19,13 +19,13 @@ namespace SaveLoad
         }
         
         [ContextMenu("Load")]
-        private void Load()
+        public static void Load()
         {
             var state = LoadFile();
             RestoreState(state);
         }
 
-        private Dictionary<string, object> LoadFile()
+        private static Dictionary<string, object> LoadFile()
         {
             if (!File.Exists(SavePath))
             {
@@ -39,7 +39,7 @@ namespace SaveLoad
             }
         }
         
-        private void SaveFile(object state)
+        private static void SaveFile(object state)
         {
             using (var stream = File.Open(SavePath, FileMode.Create))
             {
@@ -48,7 +48,7 @@ namespace SaveLoad
             }
         }
 
-        private void CaptureState(Dictionary<string, object> state)
+        private static void CaptureState(Dictionary<string, object> state)
         {
             foreach (var saveable in FindObjectsOfType<SaveableEntity>())
             {
@@ -56,7 +56,7 @@ namespace SaveLoad
             }
         }
 
-        private void RestoreState(Dictionary<string, object> state)
+        private static void RestoreState(Dictionary<string, object> state)
         {
             foreach (var saveable in FindObjectsOfType<SaveableEntity>())
             {

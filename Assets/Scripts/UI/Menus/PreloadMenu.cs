@@ -1,3 +1,4 @@
+using SaveLoad;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,7 @@ public class PreloadMenu : MonoBehaviour
     private void Start()
     {
         InvokeRepeating(nameof(CycleDots), 0.7f, 0.7f);
+        SaveLoadManager.Load();
     }
 
     private void Update()

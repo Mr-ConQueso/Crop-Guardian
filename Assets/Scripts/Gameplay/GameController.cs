@@ -86,6 +86,8 @@ public class GameController : MonoBehaviour, ISaveable
     
     private void Start()
     {
+        SaveLoadManager.Load();
+        
         RestartLevel();
         
         Cursor.lockState = CursorLockMode.Locked;
@@ -159,12 +161,14 @@ public class GameController : MonoBehaviour, ISaveable
 
     private void StopGame(GameObject screenToActivate)
     {
+        SaveLoadManager.Save();
+        
         IsGameEnded = true;
+        UIController.Instance.IsGamePaused = true;
 
         StopTimer();
             
         screenToActivate.SetActive(true);
-        Time.timeScale = 0.0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 

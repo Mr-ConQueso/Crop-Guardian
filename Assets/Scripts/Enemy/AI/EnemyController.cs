@@ -47,8 +47,19 @@ public class EnemyController : MonoBehaviour
     {
         if (!UIController.Instance.IsGamePaused)
         {
-            float step = MoveSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, _enemyTransform.position, step);
+            Move();
+        }
+        else
+        {
+            StopMoving();
         }
     }
+
+    protected virtual void Move()
+    {
+        float step = MoveSpeed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, _enemyTransform.position, step);
+    }
+    
+    protected virtual void StopMoving() { }
 }

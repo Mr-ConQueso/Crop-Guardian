@@ -2313,6 +2313,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMixer: {fileID: 24100000, guid: 4a641daf8ea27101c8b80416f1123ee8, type: 2}
+  masterSlider: {fileID: 5149913378160240586}
+  musicSlider: {fileID: 814058086316597966}
+  sfxSlider: {fileID: 4486227342907787122}
   audioModeButtonText: {fileID: 8612735190839779294}
   qualityButtonText: {fileID: 6560633080978085333}
   fullScreenButtonText: {fileID: 4441684888322976178}

@@ -4323,11 +4323,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6450055729618526146, guid: f18472b6b4f3e372c8c1f79bfa393c9c,
         type: 3}
-      propertyPath: musicSource
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6450055729618526146, guid: f18472b6b4f3e372c8c1f79bfa393c9c,
-        type: 3}
       propertyPath: musicController
       value: 
       objectReference: {fileID: 1745462080}

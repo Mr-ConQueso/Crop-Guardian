@@ -11,7 +11,7 @@ public class MusicController : MonoBehaviour
         _lastPlayedTime = _musicSource.time;
     }
     
-    public void PLayAtLastPlayedTime()
+    public void PlayAtLastPlayedTime()
     {
         PlayMusicAtTime(_lastPlayedTime);
     }
@@ -19,7 +19,7 @@ public class MusicController : MonoBehaviour
     private void Start()
     {
         _musicSource = GetComponent<AudioSource>();
-        PLayAtLastPlayedTime();
+        PlayAtLastPlayedTime();
     }
 
     private void PlayMusicAtTime(float timeWanted)

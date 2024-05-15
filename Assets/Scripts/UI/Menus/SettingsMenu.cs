@@ -3,11 +3,18 @@ using SaveLoad;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
-public class SettingsController : MonoBehaviour
+public class SettingsController : MonoBehaviour, ISaveable
 {
     // ---- / Serialized Variables / ---- //
+    [Header("Audio")]
     [SerializeField] private AudioMixer mainMixer;
+    [SerializeField] private Slider masterSlider;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider sfxSlider;
+    
+    [Header("Buttons")]
     [SerializeField] private TMP_Text audioModeButtonText;
     [SerializeField] private TMP_Text qualityButtonText;
     [SerializeField] private TMP_Text fullScreenButtonText;
@@ -21,6 +28,10 @@ public class SettingsController : MonoBehaviour
     private int _currentFullScreenModeIndex;
     private AudioConfiguration _audioConfiguration;
     private Resolution[] _resolutions;
+
+    private float _masterVolume;
+    private float _musicVolume;
+    private float _sfxVolume;
     
     public void SetMasterVolume(float sliderValue)
     {
@@ -39,6 +50,8 @@ public class SettingsController : MonoBehaviour
 
     public void OnClick_GoBack()
     {   
+        SaveLoadManager.Save();
+        
         MenuManager.OpenMenu(MenuManager.MainMenu != null ? Menu.MainMenu : Menu.PauseMenu, gameObject);
         if (GameController.Instance != null)
         {
@@ -123,14 +136,23 @@ public class SettingsController : MonoBehaviour
         AudioSettings.Reset(_audioConfiguration);
         audioModeButtonText.text = speakerModeText;
         
-        musicController.PLayAtLastPlayedTime();
+        SetMasterVolume(masterSlider.value);
+        SetMusicVolume(musicSlider.value);
+        SetSfxVolume(sfxSlider.value);
+        
+        musicController.PlayAtLastPlayedTime();
     }
     
     private void Start()
     {
         _audioConfiguration = AudioSettings.GetConfiguration();
     }
-    
+
+    private void OnEnable()
+    {
+        SaveLoadManager.Load();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -194,7 +216,11 @@ public class SettingsController : MonoBehaviour
         {
             currentQualityIndex = _currentQualityIndex,
             currentAudioModeIndex = _currentQualityIndex,
-            currentFullScreenModeIndex = _currentFullScreenModeIndex
+            currentFullScreenModeIndex = _currentFullScreenModeIndex,
+            
+            masterVolume = masterSlider.value,
+            musicVolume = musicSlider.value,
+            sfxVolume = sfxSlider.value
         };
     }
 
@@ -203,8 +229,23 @@ public class SettingsController : MonoBehaviour
         var saveData = (SaveData)state;
 
         _currentQualityIndex = saveData.currentQualityIndex;
+        OnClick_SetQuality();
+        
         _currentAudioModeIndex = saveData.currentAudioModeIndex;
+        OnClick_ChangeAudioMode();
+
         _currentFullScreenModeIndex = saveData.currentFullScreenModeIndex;
+        OnClick_SetFullScreen();
+
+        
+        masterSlider.value = saveData.masterVolume;
+        SetMasterVolume(masterSlider.value);
+
+        musicSlider.value = saveData.musicVolume;
+        SetMusicVolume(musicSlider.value);
+
+        sfxSlider.value = saveData.sfxVolume;
+        SetSfxVolume(sfxSlider.value);
     }
     
     [Serializable]
@@ -213,5 +254,9 @@ public class SettingsController : MonoBehaviour
         public int currentAudioModeIndex;
         public int currentQualityIndex;
         public int currentFullScreenModeIndex;
+
+        public float masterVolume;
+        public float musicVolume;
+        public float sfxVolume;
     }
 }

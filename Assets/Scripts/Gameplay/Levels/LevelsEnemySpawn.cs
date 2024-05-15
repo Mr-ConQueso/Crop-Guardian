@@ -11,8 +11,9 @@ public class LevelsEnemySpawn : BaseEnemySpawn
         GameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         SingleLevel();
     }
 
@@ -36,15 +37,17 @@ public class LevelsEnemySpawn : BaseEnemySpawn
         
         if (!HasBossSpawned)
         {
-            SpawnTimer += Time.deltaTime;
-            if (SpawnTimer >= flySpawnInterval && Random.value <= flySpawnProbability)
+            SpawnFlyTimer += Time.deltaTime;
+            SpawnGroundTimer += Time.deltaTime;
+            if (SpawnFlyTimer >= flySpawnInterval && Random.value <= flySpawnProbability)
             {
-                SpawnTimer = 0;
+                SpawnFlyTimer = 0;
 
                 SpawnFlyingEnemies(flySpawnNumber, flyingEnemyPrefabs, sphereRadius);
-            } else if (SpawnTimer >= groundSpawnInterval && Random.value <= groundSpawnProbability)
+            }
+            if (SpawnGroundTimer >= groundSpawnInterval && Random.value <= groundSpawnProbability)
             {
-                SpawnTimer = 0;
+                SpawnGroundTimer = 0;
 
                 SpawnGroundEnemies(groundSpawnNumber, groundEnemyPrefabs, circleRadius);
             }

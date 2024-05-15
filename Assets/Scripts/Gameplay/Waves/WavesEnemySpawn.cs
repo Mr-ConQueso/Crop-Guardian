@@ -28,9 +28,14 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
         EnemyController.OnDefeatEnemy -= OnDefeatEnemyHandler;
     }
 
-    private void Update()
+    protected override void Update()
     {
-        Waves();
+        base.Update();
+
+        if (!UIController.Instance.IsGamePaused)
+        {
+            Waves();
+        }
     }
 
     private void Waves()
@@ -49,15 +54,17 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
         
         if (!HasBossSpawned)
         {
-            SpawnTimer += Time.deltaTime;
-            if (SpawnTimer >= flySpawnInterval && Random.value <= flySpawnProbability)
+            SpawnFlyTimer += Time.deltaTime;
+            SpawnGroundTimer += Time.deltaTime;
+            if (SpawnFlyTimer >= flySpawnInterval && Random.value <= flySpawnProbability)
             {
-                SpawnTimer = 0;
+                SpawnFlyTimer = 0;
 
                 SpawnFlyingEnemies(flySpawnNumber, flyingEnemyPrefabs, sphereRadius);
-            } else if (SpawnTimer >= groundSpawnInterval && Random.value <= groundSpawnProbability)
+            }
+            if (SpawnGroundTimer >= groundSpawnInterval && Random.value <= groundSpawnProbability)
             {
-                SpawnTimer = 0;
+                SpawnGroundTimer = 0;
 
                 SpawnGroundEnemies(groundSpawnNumber, groundEnemyPrefabs, circleRadius);
             }

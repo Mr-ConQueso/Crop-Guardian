@@ -254,7 +254,7 @@ Transform:
   m_GameObject: {fileID: 155357572}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.8}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -965,7 +965,7 @@ Transform:
   m_GameObject: {fileID: 464007094}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 4.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -983,6 +983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c586ce7ddbde4ab6ab9f041baab10904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsGamePaused: 0
 --- !u!114 &464007099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,7 +1028,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 464007094}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84a08dd7041d4ca38ce7276e8ab713ba, type: 3}
   m_Name: 
@@ -1039,17 +1040,19 @@ MonoBehaviour:
   flySpawnInterval: 2
   flySpawnNumber: 1
   flySpawnProbability: 1
-  circleRadius: 20
+  sphereRadius: 20
   groundEnemyPrefabs:
-  - {fileID: 5292393993258775047, guid: a76f2a295fcece20e8e25c4ce8dad075, type: 3}
   - {fileID: 5292393993258775047, guid: 01504c73debfe363b809cafbce3f0d8e, type: 3}
-  - {fileID: 5292393993258775047, guid: 2cdcb189c20b0fe258f1128f405e7388, type: 3}
+  - {fileID: 5292393993258775047, guid: a76f2a295fcece20e8e25c4ce8dad075, type: 3}
   - {fileID: 5292393993258775047, guid: e78ce5c476babe404b0b4be6d683da82, type: 3}
+  - {fileID: 5292393993258775047, guid: 2cdcb189c20b0fe258f1128f405e7388, type: 3}
   groundSpawnInterval: 2
   groundSpawnNumber: 1
   groundSpawnProbability: 1
-  sphereRadius: 20
-  sphereMinHeight: 25
+  circleRadius: 20
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
   groundBoss: {fileID: 5292393993258775047, guid: 0a0e00b190e773ab3bb551c5ae8a64e0,
     type: 3}
   flyBoss: {fileID: 5292393993258775047, guid: 3474266b2ae56979abe35b17e71eb10b, type: 3}
@@ -1505,6 +1508,7 @@ Transform:
   - {fileID: 1603736326}
   - {fileID: 1602822489}
   - {fileID: 206616856}
+  - {fileID: 1710676021}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1016673374 stripped
@@ -1661,7 +1665,7 @@ GameObject:
   - component: {fileID: 1363745940}
   - component: {fileID: 1363745942}
   - component: {fileID: 1363745941}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2290,6 +2294,69 @@ Transform:
   - {fileID: 1510183876}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1710676020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1710676021}
+  - component: {fileID: 1710676022}
+  m_Layer: 0
+  m_Name: NavMeshController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1710676021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710676020}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 921708292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1710676022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710676020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 3d1261c7fe37b7fdd97d89c13ca97afe, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &1723276187 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2111030259949379270, guid: 79033d9db80dab5518805fd93f0ec8dd,

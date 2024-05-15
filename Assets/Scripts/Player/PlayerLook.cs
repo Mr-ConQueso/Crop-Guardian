@@ -28,6 +28,8 @@ public class PlayerLook : MonoBehaviour
 
             SetRotation(horizontalRotation, verticalRotation);
         }
+        
+        Debug.DrawLine(transform.position, transform.position + transform.forward * 200, Color.cyan);
     }
     
     /// <summary>

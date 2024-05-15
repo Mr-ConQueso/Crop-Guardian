@@ -6,7 +6,7 @@ public class UIController : MonoBehaviour
     public static UIController Instance;
     
     // ---- / Public Variables / ---- //
-    public bool IsGamePaused { get; private set; }
+    public bool IsGamePaused;
     
     /// <summary>
     /// Pause the time, remove player control
