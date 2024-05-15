@@ -1,10 +1,10 @@
+using BaseGame;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class EndGameMenu : MonoBehaviour
 {
     public void OnClick_BackToMainMenu()
     {
-        SceneManager.LoadScene("StartMenu");
+        SceneSwapManager.SwapScene("StartMenu");
     }
 }

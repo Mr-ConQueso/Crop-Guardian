@@ -1,11 +1,11 @@
+using BaseGame;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
     public void OnClick_StartGame()
     {
-        SceneManager.LoadScene("LevelWaves");
+        SceneSwapManager.SwapScene("LevelWaves");
     }
 
     public void OnClick_Exit()

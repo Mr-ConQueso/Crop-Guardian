@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Volume menusVolume;
     
     // ---- / Private Variables / ---- //
-    private WavesEnemySpawn _enemySpawner;
+    private BaseEnemySpawn _enemySpawner;
     private float _elapsedTime;
     private bool _isTimerRunning;
 
@@ -192,7 +192,7 @@ public class GameController : MonoBehaviour
         CurrentScore = 0;
 
         IsGameEnded = false;
-        UIController.UnPauseGame();
+        UIController.Instance.UnPauseGame();
         
         endGameScreen.SetActive(false);
         winLevelScreen.SetActive(false);

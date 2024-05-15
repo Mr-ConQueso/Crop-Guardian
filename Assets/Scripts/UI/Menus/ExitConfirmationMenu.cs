@@ -1,5 +1,5 @@
+using BaseGame;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ExitConfirmationMenu : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class ExitConfirmationMenu : MonoBehaviour
     
     public void OnClick_BackToMainMenu()
     {
-        SceneManager.LoadScene("StartMenu");
+        SceneSwapManager.SwapScene("StartMenu");
     }
 
     public void OnClick_StayInPauseMenu()

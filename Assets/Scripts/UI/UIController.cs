@@ -2,23 +2,43 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    // ---- / Static Variables / ---- //
-    private static bool _isGamePaused;
+    // ---- / Singleton / ---- //
+    public static UIController Instance;
     
-    public static bool IsGamePaused()
+    // ---- / Public Variables / ---- //
+    public bool IsGamePaused { get; private set; }
+    
+    /// <summary>
+    /// Pause the time, remove player control
+    /// and show the cursor.
+    /// </summary>
+    public void PauseGame()
     {
-        return _isGamePaused;
+        IsGamePaused = true;
+        
+        MenuManager.PauseMenu.SetActive(true);
+        
+        //Time.timeScale = 0.0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
-
-    private static void TogglePauseState()
+    
+    public void UnPauseGame()
     {
-        if (_isGamePaused)
+        IsGamePaused = false;
+        
+        MenuManager.PauseMenu.SetActive(false);
+        
+        //Time.timeScale = 1.0f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    
+    private void Awake()
+    {
+        if (Instance == null)
         {
-            UnPauseGame();
-        }
-        else
-        {
-            PauseGame();
+            Instance = this;
         }
     }
 
@@ -30,30 +50,16 @@ public class UIController : MonoBehaviour
             TogglePauseState();
         }
     }
-
-    /// <summary>
-    /// Pause the time, remove player control
-    /// and show the cursor.
-    /// </summary>
-    public static void PauseGame()
-    {
-        _isGamePaused = true;
-        
-        MenuManager.PauseMenu.SetActive(true);
-        
-        Time.timeScale = 0.0f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
     
-    public static void UnPauseGame()
+    private void TogglePauseState()
     {
-        _isGamePaused = false;
-        
-        MenuManager.PauseMenu.SetActive(false);
-        
-        Time.timeScale = 1.0f;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (IsGamePaused)
+        {
+            UnPauseGame();
+        }
+        else
+        {
+            PauseGame();
+        }
     }
 }

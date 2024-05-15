@@ -17,6 +17,6 @@ public class PauseMenu : MonoBehaviour
     public void OnClick_BackToGame()
     {
         gameObject.SetActive(false);
-        UIController.UnPauseGame();
+        UIController.Instance.UnPauseGame();
     }
 }

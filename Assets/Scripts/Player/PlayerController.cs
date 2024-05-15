@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (_isDead == false && !UIController.IsGamePaused())
+        if (_isDead == false && !UIController.Instance.IsGamePaused)
         {
             Aim();
         
