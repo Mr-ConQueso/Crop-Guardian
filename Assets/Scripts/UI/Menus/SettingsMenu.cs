@@ -1,4 +1,5 @@
 using System;
+using SaveLoad;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -185,5 +186,32 @@ public class SettingsController : MonoBehaviour
         }
     
         return 0;
+    }
+    
+    public object CaptureState()
+    {
+        return new SaveData()
+        {
+            currentQualityIndex = _currentQualityIndex,
+            currentAudioModeIndex = _currentQualityIndex,
+            currentFullScreenModeIndex = _currentFullScreenModeIndex
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        _currentQualityIndex = saveData.currentQualityIndex;
+        _currentAudioModeIndex = saveData.currentAudioModeIndex;
+        _currentFullScreenModeIndex = saveData.currentFullScreenModeIndex;
+    }
+    
+    [Serializable]
+    private struct SaveData
+    {
+        public int currentAudioModeIndex;
+        public int currentQualityIndex;
+        public int currentFullScreenModeIndex;
     }
 }

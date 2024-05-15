@@ -1,17 +1,17 @@
+using System;
 using Enemy;
+using SaveLoad;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class GameController : MonoBehaviour
+public class GameController : MonoBehaviour, ISaveable
 {
     // ---- / Singleton / ---- //
     public static GameController Instance;
     
     // ---- / Static Variables / ---- //
     public static bool IsGameEnded;
-    private const string HighestSurviveTimeKey = "HighestSurviveTimeKey";
-    private const string HighScoreKey = "HighScore";
     
     public float highestSurviveTime;
     public int CurrentScore { get; private set; }
@@ -73,9 +73,6 @@ public class GameController : MonoBehaviour
         if (newScore > highestSurviveTime)
         {
             highestSurviveTime = newScore;
-            
-            PlayerPrefs.SetFloat(HighestSurviveTimeKey, highestSurviveTime);
-            PlayerPrefs.Save();
         }
     }
     
@@ -84,9 +81,6 @@ public class GameController : MonoBehaviour
         if (newScore > highScore)
         {
             highScore = newScore;
-            
-            PlayerPrefs.SetFloat(HighestSurviveTimeKey, highScore);
-            PlayerPrefs.Save();
         }
     }
     
@@ -99,9 +93,6 @@ public class GameController : MonoBehaviour
         
         endGameScreen.SetActive(false);
         StartTimer();
-        
-        highestSurviveTime = PlayerPrefs.GetFloat(HighestSurviveTimeKey, 0f);
-        highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
 
         _enemySpawner = GetComponent<WavesEnemySpawn>();
         
@@ -202,5 +193,32 @@ public class GameController : MonoBehaviour
     {
         CurrentScore++;
         scoreText.text = CurrentScore.ToString();
+    }
+
+    public object CaptureState()
+    {
+        return new SaveData()
+        {
+            hightestScore = highScore,
+            score = CurrentScore,
+            highestTime = highestSurviveTime
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        highScore = saveData.hightestScore;
+        CurrentScore = saveData.score;
+        highestSurviveTime = saveData.highestTime;
+    }
+    
+    [Serializable]
+    private struct SaveData
+    {
+        public int hightestScore;
+        public int score;
+        public float highestTime;
     }
 }

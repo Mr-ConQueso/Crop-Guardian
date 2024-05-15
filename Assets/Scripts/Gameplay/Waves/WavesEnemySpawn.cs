@@ -1,8 +1,10 @@
+using System;
+using SaveLoad;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class WavesEnemySpawn : BaseEnemySpawn
+public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
 {
     // ---- / Public Variables / ---- //
     public int CurrentWaveScore { get; private set; }
@@ -13,6 +15,7 @@ public class WavesEnemySpawn : BaseEnemySpawn
 
     // ---- / Private Variables / ---- //   
     private int _currentWave = 1;
+    private int _highestWave;
 
     private void Start()
     {
@@ -93,5 +96,26 @@ public class WavesEnemySpawn : BaseEnemySpawn
     private void OnDefeatEnemyHandler()
     {
         CurrentWaveScore++;
+    }
+
+    public object CaptureState()
+    {
+        return new SaveData()
+        {
+            highestWave = _highestWave,
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        _highestWave = saveData.highestWave;
+    }
+    
+    [Serializable]
+    private struct SaveData
+    {
+        public int highestWave;
     }
 }

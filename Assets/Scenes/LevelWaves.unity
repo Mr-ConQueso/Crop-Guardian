@@ -944,6 +944,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 464007095}
+  - component: {fileID: 464007104}
   - component: {fileID: 464007100}
   - component: {fileID: 464007098}
   - component: {fileID: 464007099}
@@ -1055,6 +1056,19 @@ MonoBehaviour:
   spawnBossPoints: 10
   wavesScreen: {fileID: 296401163}
   wavesScreenText: {fileID: 1870194038}
+--- !u!114 &464007104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464007094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45fa7f3227684d86b3f955ffc9838f8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: f19db135-a173-4794-adee-7f31e72c7bdf
 --- !u!1001 &478902090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2500,11 +2514,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 898384665}
     m_Modifications:
-    - target: {fileID: 6450055729618526146, guid: f18472b6b4f3e372c8c1f79bfa393c9c,
-        type: 3}
-      propertyPath: musicSource
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6450055729618526146, guid: f18472b6b4f3e372c8c1f79bfa393c9c,
         type: 3}
       propertyPath: musicController
