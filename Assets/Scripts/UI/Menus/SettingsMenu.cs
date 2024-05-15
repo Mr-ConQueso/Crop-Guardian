@@ -11,7 +11,9 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private TMP_Text audioModeButtonText;
     [SerializeField] private TMP_Text qualityButtonText;
     [SerializeField] private TMP_Text fullScreenButtonText;
-    [SerializeField] private Volume cRTVolume;
+    
+    [Header("Music")]
+    [SerializeField] private MusicController musicController;
     
     // ---- / Private Variables / ---- //
     private int _currentAudioModeIndex;
@@ -38,9 +40,9 @@ public class SettingsController : MonoBehaviour
     public void OnClick_GoBack()
     {   
         MenuManager.OpenMenu(MenuManager.MainMenu != null ? Menu.MainMenu : Menu.PauseMenu, gameObject);
-        if (cRTVolume != null)
+        if (GameController.Instance != null)
         {
-            cRTVolume.enabled = false;
+            GameController.Instance.SwitchVFXVolume(false);
         }
     }
 
@@ -115,9 +117,13 @@ public class SettingsController : MonoBehaviour
 
     private void SetAudioMode(AudioSpeakerMode speakerMode, String speakerModeText)
     {
+        musicController.SaveLastPlayedTime();
+        
         _audioConfiguration.speakerMode = speakerMode;
         AudioSettings.Reset(_audioConfiguration);
         audioModeButtonText.text = speakerModeText;
+        
+        musicController.PLayAtLastPlayedTime();
     }
     
     private void Start()

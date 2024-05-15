@@ -1,6 +1,7 @@
 using Enemy;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class GameController : MonoBehaviour
 {
@@ -27,10 +28,20 @@ public class GameController : MonoBehaviour
     [Header("End-Game Screen")]
     [SerializeField] private GameObject endGameScreen;
     
+    [Header("Volumes")]
+    [SerializeField] private Volume globalVolume;
+    [SerializeField] private Volume menusVolume;
+    
     // ---- / Private Variables / ---- //
     private WavesEnemySpawn _enemySpawner;
     private float _elapsedTime;
     private bool _isTimerRunning;
+
+    public void SwitchVFXVolume(bool isMenusVolumeActive)
+    {
+        menusVolume.enabled = isMenusVolumeActive;
+        globalVolume.enabled = !isMenusVolumeActive;
+    }
 
     private void Awake()
     {

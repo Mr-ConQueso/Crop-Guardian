@@ -5,6 +5,5 @@ public enum Menu
     ExitMenu,
     PauseMenu,
     StoreMenu,
-    PreloadMenu,
     CreditsMenu
 }

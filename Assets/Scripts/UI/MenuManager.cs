@@ -3,7 +3,7 @@ using UnityEngine;
 public class MenuManager : MonoBehaviour
 {
     // ---- / Public Variables / ---- //
-    public static GameObject MainMenu, SettingsMenu, ExitMenu, PauseMenu, StoreMenu, PreloadMenu, CreditsMenu;
+    public static GameObject MainMenu, SettingsMenu, ExitMenu, PauseMenu, StoreMenu, CreditsMenu;
 
     private void Awake()
     {
@@ -12,7 +12,6 @@ public class MenuManager : MonoBehaviour
         ExitMenu = transform.Find("ExitConfirmationMenu")?.gameObject;
         PauseMenu = transform.Find("PauseMenu")?.gameObject;
         StoreMenu = transform.Find("StoreMenu")?.gameObject;
-        PreloadMenu = transform.Find("PreloadMenu")?.gameObject;
         CreditsMenu = transform.Find("CreditsMenu")?.gameObject;
     }
     
@@ -39,9 +38,6 @@ public class MenuManager : MonoBehaviour
                 break;
             case Menu.StoreMenu:
                 StoreMenu.SetActive(true);
-                break;
-            case Menu.PreloadMenu:
-                PreloadMenu.SetActive(true);
                 break;
             case Menu.CreditsMenu:
                 CreditsMenu.SetActive(true);

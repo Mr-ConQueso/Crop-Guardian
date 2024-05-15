@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Frontend/IntroMenu.unity
+    guid: 2abb5e63bc88846778f135c37e0a06d2
+  - enabled: 1
     path: Assets/Scenes/Frontend/StartMenu.unity
     guid: 8aace9b62c549d0698fe3b8726154427
   - enabled: 1
-    path: Assets/Scenes/LevelWaves.unity
-    guid: 6dcfb10ce34bfb613990172505a0a380
-  - enabled: 1
     path: Assets/Scenes/Level0.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/LevelWaves.unity
+    guid: 6dcfb10ce34bfb613990172505a0a380
   m_configObjects: {}
