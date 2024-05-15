@@ -581,14 +581,14 @@ MonoBehaviour:
       - m_Target: {fileID: 6450055729618526146}
         m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
         m_MethodName: OnClick_ChangeAudioMode
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &2192234126772445147
 GameObject:
@@ -850,14 +850,14 @@ MonoBehaviour:
       - m_Target: {fileID: 6450055729618526146}
         m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
         m_MethodName: OnClick_SetQuality
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &3336975430257012959
 GameObject:
@@ -1269,14 +1269,14 @@ MonoBehaviour:
       - m_Target: {fileID: 6450055729618526146}
         m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
         m_MethodName: OnClick_SetFullScreen
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &4011061559546835920
 GameObject:

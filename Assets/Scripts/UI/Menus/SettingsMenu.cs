@@ -28,10 +28,6 @@ public class SettingsController : MonoBehaviour, ISaveable
     private int _currentFullScreenModeIndex;
     private AudioConfiguration _audioConfiguration;
     private Resolution[] _resolutions;
-
-    private float _masterVolume;
-    private float _musicVolume;
-    private float _sfxVolume;
     
     public void SetMasterVolume(float sliderValue)
     {
@@ -59,9 +55,12 @@ public class SettingsController : MonoBehaviour, ISaveable
         }
     }
 
-    public void OnClick_ChangeAudioMode()
+    public void OnClick_ChangeAudioMode(bool addValue)
     {
-        _currentAudioModeIndex = CycleNumber(_currentAudioModeIndex, 3);
+        if (addValue)
+        {
+            _currentAudioModeIndex = CycleNumber(_currentAudioModeIndex, 3);
+        }
 
         switch (_currentAudioModeIndex)
         {
@@ -86,20 +85,15 @@ public class SettingsController : MonoBehaviour, ISaveable
     public void OnClick_SetQuality()
     {
         _currentQualityIndex = CycleNumber(_currentQualityIndex, 2);
-        QualitySettings.SetQualityLevel(_currentQualityIndex);
-
-        qualityButtonText.text = _currentQualityIndex switch
-        {
-            0 => "High",
-            1 => "Low",
-            2 => "Medium",
-            _ => "High"
-        };
+        SetQuality();
     }
     
-    public void OnClick_SetFullScreen()
+    public void OnClick_SetFullScreen(bool addValue)
     {
-        _currentFullScreenModeIndex = CycleNumber(_currentFullScreenModeIndex, 2);
+        if (addValue)
+        {
+            _currentFullScreenModeIndex = CycleNumber(_currentFullScreenModeIndex, 2);
+        }
 
         switch (_currentFullScreenModeIndex)
         {
@@ -128,9 +122,25 @@ public class SettingsController : MonoBehaviour, ISaveable
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreenMode);
     }
 
+    private void SetQuality()
+    {
+        QualitySettings.SetQualityLevel(_currentQualityIndex);
+
+        qualityButtonText.text = _currentQualityIndex switch
+        {
+            0 => "High",
+            1 => "Low",
+            2 => "Medium",
+            _ => "High"
+        };
+    }
+
     private void SetAudioMode(AudioSpeakerMode speakerMode, String speakerModeText)
     {
-        musicController.SaveLastPlayedTime();
+        if (musicController != null)
+        {
+            musicController.SaveLastPlayedTime();
+        }
         
         _audioConfiguration.speakerMode = speakerMode;
         AudioSettings.Reset(_audioConfiguration);
@@ -140,7 +150,10 @@ public class SettingsController : MonoBehaviour, ISaveable
         SetMusicVolume(musicSlider.value);
         SetSfxVolume(sfxSlider.value);
         
-        musicController.PlayAtLastPlayedTime();
+        if (musicController != null)
+        {
+            musicController.PlayAtLastPlayedTime();
+        }
     }
     
     private void Start()
@@ -199,6 +212,7 @@ public class SettingsController : MonoBehaviour, ISaveable
     /// </summary>
     /// <param name="numberToCycle"></param>
     /// <param name="maxValue"></param>
+    /// <param name="addValue"></param>
     /// <returns></returns>
     private int CycleNumber(int numberToCycle, int maxValue)
     {
@@ -206,7 +220,7 @@ public class SettingsController : MonoBehaviour, ISaveable
         {
             return numberToCycle + 1;
         }
-    
+
         return 0;
     }
     
@@ -229,13 +243,13 @@ public class SettingsController : MonoBehaviour, ISaveable
         var saveData = (SaveData)state;
 
         _currentQualityIndex = saveData.currentQualityIndex;
-        OnClick_SetQuality();
+        SetQuality();
         
         _currentAudioModeIndex = saveData.currentAudioModeIndex;
-        OnClick_ChangeAudioMode();
+        //OnClick_ChangeAudioMode(false);
 
         _currentFullScreenModeIndex = saveData.currentFullScreenModeIndex;
-        OnClick_SetFullScreen();
+        //OnClick_SetFullScreen(false);
 
         
         masterSlider.value = saveData.masterVolume;

@@ -8,7 +8,6 @@ namespace SaveLoad
     public class SaveLoadManager : MonoBehaviour
     {
         private static string SavePath => $"{Application.persistentDataPath}/save.cg";
-        //private static string SavePath => "/home/nacho/Music/save.cg";
 
         [ContextMenu("Save")]
         public static void Save()
