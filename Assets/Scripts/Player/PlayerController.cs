@@ -5,21 +5,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // ---- / Static Variables / ---- //
-    public static bool _isDead;
+    public static bool IsDead;
     
     // ---- / Serialized Variables / ---- //
     [Header("Other")]
     [SerializeField] private float deathRadius;
     
-    [Header("Shooting")]
-    [SerializeField] private float aimOffset = 10f;
-    [SerializeField] private float nextAllowedShotTime = 0.01f;
-    [SerializeField] private float bulletRecoveryTime = 2.0f;
-    [SerializeField] private float shootDistance = 10.0f;
-    
-    [Header("Bullets")]
-    [SerializeField] private TMP_Text bulletsLeftAmount;
-    [SerializeField] private int initialBulletAmount = 30;
+    [Header("Guns")]
+    [SerializeField] private float scrollDelay = 0.5f;
+    [SerializeField] private GameObject[] gunsArray;
     
     [Header("Aiming")]
     [SerializeField] private  float aimTransitionDuration = 0.2f;
@@ -29,9 +23,11 @@ public class PlayerController : MonoBehaviour
     // ---- / Private Variables / ---- //
     private float _timeSinceLastShot;
     private Camera _mainCamera;
-    private int _bulletAmount;
     private bool _isAiming;
     private float _aimTransitionStartTime;
+    
+    private int _currentWeapon = 0;
+    private float _lastScrollTime;
     
     // ---- / Events / ---- //
     public delegate void DeathEventHandler();
@@ -40,28 +36,41 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _mainCamera = Camera.main;
-
-        _bulletAmount = initialBulletAmount;
-        InvokeRepeating(nameof(AddBullet), bulletRecoveryTime, bulletRecoveryTime);
-        
-        SetBulletAmountText(0);
     }
 
     private void Update()
     {
-        if (_isDead == false && !UIController.Instance.IsGamePaused)
+        if (IsDead == false && !UIController.Instance.IsGamePaused)
         {
             Aim();
-        
-            _timeSinceLastShot += Time.deltaTime;
-            if (Input.GetButton("Fire1") && _timeSinceLastShot >= nextAllowedShotTime)
+
+            if (Time.time - _lastScrollTime > scrollDelay)
             {
-                Shoot();    
-                _timeSinceLastShot = 0.0f; // Reset the timer
+                if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+                {
+                    _lastScrollTime = Time.time;
+                    SwitchWeapon(1);
+                }
+                else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+                {
+                    _lastScrollTime = Time.time;
+                    SwitchWeapon(-1);
+                }
             }
 
             DetectDeath();   
         }
+    }
+    
+    private void SwitchWeapon(int direction)
+    {
+        DeactivateGun(_currentWeapon);
+        
+        _currentWeapon += direction;
+        _currentWeapon = Mathf.Clamp(_currentWeapon, 0, 4);
+        
+        ActivateGun(_currentWeapon);
+        Debug.Log("Switched to weapon: " + _currentWeapon);
     }
     
     /// <summary>
@@ -93,59 +102,6 @@ public class PlayerController : MonoBehaviour
     }
     
     /// <summary>
-    /// Shoots a raycast from the viewfinder and destroys
-    /// any enemies it comes into contact with.
-    /// </summary>
-    private void Shoot()
-    {
-        if (_bulletAmount >= 1)
-        {
-            var mainCameraTransform = _mainCamera.transform;
-            Vector3 rayOrigin = mainCameraTransform.position + mainCameraTransform.up * aimOffset;
-
-            Ray ray = new Ray(rayOrigin, mainCameraTransform.forward);
-
-            // Draw the bullet trajectory using Debug.DrawLine
-            //Debug.DrawLine(ray.origin, ray.origin + ray.direction * shootDistance, Color.red, 0.1f);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, shootDistance))
-            {
-                if (hit.collider.CompareTag("Enemy"))
-                {
-                    hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(1);
-                }
-                
-                if (hit.collider.CompareTag("Boss"))
-                {
-                    hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(1);
-                }
-            }
-
-            SetBulletAmountText(1);
-        }
-    }
-
-    
-    /// <summary>
-    /// Modifies the amount of bullets and displays it on the GUI.
-    /// </summary>
-    /// <param name="reduceBulletAmount"></param>
-    private void SetBulletAmountText(int reduceBulletAmount)
-    {
-        _bulletAmount -= reduceBulletAmount;
-        bulletsLeftAmount.text = _bulletAmount.ToString();
-    }
-    
-    /// <summary>
-    /// Adds bullets periodically.
-    /// </summary>
-    private void AddBullet()
-    {
-        _bulletAmount++;
-        SetBulletAmountText(0);
-    }
-    
-    /// <summary>
     /// Check if any enemies are present in a
     /// sphere around the player, if so trigger the
     /// OnPlayerDeath? event.
@@ -157,12 +113,28 @@ public class PlayerController : MonoBehaviour
         if (colliders is { Length: > 0 })
         {
             OnPlayerDeath?.Invoke();
-            _isDead = true;
+            IsDead = true;
             
             foreach (Collider enemyCollider in colliders)
             {
                 Destroy(enemyCollider.gameObject);
             }
+        }
+    }
+    
+    private void ActivateGun(int index)
+    {
+        if (index >= 0 && index < gunsArray.Length)
+        {
+            gunsArray[index].SetActive(true);
+        }
+    }
+
+    private void DeactivateGun(int index)
+    {
+        if (index >= 0 && index < gunsArray.Length)
+        {
+            gunsArray[index].SetActive(false);
         }
     }
 }

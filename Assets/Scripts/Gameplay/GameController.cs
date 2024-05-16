@@ -183,7 +183,7 @@ public class GameController : MonoBehaviour, ISaveable
 
     private void RestartLevel()
     {
-        PlayerController._isDead = false;
+        PlayerController.IsDead = false;
         CurrentScore = 0;
 
         IsGameEnded = false;
