@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace BaseGame
@@ -11,8 +12,9 @@ namespace BaseGame
         public bool IsFadingIn { get; private set; }
         public bool IsFadingOut { get; private set; }
         
-        // ---- / Serialized Variables / ---- //
-        [SerializeField] private Animator transitionAnimator;
+        // ---- / Private Variables / ---- //
+        private Animator _transitionAnimator;
+        private ImageAnimation _imageAnimation;
         
         private void Awake()
         {
@@ -22,9 +24,16 @@ namespace BaseGame
             }
         }
 
+        private void Start()
+        {
+            _transitionAnimator = GetComponent<Animator>();
+            _imageAnimation = GetComponent<ImageAnimation>();
+        }
+
         public void EndLoadIn()
         {
             IsFadingIn = false;
+            EndAnimation();
         }
         
         public void EndLoadOut()
@@ -34,13 +43,14 @@ namespace BaseGame
 
         public void StartAnimation()
         {
-            transitionAnimator.SetTrigger("triggerStart");
+            _imageAnimation.StartAnimation();
+            _transitionAnimator.SetTrigger("triggerStart");
             IsFadingIn = true;
         }
 
         public void EndAnimation()
         {
-            transitionAnimator.SetTrigger("triggerEnd");
+            _transitionAnimator.SetTrigger("triggerEnd");
             IsFadingOut = true;
         }
     }
