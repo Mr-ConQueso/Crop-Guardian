@@ -5,38 +5,27 @@ using UnityEngine;
 public class GunController : MonoBehaviour
 {
     // ---- / Serialized Variables / ---- //
-    [SerializeField] protected int waitFrames = 0;
     [SerializeField] protected int maxAmmo = 30;
     [SerializeField] protected float reloadTime = 2f;
     [SerializeField] protected float fireRate = 0.1f;
-    [SerializeField] protected int damageAmount = 1;
     [SerializeField] protected float shootDistance = 20f;
     [SerializeField] protected TextMeshProUGUI ammoText;
     [SerializeField] protected float textMoveAmount = 10f;
-    
-    [Header("Particles")]
-    [SerializeField] protected TrailRenderer particleTrail;
-    [SerializeField] protected Transform spawnTrailPosition;
 
     // ---- / Protected Variables / ---- //
     protected int CurrentAmmo;
     protected bool IsReloading = false;
     protected Camera MainCamera;
     protected float NextFireTime = 0f;
-    
-    // ---- / Private Variables / ---- //
-    private Animator _animator;
 
-    protected virtual void Start()
+    void Start()
     {
         MainCamera = Camera.main;
         CurrentAmmo = maxAmmo;
-        _animator = GetComponentInChildren<Animator>();
-        
         UpdateAmmoUI();
     }
 
-    protected virtual void Update()
+    void Update()
     {
         if (IsReloading)
         {
@@ -49,10 +38,10 @@ public class GunController : MonoBehaviour
             return;
         }
 
-        if (Input.GetButton("Fire1") && Time.time >= NextFireTime && !UIController.Instance.IsGamePaused)
+        if (Input.GetButton("Fire1") && Time.time >= NextFireTime)
         {
             NextFireTime = Time.time + fireRate;
-            StartShootAnimation();
+            Shoot();
         }
     }
 
@@ -67,14 +56,6 @@ public class GunController : MonoBehaviour
         IsReloading = false;
         UpdateAmmoUI();
     }
-
-    protected virtual void StartShootAnimation()
-    {
-        _animator.SetTrigger("shoot");
-        float timeTillShoot = waitFrames * (1.0f / 12.0f);
-        Invoke(nameof(Shoot), timeTillShoot);
-        StartCoroutine(MoveTextDownAndUp(8, 0.3f));
-    }
     
     protected virtual void Shoot()
     {
@@ -87,28 +68,8 @@ public class GunController : MonoBehaviour
         Ray ray = new Ray(rayOrigin, mainCameraTransform.forward);
 
         DetectEnemiesKilled(ray);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, shootDistance))
-        {
-            TrailRenderer trail = Instantiate(particleTrail, spawnTrailPosition.position, Quaternion.identity);
-            StartCoroutine(SpawnTrail(trail, hit));
-        }
-    }
-
-    protected virtual IEnumerator SpawnTrail(TrailRenderer trailRenderer, RaycastHit hit)
-    {
-        float time = 0;
-        Vector3 startPosition = trailRenderer.transform.position;
-
-        while (time < 1)
-        {
-            trailRenderer.transform.position = Vector3.Lerp(startPosition, hit.point, time);
-            time += Time.deltaTime / trailRenderer.time;
-
-            yield return null;
-        }
-
-        trailRenderer.transform.position = hit.point;
+        
+        StartCoroutine(MoveTextDownAndUp());
     }
 
     protected virtual void DetectEnemiesKilled(Ray ray)
@@ -120,22 +81,22 @@ public class GunController : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(damageAmount);
+                hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(1);
             }
             
             if (hit.collider.CompareTag("Boss"))
             {
-                hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(damageAmount);
+                hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(1);
             }
         }
     }
 
     protected virtual void UpdateAmmoUI()
     {
-        ammoText.text = CurrentAmmo.ToString();
+        ammoText.text = "Ammo: " + CurrentAmmo + "/" + maxAmmo;
     }
 
-    protected virtual IEnumerator MoveTextDownAndUp(float animationSpeed, float pauseBetweenMove)
+    protected virtual IEnumerator MoveTextDownAndUp()
     {
         Vector3 originalPos = ammoText.rectTransform.localPosition;
         Vector3 targetPos = originalPos - Vector3.up * textMoveAmount;
@@ -143,17 +104,17 @@ public class GunController : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            t += Time.deltaTime * animationSpeed; // Adjust the speed of the animation
+            t += Time.deltaTime * 2; // Adjust the speed of the animation
             ammoText.rectTransform.localPosition = Vector3.Lerp(originalPos, targetPos, t);
             yield return null;
         }
 
-        yield return new WaitForSeconds(pauseBetweenMove); // Adjust the pause between moves
+        yield return new WaitForSeconds(0.2f); // Adjust the pause between moves
 
         t = 0;
         while (t < 1)
         {
-            t += Time.deltaTime * animationSpeed; // Adjust the speed of the animation
+            t += Time.deltaTime * 2; // Adjust the speed of the animation
             ammoText.rectTransform.localPosition = Vector3.Lerp(targetPos, originalPos, t);
             yield return null;
         }
