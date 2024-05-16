@@ -261,18 +261,6 @@ Transform:
   - {fileID: 231744835}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &163078138 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 826859418506272954, guid: ed43599a04242c5e0abe71d0da308e87,
-    type: 3}
-  m_PrefabInstance: {fileID: 1908593406407055192}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &178426360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -281,11 +269,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 898384665}
     m_Modifications:
-    - target: {fileID: 328600626425466831, guid: cadcded41010da8fd8fd97908bd40dcd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1013293374867459091, guid: cadcded41010da8fd8fd97908bd40dcd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -304,22 +287,22 @@ PrefabInstance:
     - target: {fileID: 3661841200732785536, guid: cadcded41010da8fd8fd97908bd40dcd,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3661841200732785536, guid: cadcded41010da8fd8fd97908bd40dcd,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3661841200732785536, guid: cadcded41010da8fd8fd97908bd40dcd,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3661841200732785536, guid: cadcded41010da8fd8fd97908bd40dcd,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3661841200732785536, guid: cadcded41010da8fd8fd97908bd40dcd,
         type: 3}
@@ -395,11 +378,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ExitConfirmationMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 6721849095340500919, guid: cadcded41010da8fd8fd97908bd40dcd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8542985665337185119, guid: cadcded41010da8fd8fd97908bd40dcd,
         type: 3}
@@ -589,7 +567,7 @@ MonoBehaviour:
   nextAllowedShotTime: 0.2
   bulletRecoveryTime: 2
   shootDistance: 1000
-  bulletsLeftAmount: {fileID: 163078138}
+  bulletsLeftAmount: {fileID: 0}
   initialBulletAmount: 30
   aimTransitionDuration: 0.2
   defaultFOV: 60
@@ -984,6 +962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsGamePaused: 0
+  pauseMenu: {fileID: 1479831814}
 --- !u!114 &464007099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1034,12 +1013,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flyingEnemyPrefabs:
-  - {fileID: 5292393993258775047, guid: 26576b9c8df1e571181b3732e2cf3e97, type: 3}
+  - {fileID: 5292393993258775047, guid: c896c0612335010e1baa134954ae4b77, type: 3}
   - {fileID: 5292393993258775047, guid: 370809f2184445a04974e96fa966d6c4, type: 3}
   - {fileID: 5292393993258775047, guid: 6e967051126847aab9f12b4e43b2befd, type: 3}
   flySpawnInterval: 2
-  flySpawnNumber: 1
-  flySpawnProbability: 1
+  flySpawnNumber: 0
+  flySpawnProbability: 0.401
   sphereRadius: 20
   groundEnemyPrefabs:
   - {fileID: 5292393993258775047, guid: 01504c73debfe363b809cafbce3f0d8e, type: 3}
@@ -1047,13 +1026,13 @@ MonoBehaviour:
   - {fileID: 5292393993258775047, guid: e78ce5c476babe404b0b4be6d683da82, type: 3}
   - {fileID: 5292393993258775047, guid: 2cdcb189c20b0fe258f1128f405e7388, type: 3}
   groundSpawnInterval: 2
-  groundSpawnNumber: 1
-  groundSpawnProbability: 1
+  groundSpawnNumber: 0
+  groundSpawnProbability: 0.362
   circleRadius: 20
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 8
-  groundBoss: {fileID: 5292393993258775047, guid: 0a0e00b190e773ab3bb551c5ae8a64e0,
+  groundBoss: {fileID: 5292393993258775047, guid: 24f8227239c9aaffe835743efee7acf8,
     type: 3}
   flyBoss: {fileID: 5292393993258775047, guid: 3474266b2ae56979abe35b17e71eb10b, type: 3}
   spawnBossPoints: 10
@@ -1771,16 +1750,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 6422058849980204765, guid: 41e5618fa6dc25224a086d2dead66ca6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239517810455130672, guid: 41e5618fa6dc25224a086d2dead66ca6,
-        type: 3}
-      propertyPath: cRTVolume
-      value: 
-      objectReference: {fileID: 858915731}
     - target: {fileID: 7314162999772017924, guid: 41e5618fa6dc25224a086d2dead66ca6,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1892,6 +1861,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1479831812}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1479831814 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7239517810455130672, guid: 41e5618fa6dc25224a086d2dead66ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1479831812}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de8a3d864b3ff47f684f942e0d6e975b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1510183875
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,6 @@ public class SetResolution : MonoBehaviour
     private void Start()
     {
         SetRatio(4, 3);
-        DontDestroyOnLoad(this.gameObject);
     }
     
     private void SetRatio(float width, float height)

@@ -7,6 +7,7 @@ public class PreloadMenu : MonoBehaviour
 {
     // ---- / Serialized Variables / ---- //
     [SerializeField] private TMP_Text loadingText;
+    [SerializeField] private GameObject fadeInOut;
 
     // ---- / Private Variables / ---- //
     private int _dotsAmount;
@@ -16,6 +17,7 @@ public class PreloadMenu : MonoBehaviour
     {
         InvokeRepeating(nameof(CycleDots), 0.7f, 0.7f);
         SaveLoadManager.Load();
+        fadeInOut.SetActive(true);
     }
 
     private void Update()

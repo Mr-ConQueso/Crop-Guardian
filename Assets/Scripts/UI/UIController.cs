@@ -8,6 +8,9 @@ public class UIController : MonoBehaviour
     // ---- / Public Variables / ---- //
     public bool IsGamePaused;
     
+    // ---- / Serialized Variables / ---- //
+    [SerializeField] private PauseMenu pauseMenu;
+    
     /// <summary>
     /// Pause the time, remove player control
     /// and show the cursor.
@@ -16,7 +19,7 @@ public class UIController : MonoBehaviour
     {
         IsGamePaused = true;
         
-        MenuManager.PauseMenu.SetActive(true);
+        pauseMenu.gameObject.SetActive(true);
         
         //Time.timeScale = 0.0f;
         Cursor.lockState = CursorLockMode.None;
@@ -26,9 +29,9 @@ public class UIController : MonoBehaviour
     public void UnPauseGame()
     {
         IsGamePaused = false;
-        
-        MenuManager.PauseMenu.SetActive(false);
-        
+
+        pauseMenu.OnClick_BackToGame();
+            
         //Time.timeScale = 1.0f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

@@ -105,7 +105,7 @@ public class GameController : MonoBehaviour, ISaveable
     
     private void Update()
     {
-        if (_isTimerRunning)
+        if (_isTimerRunning && !UIController.Instance.IsGamePaused)
         {
             _elapsedTime += Time.deltaTime;
             survivedTimeText.text = FormatTimer(_elapsedTime);
