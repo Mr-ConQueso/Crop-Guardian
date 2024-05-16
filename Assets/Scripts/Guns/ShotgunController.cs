@@ -5,15 +5,10 @@ namespace Player.Guns
     public class ShotgunController : GunController
     {
         // ---- / Serialized Variables / ---- //
-        [SerializeField] private int pelletsPerShot = 5;
-        [SerializeField] private float spreadAngle = 20f;
-
-        void Start()
-        {
-            MainCamera = Camera.main;
-        }
-
-        void Update()
+        [SerializeField] protected int pelletsPerShot = 5;
+        [SerializeField] protected float spreadAngle = 20f;
+        
+        protected override void Update()
         {
             if (IsReloading)
             {
@@ -29,7 +24,7 @@ namespace Player.Guns
             if (Input.GetButton("Fire1") && Time.time >= NextFireTime)
             {
                 NextFireTime = Time.time + fireRate;
-                Shoot();
+                StartShootAnimation();
             }
         }
         
