@@ -5,5 +5,6 @@ public enum Menu
     ExitMenu,
     PauseMenu,
     StoreMenu,
-    CreditsMenu
+    CreditsMenu,
+    ControlsMenu
 }

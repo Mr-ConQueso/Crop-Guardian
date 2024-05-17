@@ -1,13 +1,9 @@
+using BaseGame;
 using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
     // ---- / Serialized Variables / ---- //
-    [Header("Horizontal")]
-    [SerializeField] private float horizontalRotationSpeed = 5.0f;
-    [Header("Vertical")]
-    [SerializeField] private float verticalRotationSpeed = 5.0f;
-    [SerializeField] private bool invertVerticalAxis = true;
     [SerializeField] private float maxHeightAngle = 120;
     [SerializeField] private float minHeightAngle;
     
@@ -23,8 +19,8 @@ public class PlayerLook : MonoBehaviour
     {
         if (GameController.IsGameEnded == false && !UIController.Instance.IsGamePaused)
         {
-            float verticalRotation = Input.GetAxis("Mouse Y") * verticalRotationSpeed * GetControlsInverted();
-            float horizontalRotation = Input.GetAxis("Horizontal") * horizontalRotationSpeed;
+            float verticalRotation = Input.GetAxis("Mouse Y") * SavedSettings.mouseVerticalSensibility * GetControlsInverted();
+            float horizontalRotation = Input.GetAxis("Horizontal") * SavedSettings.mouseHorizontalSensibility;
 
             SetRotation(horizontalRotation, verticalRotation);
         }
@@ -64,7 +60,7 @@ public class PlayerLook : MonoBehaviour
     /// <returns></returns>
     private int GetControlsInverted()
     {
-        if (invertVerticalAxis)
+        if (SavedSettings.invertDirection)
         {
             return -1;
         }

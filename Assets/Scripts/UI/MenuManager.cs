@@ -3,7 +3,7 @@ using UnityEngine;
 public class MenuManager : MonoBehaviour
 {
     // ---- / Public Variables / ---- //
-    public static GameObject MainMenu, SettingsMenu, ExitMenu, PauseMenu, StoreMenu, CreditsMenu;
+    public static GameObject MainMenu, SettingsMenu, ExitMenu, PauseMenu, StoreMenu, CreditsMenu, ControlsMenu;
 
     private void Awake()
     {
@@ -13,6 +13,7 @@ public class MenuManager : MonoBehaviour
         PauseMenu = transform.Find("PauseMenu")?.gameObject;
         StoreMenu = transform.Find("StoreMenu")?.gameObject;
         CreditsMenu = transform.Find("CreditsMenu")?.gameObject;
+        ControlsMenu = transform.Find("ControlsMenu")?.gameObject;
     }
     
     /// <summary>
@@ -41,6 +42,9 @@ public class MenuManager : MonoBehaviour
                 break;
             case Menu.CreditsMenu:
                 CreditsMenu.SetActive(true);
+                break;
+            case Menu.ControlsMenu:
+                ControlsMenu.SetActive(true);
                 break;
         }
         

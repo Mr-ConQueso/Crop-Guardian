@@ -7,8 +7,8 @@ public class EnemyController : MonoBehaviour
     public static event DefeatEnemyEventHandler OnDefeatEnemy;
     
     // ---- / Children Variables / ---- //
-    [SerializeField] protected float MoveSpeed = 1.0f;
-    [SerializeField] protected int Health = 1;
+    [SerializeField] protected float moveSpeed = 1.0f;
+    [SerializeField] protected float health = 1;
     
     // ---- / Private Variables / ---- //
     private Transform _enemyTransform;
@@ -17,15 +17,15 @@ public class EnemyController : MonoBehaviour
     /// Remove the inputted amount of health from the enemy
     /// </summary>
     /// <param name="amountToRemove"></param>
-    public void RemoveHealth(int amountToRemove)
+    public void RemoveHealth(float amountToRemove)
     {
-        if (Health > 1)
+        if (health <= 0)
         {
-            Health -= amountToRemove;
+            KillSelf();
         }
         else
         {
-            KillSelf();
+            health -= amountToRemove;
         }
     }
     
@@ -57,7 +57,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void Move()
     {
-        float step = MoveSpeed * Time.deltaTime;
+        float step = moveSpeed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, _enemyTransform.position, step);
     }
     

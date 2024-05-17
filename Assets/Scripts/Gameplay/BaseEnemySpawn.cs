@@ -31,21 +31,16 @@ public class BaseEnemySpawn : MonoBehaviour
 
     [SerializeField] protected int spawnBossPoints = 5;
 
-    protected virtual void Update()
-    {
-        DrawDebugLines(CalculateMaxShootingHeight());
-    }
-
-    protected virtual void SpawnFlyBoss(GameObject boss, float sphereRadius)
+    protected virtual void SpawnFlyBoss(GameObject boss, float spawnSphereRadius)
     {
         HasBossSpawned = true;
-        Instantiate(boss, GetPointOnSemiSphere(sphereRadius), Quaternion.identity);
+        Instantiate(boss, GetPointOnSemiSphere(spawnSphereRadius), Quaternion.identity);
     }
     
-    protected virtual void SpawnGroundBoss(GameObject boss, float circleRadius)
+    protected virtual void SpawnGroundBoss(GameObject boss, float spawnCircleRadius)
     {
         HasBossSpawned = true;
-        Instantiate(boss, GetPointOnCircle(circleRadius), Quaternion.identity);
+        Instantiate(boss, GetPointOnCircle(spawnCircleRadius), Quaternion.identity);
     }
 
     /// <summary>
@@ -53,13 +48,14 @@ public class BaseEnemySpawn : MonoBehaviour
     /// surface of a sphere around the center.
     /// </summary>
     /// <param name="numberOfPrefabs"></param>
-    /// <param name="flyingEnemyPrefabs"></param>
-    protected virtual void SpawnFlyingEnemies(int numberOfPrefabs, GameObject[] flyingEnemyPrefabs, float sphereRadius)
+    /// <param name="flyingPrefabs"></param>
+    /// <param name="spawnSphereRadius"></param>
+    protected virtual void SpawnFlyingEnemies(int numberOfPrefabs, GameObject[] flyingPrefabs, float spawnSphereRadius)
     {
         for (int i = 0; i < numberOfPrefabs; i++)
         {
-            GameObject prefabToSpawn = flyingEnemyPrefabs[Random.Range(0, flyingEnemyPrefabs.Length)];
-            Instantiate(prefabToSpawn, GetPointOnSemiSphere(sphereRadius), Quaternion.identity);
+            GameObject prefabToSpawn = flyingPrefabs[Random.Range(0, flyingPrefabs.Length)];
+            Instantiate(prefabToSpawn, GetPointOnSemiSphere(spawnSphereRadius), Quaternion.identity);
         }
     }
 
@@ -68,13 +64,14 @@ public class BaseEnemySpawn : MonoBehaviour
     /// perimeter of a circle around the player.
     /// </summary>
     /// <param name="numberOfPrefabs"></param>
-    /// <param name="groundEnemyPrefabs"></param>
-    protected virtual void SpawnGroundEnemies(int numberOfPrefabs, GameObject[] groundEnemyPrefabs, float circleRadius)
+    /// <param name="groundPrefabs"></param>
+    /// <param name="spawnCircleRadius"></param>
+    protected virtual void SpawnGroundEnemies(int numberOfPrefabs, GameObject[] groundPrefabs, float spawnCircleRadius)
     {
         for (int i = 0; i < numberOfPrefabs; i++)
         {
-            GameObject prefabToSpawn = groundEnemyPrefabs[Random.Range(0, groundEnemyPrefabs.Length)];
-            Instantiate(prefabToSpawn, GetPointOnCircle(circleRadius), Quaternion.identity);
+            GameObject prefabToSpawn = groundPrefabs[Random.Range(0, groundPrefabs.Length)];
+            Instantiate(prefabToSpawn, GetPointOnCircle(spawnCircleRadius), Quaternion.identity);
         }
     }
 
@@ -91,7 +88,7 @@ public class BaseEnemySpawn : MonoBehaviour
         {
             randomPoint = new Vector3(Random.Range(-radius, radius), 200, Random.Range(-radius, radius)) + transform.position;
         } while (!Physics.Raycast(randomPoint, Vector3.down, out hit, Mathf.Infinity, groundLayerMask) ||
-                 Vector3.Distance(randomPoint, transform.position) < 0.6f * radius);
+                 Vector3.Distance(randomPoint, transform.position) < 0.85f * radius);
 
         return hit.point;
     }
@@ -128,17 +125,4 @@ public class BaseEnemySpawn : MonoBehaviour
     }
     
     public virtual void NextLevel() { }
-    
-    private void DrawDebugLines(float maxY)
-    {
-        Vector3 playerStart = transform.position;
-        
-        // Draw line representing shooting height limit
-        Vector3 shootingHeightLimitEnd = Vector3.up * maxY;
-        Debug.DrawLine(playerStart, shootingHeightLimitEnd, Color.blue);
-        
-        // Draw horizontal height limit
-        Vector3 horizontalEnd = shootingHeightLimitEnd + Vector3.forward * 100;
-        Debug.DrawLine(shootingHeightLimitEnd, horizontalEnd, Color.magenta);
-    }
 }

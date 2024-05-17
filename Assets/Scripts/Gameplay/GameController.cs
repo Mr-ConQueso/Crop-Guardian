@@ -177,8 +177,8 @@ public class GameController : MonoBehaviour, ISaveable
 
         SetMaxScoreAndTime textComponents = screenToActivate.GetComponent<SetMaxScoreAndTime>();
         
-        textComponents.scoreText.text = FormatTimer(highestSurviveTime);
-        textComponents.timeText.text = highScore.ToString();
+        textComponents.scoreText.text = highScore.ToString();
+        textComponents.timeText.text = FormatTimer(highestSurviveTime);
     }
 
     private void RestartLevel()
@@ -187,7 +187,10 @@ public class GameController : MonoBehaviour, ISaveable
         CurrentScore = 0;
 
         IsGameEnded = false;
-        UIController.Instance.UnPauseGame();
+        //UIController.Instance.UnPauseGame();
+        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         
         endGameScreen.SetActive(false);
         winLevelScreen.SetActive(false);

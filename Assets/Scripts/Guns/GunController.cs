@@ -5,12 +5,16 @@ using UnityEngine;
 public class GunController : MonoBehaviour
 {
     // ---- / Serialized Variables / ---- //
-    [SerializeField] protected int waitFrames = 0;
+    [SerializeField] protected int waitFrames;
+    [SerializeField] protected float fireRate = 0.1f;
+    [SerializeField] protected float damageAmount = 0.5f;
+    
+    [Header("Ammo")]
     [SerializeField] protected int maxAmmo = 30;
     [SerializeField] protected float reloadTime = 2f;
-    [SerializeField] protected float fireRate = 0.1f;
-    [SerializeField] protected int damageAmount = 1;
     [SerializeField] protected float shootDistance = 20f;
+    
+    [Header("Ammo Text")]
     [SerializeField] protected TextMeshProUGUI ammoText;
     [SerializeField] protected float textMoveAmount = 10f;
     
@@ -20,12 +24,13 @@ public class GunController : MonoBehaviour
 
     // ---- / Protected Variables / ---- //
     protected int CurrentAmmo;
-    protected bool IsReloading = false;
+    protected bool IsReloading;
     protected Camera MainCamera;
-    protected float NextFireTime = 0f;
+    protected float NextFireTime;
     
     // ---- / Private Variables / ---- //
     private Animator _animator;
+    private static readonly int AnimatorShootTrigger = Animator.StringToHash("shoot");
 
     protected virtual void Start()
     {
@@ -70,7 +75,7 @@ public class GunController : MonoBehaviour
 
     protected virtual void StartShootAnimation()
     {
-        _animator.SetTrigger("shoot");
+        _animator.SetTrigger(AnimatorShootTrigger);
         float timeTillShoot = waitFrames * (1.0f / 12.0f);
         Invoke(nameof(Shoot), timeTillShoot);
         StartCoroutine(MoveTextDownAndUp(8, 0.3f));
