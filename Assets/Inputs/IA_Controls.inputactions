@@ -36,7 +36,7 @@
                     "name": "LookHorizontal",
                     "type": "Value",
                     "id": "840f2d68-3e4d-4345-b25e-8dbd41c20cdd",
-                    "expectedControlType": "Double",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -45,7 +45,7 @@
                     "name": "LookVertical",
                     "type": "Value",
                     "id": "d36d34df-1cda-4f02-bbfe-63457707e64b",
-                    "expectedControlType": "Double",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "LookJoystick",
+                    "type": "Value",
+                    "id": "4e0ff339-6049-4b0a-9263-1fff5a931ba2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -284,7 +293,7 @@
                 {
                     "name": "AD",
                     "id": "9c691a49-c23d-46ee-89f0-0d121a9a7f8e",
-                    "path": "Dpad",
+                    "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -293,7 +302,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "left",
+                    "name": "positive",
                     "id": "ad00bb1e-8223-49e4-a1bd-57002b1c53a8",
                     "path": "<Keyboard>/a",
                     "interactions": "",
@@ -304,7 +313,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "left",
+                    "name": "Positive",
                     "id": "a4d2e61a-01ae-400a-b1e0-eb00d4aa65f1",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
@@ -315,8 +324,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
-                    "id": "ee80f477-caaa-46e7-8a84-9b3a978b5d41",
+                    "name": "negative",
+                    "id": "3db98444-a815-4896-84e5-79565d2fbac8",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -326,8 +335,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
-                    "id": "96c17ead-6677-42aa-b3f9-a2adf78f85f2",
+                    "name": "negative",
+                    "id": "b4d7f69d-7481-437c-b0d3-b18dbcce4e5f",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
@@ -339,7 +348,7 @@
                 {
                     "name": "WS",
                     "id": "b7bbd6bf-d6c0-4c39-a73b-2ee6888aebed",
-                    "path": "Dpad",
+                    "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -348,7 +357,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
+                    "name": "positive",
                     "id": "bea8efff-1763-4f35-8766-1f7a395dce26",
                     "path": "<Keyboard>/w",
                     "interactions": "",
@@ -359,7 +368,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "up",
+                    "name": "Positive",
                     "id": "87c930de-7606-4d32-af8c-7af76d659701",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
@@ -370,8 +379,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "down",
-                    "id": "4bea4710-b04f-4e0e-b26b-d9e2e60f2bc4",
+                    "name": "Negative",
+                    "id": "99063eac-79dd-4583-81d6-40731250985f",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -381,8 +390,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "down",
-                    "id": "fe41d9f9-db7d-4f76-bc50-b0f79b2c0bff",
+                    "name": "Negative",
+                    "id": "30f30144-0317-49b0-bd5f-04f665d79844",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
@@ -393,8 +402,8 @@
                 },
                 {
                     "name": "",
-                    "id": "ae7ae524-d666-42c3-8ecb-8f24d9f334ad",
-                    "path": "<Pointer>/delta",
+                    "id": "929e2a52-ba65-4538-aca0-12447078c156",
+                    "path": "<Mouse>/delta/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -410,6 +419,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c30e954-1ac9-4a8d-ac8b-ef218b3163ab",
+                    "path": "<Joystick>/{Hatswitch}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookJoystick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1141168f-78dd-4c93-944c-3e2909415695",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookJoystick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

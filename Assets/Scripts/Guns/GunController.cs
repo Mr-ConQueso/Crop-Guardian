@@ -53,7 +53,7 @@ public class GunController : MonoBehaviour
             StartCoroutine(Reload());
             return;
         }
-        // Input.GetButton("Fire1")
+        
         if (InputManager.WasAttackPressed && Time.time >= NextFireTime && !UIController.Instance.IsGamePaused)
         {
             NextFireTime = Time.time + fireRate;
