@@ -45,8 +45,10 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && 
-            (MenuManager.SettingsMenu.activeSelf == false && MenuManager.ExitMenu.activeSelf == false && GameController.IsGameEnded == false))
+        if (InputManager.WasEscapePressed && 
+            (MenuManager.SettingsMenu.activeSelf == false
+             && MenuManager.ExitMenu.activeSelf == false
+             && GameController.IsGameEnded == false))
         {
             TogglePauseState();
         }

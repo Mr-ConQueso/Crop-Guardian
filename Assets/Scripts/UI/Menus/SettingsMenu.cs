@@ -174,7 +174,7 @@ public class SettingsController : MonoBehaviour, ISaveable
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (InputManager.WasEscapePressed)
         {
             OnClick_GoBack();
         }

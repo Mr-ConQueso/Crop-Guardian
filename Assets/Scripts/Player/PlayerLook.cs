@@ -19,25 +19,11 @@ public class PlayerLook : MonoBehaviour
     {
         if (GameController.IsGameEnded == false && !UIController.Instance.IsGamePaused)
         {
-            if (InputManager.LookJoystickInput != Vector2.zero)
-            {
-                Vector2 joystickLook = InputManager.LookJoystickInput * (SavedSettings.mouseVerticalSensibility * SavedSettings.invertDirection);
-                
-                SetRotation(joystickLook.x, joystickLook.y);
-            }
-            else
-            {
-                // float verticalRotation = Input.GetAxis("Mouse Y") * SavedSettings.mouseVerticalSensibility * SavedSettings.invertDirection;
-                // float horizontalRotation = Input.GetAxis("Horizontal") * SavedSettings.mouseHorizontalSensibility;
-                
-                float verticalRotation = InputManager.LookVerticalInput * SavedSettings.mouseVerticalSensibility * SavedSettings.invertDirection;
-                float horizontalRotation = InputManager.LookHorizontalInput * SavedSettings.mouseHorizontalSensibility;
+            float verticalRotation = InputManager.LookVerticalInput * SavedSettings.mouseVerticalSensibility * SavedSettings.invertDirection;
+            float horizontalRotation = InputManager.LookHorizontalInput * SavedSettings.mouseHorizontalSensibility;
 
-                SetRotation(horizontalRotation, verticalRotation);
-            }
+            SetRotation(horizontalRotation, verticalRotation);
         }
-        
-        Debug.DrawLine(transform.position, transform.position + transform.forward * 200, Color.cyan);
     }
     
     /// <summary>

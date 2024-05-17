@@ -1104,19 +1104,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlasmaRifle
       objectReference: {fileID: 0}
-    - target: {fileID: 8476495364183709569, guid: faacb4947bca89ff8a5256140369c249,
+    - target: {fileID: 8717038821822717969, guid: faacb4947bca89ff8a5256140369c249,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: spawnTrailPosition
+      value: 
+      objectReference: {fileID: 8580528}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8476495364183709569, guid: faacb4947bca89ff8a5256140369c249,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 474488028}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faacb4947bca89ff8a5256140369c249, type: 3}
 --- !u!224 &405426244 stripped
 RectTransform:
@@ -1333,7 +1329,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 464007094}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84a08dd7041d4ca38ce7276e8ab713ba, type: 3}
   m_Name: 
@@ -1370,29 +1366,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 405426243}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &474488028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 474488027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3293e9dc2a04a9f8180d1c80362681d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waitFrames: 6
-  fireRate: 1.038
-  damageAmount: 2
-  maxAmmo: 30
-  reloadTime: 2
-  shootDistance: 20
-  ammoText: {fileID: 0}
-  textMoveAmount: 0
-  particleTrail: {fileID: 8281131653304900579, guid: 68b8604092339bc6c9b159199aa77f83,
-    type: 3}
-  spawnTrailPosition: {fileID: 8580528}
 --- !u!1001 &478902090
 PrefabInstance:
   m_ObjectHideFlags: 0
