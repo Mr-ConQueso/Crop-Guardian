@@ -1,11 +1,11 @@
-using System;
+using BaseGame;
 using Enemy;
 using SaveLoad;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class GameController : MonoBehaviour, ISaveable
+public class GameController : MonoBehaviour
 {
     // ---- / Singleton / ---- //
     public static GameController Instance;
@@ -13,9 +13,7 @@ public class GameController : MonoBehaviour, ISaveable
     // ---- / Static Variables / ---- //
     public static bool IsGameEnded;
     
-    public float highestSurviveTime;
     public int CurrentScore { get; private set; }
-    public int highScore;
     
     // ---- / Serialized Variables / ---- //
     [Header("In-Game Info")]
@@ -68,20 +66,24 @@ public class GameController : MonoBehaviour, ISaveable
         _isTimerRunning = false;
     }
     
-    private void UpdateSurvivedTime(float newScore)
+    private float GetHighestSurvivedTime(float oldTime, float newTime)
     {
-        if (newScore > highestSurviveTime)
+        if (newTime > oldTime)
         {
-            highestSurviveTime = newScore;
+            return newTime;
         }
+
+        return oldTime;
     }
     
-    private void UpdateHighScore(int newScore)
+    private int GetHighestScore(int oldScore, int newScore)
     {
-        if (newScore > highScore)
+        if (newScore > oldScore)
         {
-            highScore = newScore;
+            return newScore;
         }
+
+        return oldScore;
     }
     
     private void Start()
@@ -172,13 +174,15 @@ public class GameController : MonoBehaviour, ISaveable
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        UpdateSurvivedTime(_elapsedTime);
-        UpdateHighScore(CurrentScore);
+        SavedSettings.highestTime = GetHighestSurvivedTime(SavedSettings.highestTime, _elapsedTime);
+        SavedSettings.highestScore = GetHighestScore(SavedSettings.highestScore, CurrentScore);
 
         SetMaxScoreAndTime textComponents = screenToActivate.GetComponent<SetMaxScoreAndTime>();
         
-        textComponents.scoreText.text = highScore.ToString();
-        textComponents.timeText.text = FormatTimer(highestSurviveTime);
+        textComponents.scoreText.text = CurrentScore.ToString();
+        textComponents.timeText.text = FormatTimer(_elapsedTime);
+        
+        SaveLoadManager.Save();
     }
 
     private void RestartLevel()
@@ -200,32 +204,5 @@ public class GameController : MonoBehaviour, ISaveable
     {
         CurrentScore++;
         scoreText.text = CurrentScore.ToString();
-    }
-
-    public object CaptureState()
-    {
-        return new SaveData()
-        {
-            hightestScore = highScore,
-            score = CurrentScore,
-            highestTime = highestSurviveTime
-        };
-    }
-
-    public void RestoreState(object state)
-    {
-        var saveData = (SaveData)state;
-
-        highScore = saveData.hightestScore;
-        CurrentScore = saveData.score;
-        highestSurviveTime = saveData.highestTime;
-    }
-    
-    [Serializable]
-    private struct SaveData
-    {
-        public int hightestScore;
-        public int score;
-        public float highestTime;
     }
 }

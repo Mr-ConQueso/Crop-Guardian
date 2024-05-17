@@ -7,7 +7,7 @@ public class InputManager : MonoBehaviour
     public static InputManager Instance;
     
     // ---- / Public Variables / ---- //
-    public Vector2 NavigationInput { get; set;  }
+    public Vector2 NavigationInput { get; set; }
     
     public static double LookHorizontalInput;
     public static double LookVerticalInput;

@@ -19,7 +19,7 @@ public class PlayerLook : MonoBehaviour
     {
         if (GameController.IsGameEnded == false && !UIController.Instance.IsGamePaused)
         {
-            float verticalRotation = Input.GetAxis("Mouse Y") * SavedSettings.mouseVerticalSensibility * GetControlsInverted();
+            float verticalRotation = Input.GetAxis("Mouse Y") * SavedSettings.mouseVerticalSensibility * SavedSettings.invertDirection;
             float horizontalRotation = Input.GetAxis("Horizontal") * SavedSettings.mouseHorizontalSensibility;
 
             SetRotation(horizontalRotation, verticalRotation);
@@ -52,18 +52,5 @@ public class PlayerLook : MonoBehaviour
         {
             _currentAngleX = maxHeightAngle;
         }
-    }
-        
-    /// <summary>
-    /// Returns 1 or -1 based on the vertical axis inversion.
-    /// </summary>
-    /// <returns></returns>
-    private int GetControlsInverted()
-    {
-        if (SavedSettings.invertDirection)
-        {
-            return -1;
-        }
-        return 1;
     }
 }
