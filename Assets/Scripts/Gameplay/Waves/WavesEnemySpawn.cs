@@ -68,8 +68,12 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
 
     public override void NextLevel()
     {
+<<<<<<< Updated upstream
         HasBossSpawned = false;
         _currentWaveScore = 0;
+=======
+        CurrentWaveScore = 0;
+>>>>>>> Stashed changes
         _currentWave++;
         wavesScreen.SetActive(true);
         wavesScreenText.text = "Wave : " + _currentWave;
@@ -86,8 +90,6 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
         groundSpawnInterval -= 0.1f;
         groundSpawnNumber += 1;
         groundSpawnProbability += 0.1f;
-
-        spawnBossPoints += 1;
     }
 
     private void HideWaveMenu()
