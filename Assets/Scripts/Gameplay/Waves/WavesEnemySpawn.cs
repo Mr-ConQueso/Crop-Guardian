@@ -68,12 +68,9 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
 
     public override void NextLevel()
     {
-<<<<<<< Updated upstream
         HasBossSpawned = false;
         _currentWaveScore = 0;
-=======
-        CurrentWaveScore = 0;
->>>>>>> Stashed changes
+        
         _currentWave++;
         wavesScreen.SetActive(true);
         wavesScreenText.text = "Wave : " + _currentWave;
