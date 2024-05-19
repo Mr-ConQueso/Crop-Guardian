@@ -21,7 +21,6 @@ public class UIController : MonoBehaviour
         
         pauseMenu.gameObject.SetActive(true);
         
-        //Time.timeScale = 0.0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -32,7 +31,6 @@ public class UIController : MonoBehaviour
 
         pauseMenu.OnClick_BackToGame();
             
-        //Time.timeScale = 1.0f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -47,8 +45,10 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && 
-            (MenuManager.SettingsMenu.activeSelf == false && MenuManager.ExitMenu.activeSelf == false && GameController.IsGameEnded == false))
+        if (InputManager.WasEscapePressed && 
+            (MenuManager.SettingsMenu.activeSelf == false
+             && MenuManager.ExitMenu.activeSelf == false
+             && GameController.IsGameEnded == false))
         {
             TogglePauseState();
         }

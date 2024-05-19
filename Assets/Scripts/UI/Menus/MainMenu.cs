@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (InputManager.WasEscapePressed)
         {
             OnClick_Exit();
         }

@@ -8,8 +8,7 @@ namespace SaveLoad
     public class SaveLoadManager : MonoBehaviour
     {
         private static string SavePath => $"{Application.persistentDataPath}/save.cg";
-
-        [ContextMenu("Save")]
+        
         public static void Save()
         {
             var state = LoadFile();
@@ -17,11 +16,24 @@ namespace SaveLoad
             SaveFile(state);
         }
         
-        [ContextMenu("Load")]
         public static void Load()
         {
             var state = LoadFile();
             RestoreState(state);
+        }
+        
+        [ContextMenu("Delete All Settings")]
+        public void ResetAllSettings()
+        {
+            if (File.Exists(SavePath))
+            {
+                File.Delete(SavePath);
+                Debug.Log("Settings have been reset. File deleted.");
+            }
+            else
+            {
+                Debug.LogWarning("No settings file found to reset.");
+            }
         }
 
         private static Dictionary<string, object> LoadFile()

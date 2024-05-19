@@ -46,12 +46,12 @@ public class PlayerController : MonoBehaviour
 
             if (Time.time - _lastScrollTime > scrollDelay)
             {
-                if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+                if (InputManager.WasNextWeaponPressed)
                 {
                     _lastScrollTime = Time.time;
                     SwitchWeapon(1);
                 }
-                else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+                else if (InputManager.WasPreviousWeaponPressed)
                 {
                     _lastScrollTime = Time.time;
                     SwitchWeapon(-1);
@@ -78,12 +78,12 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Aim()
     {
-        if (Input.GetButtonDown("Fire2"))
+        if (InputManager.WasAimPressed)
         {
             _isAiming = true;
             _aimTransitionStartTime = Time.time;
         }
-        else if (Input.GetButtonUp("Fire2"))
+        else if (InputManager.WasAimReleased)
         {
             _isAiming = false;
             _aimTransitionStartTime = Time.time;
