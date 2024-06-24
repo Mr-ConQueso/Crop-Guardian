@@ -9,7 +9,7 @@ public class CreditsMenu : MonoBehaviour
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (InputManager.WasEscapePressed)
         {
             OnClick_GoBack();
         }

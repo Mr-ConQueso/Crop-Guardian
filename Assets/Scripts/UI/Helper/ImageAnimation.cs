@@ -1,20 +1,18 @@
-using BaseGame;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ImageAnimation : MonoBehaviour {
-
+    
     // ---- / Serialized Variables / ---- //
-    [SerializeField] private Sprite[] sprites;
-    [SerializeField] private int spritePerFrame = 6;
-    [SerializeField] private bool loop = true;
-    [SerializeField] private bool destroyOnEnd = false;
+    [SerializeField] protected Sprite[] sprites;
+    [SerializeField] protected int spritePerFrame = 6;
+    [SerializeField] protected bool loop = true;
+    [SerializeField] protected bool destroyOnEnd;
     
     // ---- / Private Variables / ---- //
-    private SceneTransitionManager _sceneTransitionManager;
-    private int _index = 0;
+    private int _index;
     private Image _image;
-    private int _frame = 0;
+    private int _frame;
     private bool _isAnimationPlaying;
 
     public void StartAnimation()
@@ -22,12 +20,11 @@ public class ImageAnimation : MonoBehaviour {
         _isAnimationPlaying = true;
     }
     
-    private void Awake() {
+    protected virtual void Awake() {
         _image = GetComponent<Image>();
-        _sceneTransitionManager = GetComponent<SceneTransitionManager>();
     }
 
-    private void Update ()
+    protected virtual void Update ()
     {
         if (_isAnimationPlaying)
         {
@@ -35,7 +32,7 @@ public class ImageAnimation : MonoBehaviour {
         }
     }
 
-    private void UpdateAnimation()
+    protected virtual void UpdateAnimation()
     {
         if (!loop && _index == sprites.Length) return;
         _frame ++;
@@ -46,10 +43,14 @@ public class ImageAnimation : MonoBehaviour {
         if (_index >= sprites.Length) {
             if (loop) _index = 0;
             if (destroyOnEnd) Destroy (gameObject);
-            _isAnimationPlaying = false;
-            _sceneTransitionManager.EndLoadIn();
-            _index = 0;
-            _frame = 0;
+            EndAnimation();
         }
+    }
+
+    protected virtual void EndAnimation()
+    {
+        _isAnimationPlaying = false;
+        _index = 0;
+        _frame = 0;
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    // ---- / Serialized Variables / ---- //
+    // ---- / Private Variables / ---- //
     [SerializeField] private Animator animator;
 
     private void OnEnable()

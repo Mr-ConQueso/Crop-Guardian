@@ -175,7 +175,7 @@ Animator:
   m_GameObject: {fileID: 2092624488425115809}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 35815b2428bbbfcc98df65be7241e940, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1f355c652ca8391f5ae807ec5ab5abdb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -330,13 +330,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6757391687332986420}
+  - component: {fileID: 8717038821822717969}
   m_Layer: 0
   m_Name: PlasmaRifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6757391687332986420
 RectTransform:
   m_ObjectHideFlags: 0
@@ -358,3 +359,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8717038821822717969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8476495364183709569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3293e9dc2a04a9f8180d1c80362681d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitFrames: 6
+  fireRate: 1.038
+  damageAmount: 2
+  maxAmmo: 30
+  reloadTime: 2
+  shootDistance: 20
+  ammoText: {fileID: 5185759307232440174}
+  textMoveAmount: 0
+  particleTrail: {fileID: 8281131653304900579, guid: 68b8604092339bc6c9b159199aa77f83,
+    type: 3}
+  spawnTrailPosition: {fileID: 0}

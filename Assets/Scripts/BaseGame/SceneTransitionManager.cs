@@ -14,7 +14,7 @@ namespace BaseGame
         
         // ---- / Private Variables / ---- //
         private Animator _transitionAnimator;
-        private ImageAnimation _imageAnimation;
+        private ImageAnimationMain _imageAnimation;
         
         private void Awake()
         {
@@ -27,7 +27,7 @@ namespace BaseGame
         private void Start()
         {
             _transitionAnimator = GetComponent<Animator>();
-            _imageAnimation = GetComponent<ImageAnimation>();
+            _imageAnimation = GetComponent<ImageAnimationMain>();
         }
 
         public void EndLoadIn()

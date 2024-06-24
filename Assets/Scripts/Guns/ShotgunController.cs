@@ -8,26 +8,6 @@ namespace Player.Guns
         [SerializeField] protected int pelletsPerShot = 5;
         [SerializeField] protected float spreadAngle = 20f;
         
-        protected override void Update()
-        {
-            if (IsReloading)
-            {
-                return;
-            }
-
-            if (CurrentAmmo <= 0)
-            {
-                StartCoroutine(Reload());
-                return;
-            }
-
-            if (Input.GetButton("Fire1") && Time.time >= NextFireTime)
-            {
-                NextFireTime = Time.time + fireRate;
-                StartShootAnimation();
-            }
-        }
-        
         protected override void Shoot()
         {
             for (int i = 0; i < pelletsPerShot; i++)

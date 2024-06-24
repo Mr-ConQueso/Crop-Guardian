@@ -23,7 +23,7 @@ namespace Enemy
             navMeshAgent = GetComponent<NavMeshAgent>();
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
-            navMeshAgent.speed = MoveSpeed;
+            navMeshAgent.speed = moveSpeed;
             
             if (playerTransform != null)
             {

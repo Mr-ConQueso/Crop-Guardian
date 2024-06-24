@@ -11,9 +11,8 @@ public class LevelsEnemySpawn : BaseEnemySpawn
         GameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
-    protected override void Update()
+    private void Update()
     {
-        base.Update();
         SingleLevel();
     }
 

@@ -6,9 +6,6 @@ using Random = UnityEngine.Random;
 
 public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
 {
-    // ---- / Public Variables / ---- //
-    public int CurrentWaveScore { get; private set; }
-    
     // ---- / Serialized Variables / ---- //
     [SerializeField] private GameObject wavesScreen;
     [SerializeField] private TMP_Text wavesScreenText;
@@ -16,10 +13,10 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
     // ---- / Private Variables / ---- //   
     private int _currentWave = 1;
     private int _highestWave;
+    private int _currentWaveScore;
 
     private void Start()
     {
-        GameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         EnemyController.OnDefeatEnemy += OnDefeatEnemyHandler;
     }
 
@@ -28,10 +25,8 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
         EnemyController.OnDefeatEnemy -= OnDefeatEnemyHandler;
     }
 
-    protected override void Update()
+    private void Update()
     {
-        base.Update();
-
         if (!UIController.Instance.IsGamePaused)
         {
             Waves();
@@ -40,7 +35,7 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
 
     private void Waves()
     {
-        if (CurrentWaveScore >= spawnBossPoints && !HasBossSpawned)
+        if (_currentWaveScore >= spawnBossPoints && !HasBossSpawned)
         {
             if (Random.value >= 0.5)
             {
@@ -74,7 +69,8 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
     public override void NextLevel()
     {
         HasBossSpawned = false;
-        CurrentWaveScore = 0;
+        _currentWaveScore = 0;
+        
         _currentWave++;
         wavesScreen.SetActive(true);
         wavesScreenText.text = "Wave : " + _currentWave;
@@ -91,8 +87,6 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
         groundSpawnInterval -= 0.1f;
         groundSpawnNumber += 1;
         groundSpawnProbability += 0.1f;
-
-        spawnBossPoints += 1;
     }
 
     private void HideWaveMenu()
@@ -102,7 +96,7 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
     
     private void OnDefeatEnemyHandler()
     {
-        CurrentWaveScore++;
+        _currentWaveScore++;
     }
 
     public object CaptureState()
