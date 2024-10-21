@@ -31,7 +31,7 @@ public class LevelsEnemySpawn : BaseEnemySpawn
         }
         if (GameController.Instance.CurrentScore > spawnBossPoints && !_spawnBoss)
         {
-            GameController.WinLevel();
+            GameController.InvokeOnWinGame();
         }
         
         if (!HasBossSpawned)

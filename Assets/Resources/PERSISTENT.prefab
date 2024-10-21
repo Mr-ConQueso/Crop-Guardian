@@ -87,7 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 282188049919050190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2e55202cab048398f3f6728d3a009b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 332706308c1612d48bf21da1f2b1738a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!95 &5532966247690187593
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3330036939618477490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14ac7c2f004d4e03982400eefe2d9ee4, type: 3}
+  m_Script: {fileID: 11500000, guid: b66a52e3322949647a93ef829cd5b25a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4837306805861457754
@@ -321,6 +321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6970542643175001860}
   - component: {fileID: 3864003309635355661}
+  - component: {fileID: 2207464978200385834}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -353,6 +354,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d5967cccee4836a7cfe29452313d2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2207464978200385834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6425179034809472251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ff7c673754a019d56bf58889fcb2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7648384488260683657
@@ -514,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45fa7f3227684d86b3f955ffc9838f8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
+  id: 703b7e8a-c1ef-4f37-81bd-c68008afb837
 --- !u!1 &8789703711500977890
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +576,7 @@ MonoBehaviour:
   m_Actions: {fileID: -944628639613478452, guid: d273df8d66d719a728e265b5915b1654,
     type: 3}
   m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
+  m_UIInputModule: {fileID: 2957967715791248655}
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls: []

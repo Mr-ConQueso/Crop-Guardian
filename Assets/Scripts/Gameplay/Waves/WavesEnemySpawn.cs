@@ -27,7 +27,7 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
 
     private void Update()
     {
-        if (!UIController.Instance.IsGamePaused)
+        if (!GameController.Instance.IsGamePaused)
         {
             Waves();
         }
@@ -75,9 +75,10 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
         wavesScreen.SetActive(true);
         wavesScreenText.text = "Wave : " + _currentWave;
         Invoke(nameof(HideWaveMenu), 1.35f);
-        AddWaveDifficulty();
+        //AddWaveDifficulty();
     }
 
+    /*
     private void AddWaveDifficulty()
     {
         flySpawnInterval -= 0.1f;
@@ -87,7 +88,7 @@ public class WavesEnemySpawn : BaseEnemySpawn, ISaveable
         groundSpawnInterval -= 0.1f;
         groundSpawnNumber += 1;
         groundSpawnProbability += 0.1f;
-    }
+    }*/
 
     private void HideWaveMenu()
     {

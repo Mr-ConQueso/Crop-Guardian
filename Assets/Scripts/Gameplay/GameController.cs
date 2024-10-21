@@ -10,21 +10,31 @@ public class GameController : MonoBehaviour
     // ---- / Singleton / ---- //
     public static GameController Instance;
     
-    // ---- / Static Variables / ---- //
-    public static bool IsGameEnded;
+    // ---- / Events / ---- //
+    #region Game Loop Events
+    public delegate void GameStartEventHandler();
+    public static event GameStartEventHandler OnGameStart;
     
-    public int CurrentScore { get; private set; }
+    public delegate void GameEndEventHandler();
+    public static event GameEndEventHandler OnGameEnd;
+    
+    public delegate void GamePausedEventHandler();
+    public static event GamePausedEventHandler OnGamePaused;
+    public delegate void GameResumedEventHandler();
+    public static event GameResumedEventHandler OnGameResumed;
+    
+    #endregion
+    
+    // ---- / Hidden Public Variables / ---- //
+    [HideInInspector] public bool CanPauseGame = false;
+    [HideInInspector] public bool IsPlayerFrozen { get; private set; } = true;
+    [HideInInspector] public bool IsGamePaused { get; private set; }
+    [HideInInspector] public int CurrentScore { get; private set; }
+    [HideInInspector] public float TimerValue { get; private set; }
     
     // ---- / Serialized Variables / ---- //
     [Header("In-Game Info")]
     [SerializeField] private TMP_Text survivedTimeText;
-    [SerializeField] private TMP_Text scoreText;
-    
-    [Header("Win Level Screen")]
-    [SerializeField] private GameObject winLevelScreen;
-    
-    [Header("End-Game Screen")]
-    [SerializeField] private GameObject endGameScreen;
     
     [Header("Volumes")]
     [SerializeField] private Volume globalVolume;
@@ -32,13 +42,24 @@ public class GameController : MonoBehaviour
     
     // ---- / Private Variables / ---- //
     private BaseEnemySpawn _enemySpawner;
-    private float _elapsedTime;
     private bool _isTimerRunning;
+    private bool _isGameEnded;
 
-    public void SwitchVFXVolume(bool isMenusVolumeActive)
+    public void SwitchPostProcessVolume(bool isMenusVolumeActive)
     {
         menusVolume.enabled = isMenusVolumeActive;
         globalVolume.enabled = !isMenusVolumeActive;
+    }
+    
+    public void InvokeOnGameResumed()
+    {
+        IsPlayerFrozen = false;
+        IsGamePaused = false;
+        OnGameResumed?.Invoke();
+    }
+    public void InvokeOnWinGame()
+    {
+        WinGame();
     }
 
     private void Awake()
@@ -47,13 +68,17 @@ public class GameController : MonoBehaviour
         {
             Instance = this;
         }
+        
+        PlayerController.OnPlayerDeath += OnPlayerDeath;
+        BossEnemy.OnDefeatBoss += OnDefeatBoss;
+        EnemyController.OnDefeatEnemy += OnDefeatEnemy;
     }
 
     private void OnDestroy()
     {
-        PlayerController.OnPlayerDeath -= OnPlayerDeathHandler;
-        BossEnemy.OnDefeatBoss -= OnDefeatBossHandler;
-        EnemyController.OnDefeatEnemy -= OnDefeatEnemyHandler;
+        PlayerController.OnPlayerDeath -= OnPlayerDeath;
+        BossEnemy.OnDefeatBoss -= OnDefeatBoss;
+        EnemyController.OnDefeatEnemy -= OnDefeatEnemy;
     }
 
     private void StartTimer()
@@ -66,143 +91,121 @@ public class GameController : MonoBehaviour
         _isTimerRunning = false;
     }
     
-    private float GetHighestSurvivedTime(float oldTime, float newTime)
-    {
-        if (newTime > oldTime)
-        {
-            return newTime;
-        }
-
-        return oldTime;
-    }
-    
-    private int GetHighestScore(int oldScore, int newScore)
-    {
-        if (newScore > oldScore)
-        {
-            return newScore;
-        }
-
-        return oldScore;
-    }
-    
     private void Start()
     {
         SaveLoadManager.Load();
         
         RestartLevel();
-        
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false; 
-        
-        endGameScreen.SetActive(false);
+        StartGame();
         StartTimer();
 
         _enemySpawner = GetComponent<WavesEnemySpawn>();
-        
-        PlayerController.OnPlayerDeath += OnPlayerDeathHandler;
-        BossEnemy.OnDefeatBoss += OnDefeatBossHandler;
-        EnemyController.OnDefeatEnemy += OnDefeatEnemyHandler;
     }
     
     private void Update()
     {
-        if (_isTimerRunning && !UIController.Instance.IsGamePaused)
+        if (_isTimerRunning && !IsGamePaused)
         {
-            _elapsedTime += Time.deltaTime;
-            survivedTimeText.text = FormatTimer(_elapsedTime);
+            TimerValue += Time.deltaTime;
+            survivedTimeText.text = HelperFunctions.FormatTimer(TimerValue);
+        }
+        
+        if (InputManager.WasEscapePressed && CanPauseGame)
+        {
+            IsGamePaused = !IsGamePaused;
+            if (IsGamePaused)
+            {
+                PauseGame();
+            }
+            else
+            {
+                ResumeGame();
+            }
         }
     }
     
-    /// <summary>
-    /// Pause the time, remove player control
-    /// and show the cursor. End the game.
-    /// </summary>
-    private void EndGame()
+    private void StartGame()
     {
-        StopGame(endGameScreen);
+        IsPlayerFrozen = false;
+        IsGamePaused = false;
+        CanPauseGame = true;
+        OnGameStart?.Invoke();
+    }
+
+    private void PauseGame()
+    {
+        IsPlayerFrozen = true;
+        HelperFunctions.SetCursorMode(CursorLockMode.None, true);
+        OnGamePaused?.Invoke();
     }
     
-    private void OnPlayerDeathHandler()
+    private void ResumeGame()
     {
-        EndGame();
+        IsPlayerFrozen = false;
+        HelperFunctions.SetCursorMode(CursorLockMode.Locked, false);
+        OnGameResumed?.Invoke();
     }
     
-    private void OnDefeatBossHandler()
+    private void OnPlayerDeath()
+    {
+        LoseGame();
+    }
+    
+    private void OnDefeatBoss()
     {
         if (_enemySpawner is LevelsEnemySpawn)
         {
-            WinLevel();
+            WinGame();
         }
         else if (_enemySpawner is WavesEnemySpawn)
         {
             _enemySpawner.NextLevel();
         }
-        OnDefeatEnemyHandler();
+        OnDefeatEnemy();
+    }
+
+    private void WinGame()
+    {
+        MenuManager.OpenMenu(Menu.WinMenu);
+        EndGame();
+    }
+
+    private void LoseGame()
+    {
+        MenuManager.OpenMenu(Menu.LoseMenu);
+        EndGame();
     }
     
-    public void WinLevel()
+    private void EndGame()
     {
-        StopGame(winLevelScreen);
-    }
-    
-    public void AddScore(int amount)
-    {
-        CurrentScore += amount;
-    }
-
-    private string FormatTimer(float time)
-    {
-        // Format the elapsed time as minutes:seconds:milliseconds
-        string minutes = Mathf.Floor(time / 60).ToString("00");
-        string seconds = Mathf.Floor(time % 60).ToString("00");
-        //string milliseconds = Mathf.Floor((elapsedTime * 1000) % 1000).ToString("000");
-
-        return minutes + ":" + seconds;
-    }
-
-    private void StopGame(GameObject screenToActivate)
-    {
-        SaveLoadManager.Save();
-        
-        IsGameEnded = true;
-        UIController.Instance.IsGamePaused = true;
-
-        StopTimer();
+        if (!_isGameEnded)
+        {
+            SaveLoadManager.Save();
+            IsPlayerFrozen = true;
             
-        screenToActivate.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
-        SavedSettings.highestTime = GetHighestSurvivedTime(SavedSettings.highestTime, _elapsedTime);
-        SavedSettings.highestScore = GetHighestScore(SavedSettings.highestScore, CurrentScore);
-
-        SetMaxScoreAndTime textComponents = screenToActivate.GetComponent<SetMaxScoreAndTime>();
+            StopTimer();
         
-        textComponents.scoreText.text = CurrentScore.ToString();
-        textComponents.timeText.text = FormatTimer(_elapsedTime);
+            HelperFunctions.SetCursorMode(CursorLockMode.None, true);
         
-        SaveLoadManager.Save();
+            SaveLoadManager.Save();
+            
+            OnGameEnd?.Invoke();
+
+            IsGamePaused = true;
+            _isGameEnded = true;
+        }
     }
 
     private void RestartLevel()
     {
         PlayerController.IsDead = false;
         CurrentScore = 0;
-
-        IsGameEnded = false;
-        //UIController.Instance.UnPauseGame();
         
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        
-        endGameScreen.SetActive(false);
-        winLevelScreen.SetActive(false);
+        HelperFunctions.SetCursorMode(CursorLockMode.Locked, false);
     }
     
-    private void OnDefeatEnemyHandler()
+    private void OnDefeatEnemy()
     {
         CurrentScore++;
-        scoreText.text = CurrentScore.ToString();
     }
 }

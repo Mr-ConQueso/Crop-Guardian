@@ -175,7 +175,7 @@ Animator:
   m_GameObject: {fileID: 2092624488425115809}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1f355c652ca8391f5ae807ec5ab5abdb, type: 2}
+  m_Controller: {fileID: 22100000, guid: 0ec2e8eb8e417374d9504d10ee474aad, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -337,7 +337,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6757391687332986420
 RectTransform:
   m_ObjectHideFlags: 0
@@ -379,6 +379,10 @@ MonoBehaviour:
   shootDistance: 20
   ammoText: {fileID: 5185759307232440174}
   textMoveAmount: 0
-  particleTrail: {fileID: 8281131653304900579, guid: 68b8604092339bc6c9b159199aa77f83,
+  spawnParticle: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
+    type: 3}
+  impactParticle: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a,
+    type: 3}
+  bulletTrail: {fileID: 328621789431213768, guid: 029d1deb4e59f554eafbba57f73a85ba,
     type: 3}
   spawnTrailPosition: {fileID: 0}

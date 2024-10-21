@@ -17,7 +17,7 @@ public class PlayerLook : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.IsGameEnded == false && !UIController.Instance.IsGamePaused)
+        if (!(GameController.Instance.IsGamePaused || GameController.Instance.IsPlayerFrozen))
         {
             float verticalRotation = InputManager.LookVerticalInput * SavedSettings.mouseVerticalSensibility * SavedSettings.invertDirection;
             float horizontalRotation = InputManager.LookHorizontalInput * SavedSettings.mouseHorizontalSensibility;

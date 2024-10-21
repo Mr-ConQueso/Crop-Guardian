@@ -6,7 +6,7 @@ namespace Enemy
         public delegate void DefeatBossEventHandler();
         public static event DefeatBossEventHandler OnDefeatBoss;
         
-        protected override void KillSelf()
+        public override void KillSelf()
         {
             OnDefeatBoss?.Invoke();
             Destroy(gameObject);

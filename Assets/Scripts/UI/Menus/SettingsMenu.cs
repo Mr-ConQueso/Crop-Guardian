@@ -57,7 +57,7 @@ public class SettingsController : MonoBehaviour, ISaveable
         MenuManager.OpenMenu(MenuManager.MainMenu != null ? Menu.MainMenu : Menu.PauseMenu, gameObject);
         if (GameController.Instance != null)
         {
-            GameController.Instance.SwitchVFXVolume(false);
+            GameController.Instance.SwitchPostProcessVolume(false);
         }
     }
 

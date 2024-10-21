@@ -3,17 +3,43 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     // ---- / Private Variables / ---- //
-    [SerializeField] private Animator animator;
+    private Animator _animator;
 
-    private void OnEnable()
+    private void Start()
     {
-        animator.SetTrigger("showMenu");
+        _animator = GetComponent<Animator>();
+        gameObject.SetActive(false);
+    }
+
+    private void Awake()
+    {
+        GameController.OnGamePaused += OnGamePaused;
+        GameController.OnGameResumed += OnGameResumed;
+    }
+    
+    private void OnDestroy()
+    {
+        GameController.OnGamePaused -= OnGamePaused;
+        GameController.OnGameResumed -= OnGameResumed;
+    }
+    
+    private void OnGameResumed()
+    {
+        GameController.Instance.CanPauseGame = false;
+        _animator.SetTrigger("hideMenu");
+    }
+
+    private void OnGamePaused()
+    {
+        GameController.Instance.CanPauseGame = false;
+        gameObject.SetActive(true);
+        _animator.SetTrigger("showMenu");
     }
     
     public void OnClick_SettingsMenu()
     {
         MenuManager.OpenMenu(Menu.SettingsMenu, gameObject);
-        GameController.Instance.SwitchVFXVolume(true);
+        GameController.Instance.SwitchPostProcessVolume(true);
     }
 
     public void OnClick_BackToMainMenu()
@@ -21,14 +47,13 @@ public class PauseMenu : MonoBehaviour
         MenuManager.OpenMenu(Menu.ExitMenu, gameObject);
     }
     
-    public void OnClick_BackToGame()
+    public void OnClick_ResumeGame()
     {
-        animator.SetTrigger("hideMenu");
+        GameController.Instance.InvokeOnGameResumed();
     }
 
     private void DisableAfterAnimation()
     {
         gameObject.SetActive(false);
-        UIController.Instance.UnPauseGame();
     }
 }

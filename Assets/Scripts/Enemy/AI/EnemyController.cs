@@ -1,6 +1,7 @@
+using Health;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IDamageable
 {
     // ---- / Events / ---- //
     public delegate void DefeatEnemyEventHandler();
@@ -32,7 +33,7 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// Destroy GameObject
     /// </summary>
-    protected virtual void KillSelf()
+    public virtual void KillSelf()
     {
         OnDefeatEnemy?.Invoke();
         Destroy(gameObject);
@@ -45,7 +46,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        if (!UIController.Instance.IsGamePaused)
+        if (!GameController.Instance.IsGamePaused)
         {
             Move();
         }

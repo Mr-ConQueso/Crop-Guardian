@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (IsDead == false && !UIController.Instance.IsGamePaused)
+        if (IsDead == false && !(GameController.Instance.IsGamePaused || GameController.Instance.IsPlayerFrozen))
         {
             Aim();
 

@@ -175,7 +175,7 @@ Animator:
   m_GameObject: {fileID: 3946216506652455245}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7d9153a506619a40c935df4a5f9105a9, type: 2}
+  m_Controller: {fileID: 22100000, guid: 63ac562a700c48a4bb69b1e95f3baf2a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -236,14 +236,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d511412d054c9996383bbc585da92f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waitFrames: 4
+  fireRate: 0.583
+  damageAmount: 0.5
   maxAmmo: 30
   reloadTime: 2
-  fireRate: 0.1
   shootDistance: 20
   ammoText: {fileID: 7270660614983366077}
   textMoveAmount: 10
+  spawnParticle: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
+    type: 3}
+  impactParticle: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a,
+    type: 3}
+  bulletTrail: {fileID: 328621789431213768, guid: a3c3db7ad7e15dc46988b9929080f807,
+    type: 3}
+  spawnTrailPosition: {fileID: 0}
   pelletsPerShot: 5
-  spreadAngle: 20
+  spreadAngle: 35
 --- !u!1 &7885352042675608086
 GameObject:
   m_ObjectHideFlags: 0

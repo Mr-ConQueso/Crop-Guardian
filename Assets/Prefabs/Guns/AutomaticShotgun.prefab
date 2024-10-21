@@ -288,7 +288,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -662760735, guid: 720e7f12317292091914f094394283e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -310,7 +310,7 @@ Animator:
   m_GameObject: {fileID: 7773909998072939305}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cec796dbc4643b50fa757aa3695d1200, type: 2}
+  m_Controller: {fileID: 22100000, guid: 54aa377ac0b609c4bba8d1fc8086820d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -371,11 +371,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d511412d054c9996383bbc585da92f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waitFrames: 3
+  fireRate: 0.875
+  damageAmount: 0.5
   maxAmmo: 30
   reloadTime: 2
-  fireRate: 0.1
   shootDistance: 20
   ammoText: {fileID: 5033351457862794474}
-  textMoveAmount: 10
-  pelletsPerShot: 5
-  spreadAngle: 20
+  textMoveAmount: 0
+  spawnParticle: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
+    type: 3}
+  impactParticle: {fileID: 9064919875212695174, guid: a5e1e2c4d2cd81f4abed6272a2b8187a,
+    type: 3}
+  bulletTrail: {fileID: 328621789431213768, guid: a3c3db7ad7e15dc46988b9929080f807,
+    type: 3}
+  spawnTrailPosition: {fileID: 0}
+  pelletsPerShot: 3
+  spreadAngle: 4

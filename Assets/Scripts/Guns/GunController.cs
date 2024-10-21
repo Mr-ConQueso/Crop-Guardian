@@ -1,5 +1,7 @@
 using System.Collections;
+using Health;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GunController : MonoBehaviour
@@ -18,31 +20,37 @@ public class GunController : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI ammoText;
     [SerializeField] protected float textMoveAmount = 10f;
     
+    [Header("Ray")]
+    [SerializeField] protected Transform startRayPosition;
+    [SerializeField] protected Transform endRayPosition;
+    
     [Header("Particles")]
-    [SerializeField] protected TrailRenderer particleTrail;
-    [SerializeField] protected Transform spawnTrailPosition;
+    [SerializeField] protected ParticleSystem spawnParticle;
+    [SerializeField] protected ParticleSystem impactParticle;
+    [SerializeField] protected TrailRenderer bulletTrail;
 
-    // ---- / Protected Variables / ---- //
+    // ---- / Protected Variables / ---- // 
     protected int CurrentAmmo;
     protected bool IsReloading;
-    protected Camera MainCamera;
+    protected Transform MainCameraTransform;
     protected float NextFireTime;
+    protected Vector3 rayDirection;
+    protected Animator Animator;
+    protected static readonly int AnimatorShootTrigger = Animator.StringToHash("shoot");
     
-    // ---- / Private Variables / ---- //
-    private Animator _animator;
-    private static readonly int AnimatorShootTrigger = Animator.StringToHash("shoot");
-
     protected virtual void Start()
     {
-        MainCamera = Camera.main;
+        if (Camera.main != null) MainCameraTransform = Camera.main.transform;
         CurrentAmmo = maxAmmo;
-        _animator = GetComponentInChildren<Animator>();
+        Animator = GetComponentInChildren<Animator>();
         
-        UpdateAmmoUI();
+        UpdateAmmoUI(); 
     }
 
     protected virtual void Update()
     {
+        rayDirection = (endRayPosition.position - startRayPosition.position).normalized;
+
         if (IsReloading)
         {
             return;
@@ -54,7 +62,7 @@ public class GunController : MonoBehaviour
             return;
         }
         
-        if (InputManager.WasAttackPressed && Time.time >= NextFireTime && !UIController.Instance.IsGamePaused)
+        if (InputManager.WasAttackPressed && Time.time >= NextFireTime && !(GameController.Instance.IsGamePaused || GameController.Instance.IsPlayerFrozen))
         {
             NextFireTime = Time.time + fireRate;
             StartShootAnimation();
@@ -75,7 +83,7 @@ public class GunController : MonoBehaviour
 
     protected virtual void StartShootAnimation()
     {
-        _animator.SetTrigger(AnimatorShootTrigger);
+        Animator.SetTrigger(AnimatorShootTrigger);
         float timeTillShoot = waitFrames * (1.0f / 12.0f);
         Invoke(nameof(Shoot), timeTillShoot);
         StartCoroutine(MoveTextDownAndUp(8, 0.3f));
@@ -86,34 +94,52 @@ public class GunController : MonoBehaviour
         CurrentAmmo--;
         UpdateAmmoUI();
         
-        var mainCameraTransform = MainCamera.transform;
-        Vector3 rayOrigin = mainCameraTransform.position;
+        Vector3 rayOrigin = MainCameraTransform.position;
 
-        Ray ray = new Ray(rayOrigin, mainCameraTransform.forward);
+        Ray ray = new Ray(startRayPosition.position, rayDirection);
+        Debug.DrawLine(startRayPosition.position, rayDirection * 100, Color.magenta, 5f);
+        
+        RaycastTrail(ray);
 
         DetectEnemiesKilled(ray);
+    }
 
+    protected virtual void RaycastTrail(Ray ray)
+    {
         if (Physics.Raycast(ray, out RaycastHit hit, shootDistance))
         {
-            TrailRenderer trail = Instantiate(particleTrail, spawnTrailPosition.position, Quaternion.identity);
-            StartCoroutine(SpawnTrail(trail, hit));
+            TrailRenderer trail = Instantiate(bulletTrail, startRayPosition.position, Quaternion.identity);
+            StartCoroutine(SpawnTrail(trail, hit.point, hit.normal, true));
+        }
+        else
+        {
+            Vector3 noHitEndPoint = rayDirection * shootDistance;
+            TrailRenderer trail = Instantiate(bulletTrail, startRayPosition.position, Quaternion.identity);
+            StartCoroutine(SpawnTrail(trail, noHitEndPoint, Vector3.zero, false));
         }
     }
 
-    protected virtual IEnumerator SpawnTrail(TrailRenderer trailRenderer, RaycastHit hit)
+    protected virtual IEnumerator SpawnTrail(TrailRenderer trailRenderer, Vector3 endPoint, Vector3 normal, bool hasHit)
     {
         float time = 0;
         Vector3 startPosition = trailRenderer.transform.position;
 
         while (time < 1)
         {
-            trailRenderer.transform.position = Vector3.Lerp(startPosition, hit.point, time);
+            trailRenderer.transform.position = Vector3.Lerp(startPosition, endPoint, time);
             time += Time.deltaTime / trailRenderer.time;
 
             yield return null;
         }
 
-        trailRenderer.transform.position = hit.point;
+        trailRenderer.transform.position = endPoint;
+
+        if (hasHit)
+        {
+            Instantiate(impactParticle, endPoint, Quaternion.LookRotation(normal));
+        }
+        
+        Destroy(trailRenderer.GameObject(), trailRenderer.time);
     }
 
     protected virtual void DetectEnemiesKilled(Ray ray)
@@ -123,14 +149,12 @@ public class GunController : MonoBehaviour
         
         if (Physics.Raycast(ray, out RaycastHit hit, shootDistance))
         {
-            if (hit.collider.CompareTag("Enemy"))
-            {
-                hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(damageAmount);
-            }
+            GameObject hitObject = hit.collider.gameObject;
             
-            if (hit.collider.CompareTag("Boss"))
+            if ((hitObject.CompareTag("Enemy") || hitObject.CompareTag("Boss")) 
+                    && hitObject.TryGetComponent(out IDamageable iDamageable))
             {
-                hit.collider.gameObject.GetComponent<EnemyController>().RemoveHealth(damageAmount);
+                iDamageable.RemoveHealth(damageAmount);
             }
         }
     }
